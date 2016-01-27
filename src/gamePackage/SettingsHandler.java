@@ -16,7 +16,7 @@ public class SettingsHandler {
 		IDENTIFIER_SYMBOL = ":",
 		COMMENT_SYMBOL = "#";
 	private Setting[] settings = {
-			new Setting("FULLSCREEN", "true", ValueType.BOOLEAN)
+			new Setting("FULLSCREEN", "false", ValueType.BOOLEAN)
 	};
 	private boolean hasSettings;
 	
@@ -55,6 +55,9 @@ public class SettingsHandler {
 				break;
 			}
 			if (settingsString != null && !settingsString.startsWith(COMMENT_SYMBOL)) {
+				
+				settingsString.replaceAll("\\s", "");
+				
 				int indexOfIdentifier = settingsString.indexOf(IDENTIFIER_SYMBOL);
 				if (indexOfIdentifier == -1) {
 					continue;
