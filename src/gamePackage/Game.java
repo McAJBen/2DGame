@@ -12,10 +12,12 @@ public class Game {
 	private Dimension screenSize;
 	private GameKeyboardListener keyListener = new GameKeyboardListener();
 	private Player player;
+	private Map map;
 	
 	public Game(Dimension screenSize) {
 		this.screenSize = screenSize;
 		player = new Player(screenSize);
+		map = new Map(screenSize);
 	}
 	
 	private void move() {
@@ -34,11 +36,16 @@ public class Game {
 			y--;
 		}
 		player.move(x, y);
+		if (player.changedMap()) {
+			map.changeMap(player.getMapChangeTo());
+		}
+		
+		
 	}
 	
 	
 	public void paint(Graphics g) {
-		
+		map.paint(g);
 		g.drawString("KL:" + keyListener.getBuffer(), 10, 10);
 		g.fillRect(player.getPosition().x, player.getPosition().y, 10, 10);
 		
@@ -73,5 +80,6 @@ public class Game {
 		
 		this.screenSize = size;
 		player.setBounds(size);
+		map.setScreenSize(size);
 	}
 }
