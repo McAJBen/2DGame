@@ -13,12 +13,9 @@ public class Map {
 
 	
 	private BufferedImage map;
-	private Dimension screenSize;
 	private Point currentMap;
-	
-	
-	public Map(Dimension screenSize) {
-		this.screenSize = screenSize;
+		
+	public Map() {
 		currentMap = new Point(0, 0);
 		
 		map = null;
@@ -31,25 +28,25 @@ public class Map {
     			System.out.println("ERROR: Could not read file");
     		}
     	} while (map == null);
-		
-		
 	}
 	
 	public void changeMap(Point newMap) {
 		currentMap.translate(newMap.x, newMap.y);
 	}
 
-	public void paint(Graphics g) {
+	public void paint(Graphics g, Dimension screenSize) {
 		g.drawImage(map, 0, 0, screenSize.width, screenSize.height, null);
-		g.drawString(currentMap.toString(), screenSize.width / 2, screenSize.height / 2);
 	}
 
-	public Point getCurrentMap() {
+	public Point getCurrentMapPoint() {
 		return currentMap;
 	}
 	
-	public void setScreenSize(Dimension screenSize) {
-		this.screenSize = screenSize;
+	public BufferedImage getCurrentMap() {
+		return map;
 	}
 	
+	public BufferedImage getNextMap() {
+		return map;
+	}
 }
