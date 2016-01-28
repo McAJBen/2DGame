@@ -4,11 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import gamePackage.GLOBAL.SquareType;
+
 public class MapSquare {
-	
-	private static enum SquareType {
-		FLOOR, WALL
-	}
 	
 	private SquareType squareType;
 	

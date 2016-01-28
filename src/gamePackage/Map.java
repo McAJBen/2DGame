@@ -10,18 +10,18 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Map {
-	private static final Dimension MAP_SIZE = new Dimension(2, 2);
 	
-	private BufferedImage[][] map = new BufferedImage[MAP_SIZE.width][MAP_SIZE.height];
-	private MapSquare[][] mapSquares= new MapSquare[25][25];
+	
+	private BufferedImage[][] map = new BufferedImage[GLOBAL.MAP_SIZE.width][GLOBAL.MAP_SIZE.height];
+	private MapSquare[][] mapSquares= new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
 	private Point currentMap;
 		
 	public Map() {
 		currentMap = new Point(0, 0);
 		
 		
-		for (int i = 0; i < MAP_SIZE.width; i++) {
-			for (int j = 0; j < MAP_SIZE.height; j++) {
+		for (int i = 0; i < GLOBAL.MAP_SIZE.width; i++) {
+			for (int j = 0; j < GLOBAL.MAP_SIZE.height; j++) {
 	    		try {
 	    			ClassLoader classLoader = getClass().getClassLoader();
 	    			File file = new File(classLoader.getResource("Maps/" + i + "," + j + ".png").getFile());
@@ -57,16 +57,16 @@ public class Map {
 
 	public boolean checkValidMap(Point mapChangeTo) {
 		return 
-			0 <= currentMap.x + mapChangeTo.x && currentMap.x + mapChangeTo.x < MAP_SIZE.width &&
-			0 <= currentMap.y + mapChangeTo.y && currentMap.y + mapChangeTo.y < MAP_SIZE.height;
+			0 <= currentMap.x + mapChangeTo.x && currentMap.x + mapChangeTo.x < GLOBAL.MAP_SIZE.width &&
+			0 <= currentMap.y + mapChangeTo.y && currentMap.y + mapChangeTo.y < GLOBAL.MAP_SIZE.height;
 	}
 
 	public void loadMap() {
 		Thread mapLoader = new Thread("MapLoad") {
 			@Override
 			public void run() {
-				for (int i = 0; i < mapSquares.length; i++) {
-					for (int j = 0; j < mapSquares[i].length; j++) {
+				for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
+					for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
 						mapSquares[i][j] = new MapSquare(getCurrentMap().getRGB(i, j));
 					}
 				}
@@ -84,20 +84,20 @@ public class Map {
 		if (x + playerWidth >= 1 || y + playerHeight >= 1 || x < 0 || y < 0) {
 			return false;
 		}
-		if (mapSquares[(int) (x * mapSquares.length)]
-				[(int) (y * mapSquares[0].length)].getWall()) {
+		if (mapSquares[(int) (x * GLOBAL.MAP_PIXEL_SIZE)]
+				[(int) (y * GLOBAL.MAP_PIXEL_SIZE)].getWall()) {
 			return true;
 		}
-		else if (mapSquares[(int) ((x + playerWidth) * mapSquares.length)]
-				[(int) (y * mapSquares[0].length)].getWall()) {
+		else if (mapSquares[(int) ((x + playerWidth) * GLOBAL.MAP_PIXEL_SIZE)]
+				[(int) (y * GLOBAL.MAP_PIXEL_SIZE)].getWall()) {
 			return true;
 		}
-		else if (mapSquares[(int) ((x + playerWidth) * mapSquares.length)]
-				[(int) ((y + playerHeight) * mapSquares[0].length)].getWall()) {
+		else if (mapSquares[(int) ((x + playerWidth) * GLOBAL.MAP_PIXEL_SIZE)]
+				[(int) ((y + playerHeight) * GLOBAL.MAP_PIXEL_SIZE)].getWall()) {
 			return true;
 		}
-		else if (mapSquares[(int) (x * mapSquares.length)]
-				[(int) ((y + playerHeight) * mapSquares[0].length)].getWall()) {
+		else if (mapSquares[(int) (x * GLOBAL.MAP_PIXEL_SIZE)]
+				[(int) ((y + playerHeight) * GLOBAL.MAP_PIXEL_SIZE)].getWall()) {
 			return true;
 		}
 		return false;

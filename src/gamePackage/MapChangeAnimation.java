@@ -5,12 +5,9 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import gamePackage.GLOBAL.Direction;
+
 public class MapChangeAnimation {
-	
-	private static final double STEP = 0.01;
-	private static enum Direction {
-		RIGHT, LEFT, DOWN, UP, 
-	}
 	
 	private BufferedImage oldImg, newImg;
 	private Direction direction;
@@ -42,19 +39,19 @@ public class MapChangeAnimation {
 	}
 	
 	public boolean move() {
-		stage += STEP;
+		stage += GLOBAL.ANIMATION_STEP;
 		switch (direction) {
 		case DOWN:
-			y -= STEP;
+			y -= GLOBAL.ANIMATION_STEP;
 			break;
 		case LEFT:
-			x += STEP;
+			x += GLOBAL.ANIMATION_STEP;
 			break;
 		case RIGHT:
-			x -= STEP;
+			x -= GLOBAL.ANIMATION_STEP;
 			break;
 		case UP:
-			y += STEP;
+			y += GLOBAL.ANIMATION_STEP;
 			break;
 		}
 		return stage >= 1;

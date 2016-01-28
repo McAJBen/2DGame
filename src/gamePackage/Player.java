@@ -6,8 +6,6 @@ import java.awt.Point;
 
 public class Player {
 	
-	private static final double STEP = 0.003;
-	
 	private double x, y;
 	private Point
 				mapChangeTo;
@@ -26,15 +24,15 @@ public class Player {
 		double playerWidth = (double)playerSize.width / screenSize.width;
 		double playerHeight = (double)playerSize.height / screenSize.height;
 		
-		x += dx * STEP;
+		x += dx * GLOBAL.PLAYER_STEP;
 		
 		if (map.getWall(x, y, playerWidth, playerHeight)) {
-			x -= dx * STEP;
+			x -= dx * GLOBAL.PLAYER_STEP;
 		}
-		y += dy * STEP;
+		y += dy * GLOBAL.PLAYER_STEP;
 		
 		if (map.getWall(x, y, playerWidth, playerHeight)) {
-			y -= dy * STEP;
+			y -= dy * GLOBAL.PLAYER_STEP;
 		}
 		changedMap = checkBounds();
 	}

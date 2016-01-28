@@ -8,8 +8,6 @@ import java.awt.event.KeyListener;
 
 public class Game {
 	
-	private static final long MOVE_WAIT_MS = 10; // 100 mps
-
 	private Dimension screenSize;
 	private GameKeyboardListener keyListener = new GameKeyboardListener();
 	
@@ -95,7 +93,7 @@ public class Game {
 		Thread gameThread = new Thread("moveThread") {
 		 	@Override
 			public void run() {
-	 			long startTime = System.currentTimeMillis() + MOVE_WAIT_MS;
+	 			long startTime = System.currentTimeMillis() + GLOBAL.MOVE_WAIT_MS;
 	 			while (!isInterrupted()) {
 	 				move();
 	 				while (System.currentTimeMillis() < startTime) {
@@ -103,7 +101,7 @@ public class Game {
 	 						sleep(1);
 	 					} catch (InterruptedException e) {}
 	 				}
-	 				startTime += MOVE_WAIT_MS;
+	 				startTime += GLOBAL.MOVE_WAIT_MS;
 				}
 			}
 		};

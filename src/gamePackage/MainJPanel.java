@@ -12,17 +12,11 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class MainJPanel extends JPanel {
-
-	private static final Dimension 
-					SCREEN_SIZE = new Dimension(500, 500),
-					SCREEN_OFFSET = new Dimension(17, 40);
-	private static final long
-					FRAME_WAIT_MS = 20; // FPS = 50
 	
 	private Game game;
 	
 	public MainJPanel() {
-		game = new Game(SCREEN_SIZE);
+		game = new Game(GLOBAL.SCREEN_SIZE);
 		
 	}
 
@@ -39,15 +33,15 @@ public class MainJPanel extends JPanel {
         	frame.setUndecorated(true);
         }
         else {
-        	frame.setSize(SCREEN_SIZE.width + SCREEN_OFFSET.width, SCREEN_SIZE.height + SCREEN_OFFSET.height);
+        	frame.setSize(GLOBAL.SCREEN_SIZE.width + GLOBAL.SCREEN_SIZE.width, GLOBAL.SCREEN_OFFSET.height + GLOBAL.SCREEN_OFFSET.height);
         }
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.addComponentListener(new ComponentListener() {
             public void componentResized(ComponentEvent e) {
             	Dimension size = frame.getSize();
-            	size.width -= SCREEN_OFFSET.width;
-            	size.height -= SCREEN_OFFSET.height;
+            	size.width -= GLOBAL.SCREEN_OFFSET.width;
+            	size.height -= GLOBAL.SCREEN_OFFSET.height;
                 imageEvolutionJPanel.game.changeWindowSize(size);       
             }
 			public void componentHidden(ComponentEvent arg0) {}
@@ -66,7 +60,7 @@ public class MainJPanel extends JPanel {
 		Thread repaintThread = new Thread("repaintThread") {
 		 	@Override
 			public void run() {
-	 			long startTime = System.currentTimeMillis() + FRAME_WAIT_MS;
+	 			long startTime = System.currentTimeMillis() + GLOBAL.FRAME_WAIT_MS;
 	 			while (!isInterrupted()) {
 	 				repaint();
 	 				while (System.currentTimeMillis() < startTime) {
@@ -74,7 +68,7 @@ public class MainJPanel extends JPanel {
 	 						sleep(1);
 	 					} catch (InterruptedException e) {}
 	 				}
-	 				startTime += FRAME_WAIT_MS;
+	 				startTime += GLOBAL.FRAME_WAIT_MS;
 				}
 			}
 		};

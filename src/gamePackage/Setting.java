@@ -1,10 +1,10 @@
 package gamePackage;
 
+import gamePackage.GLOBAL.ValueType;
+
 public class Setting {
 	
-	static enum ValueType {
-		BOOLEAN, BYTE, INT, DOUBLE;
-	}
+	
 	private String defaultVal;
 	private String settingID;
 	private String value;

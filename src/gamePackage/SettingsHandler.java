@@ -7,16 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import gamePackage.Setting.ValueType;
-
 public class SettingsHandler {
 	
-	private static final String
-		FILE_NAME = "\\2DGame.settings",
-		IDENTIFIER_SYMBOL = ":",
-		COMMENT_SYMBOL = "#";
 	private Setting[] settings = {
-			new Setting("FULLSCREEN", "false", ValueType.BOOLEAN)
+			new Setting("FULLSCREEN", "false", GLOBAL.ValueType.BOOLEAN)
 	};
 	private boolean hasSettings;
 	
@@ -33,7 +27,7 @@ public class SettingsHandler {
 		BufferedReader br = null;
 		try {
 			File settingsFile = new File(
-					System.getProperty("user.dir") + FILE_NAME);
+					System.getProperty("user.dir") + GLOBAL.FILE_NAME);
 			if (settingsFile.exists()) {
 				br = new BufferedReader(new FileReader(settingsFile));
 			}
@@ -54,11 +48,11 @@ public class SettingsHandler {
 			} catch (IOException e) {
 				break;
 			}
-			if (settingsString != null && !settingsString.startsWith(COMMENT_SYMBOL)) {
+			if (settingsString != null && !settingsString.startsWith(GLOBAL.COMMENT_SYMBOL)) {
 				
 				settingsString.replaceAll("\\s", "");
 				
-				int indexOfIdentifier = settingsString.indexOf(IDENTIFIER_SYMBOL);
+				int indexOfIdentifier = settingsString.indexOf(GLOBAL.IDENTIFIER_SYMBOL);
 				if (indexOfIdentifier == -1) {
 					continue;
 				}
@@ -78,11 +72,11 @@ public class SettingsHandler {
 	private void createSettingsFile() {
 		String settingsString = "";
 		for (int i = 0; i < settings.length; i++) {
-			settingsString = settingsString.concat(settings[i].getID() + IDENTIFIER_SYMBOL + settings[i].getValue() + "\n");
+			settingsString = settingsString.concat(settings[i].getID() + GLOBAL.IDENTIFIER_SYMBOL + settings[i].getValue() + "\n");
 		}
 		try {
 			File settingsFile = new File(
-					System.getProperty("user.dir") + FILE_NAME);
+					System.getProperty("user.dir") + GLOBAL.FILE_NAME);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(settingsFile));
 			writer.write(settingsString);
 			writer.close();
