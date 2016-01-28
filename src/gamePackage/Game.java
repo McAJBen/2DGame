@@ -20,8 +20,7 @@ public class Game {
 		NORMAL, CHANGING_MAP
 	}
 	
-	public Game(Dimension screenSize) {
-		this.screenSize = screenSize;
+	public Game() {
 		player = new Player();
 		map = new Map();
 		state = State.NORMAL;
@@ -30,18 +29,18 @@ public class Game {
 	private void move() {
 		switch (state) {
 		case NORMAL:
-			int x = 0;
-			int y = 0;
-			if (keyListener.getKey(KeyEvent.VK_LEFT)) {
+			byte x = 0;
+			byte y = 0;
+			if (keyListener.getKey(KeyEvent.VK_LEFT) || keyListener.getKey(KeyEvent.VK_A)) {
 				x--;
 			}
-			if (keyListener.getKey(KeyEvent.VK_RIGHT)) {
+			if (keyListener.getKey(KeyEvent.VK_RIGHT) || keyListener.getKey(KeyEvent.VK_D)) {
 				x++;
 			}
-			if (keyListener.getKey(KeyEvent.VK_DOWN)) {
+			if (keyListener.getKey(KeyEvent.VK_DOWN) || keyListener.getKey(KeyEvent.VK_S)) {
 				y++;
 			}
-			if (keyListener.getKey(KeyEvent.VK_UP)) {
+			if (keyListener.getKey(KeyEvent.VK_UP) || keyListener.getKey(KeyEvent.VK_W)) {
 				y--;
 			}
 			player.move(x, y, map, screenSize);
@@ -54,8 +53,7 @@ public class Game {
 							mapChangeTo,
 							map.getCurrentMap(),
 							map.getNextMap(mapChangeTo),
-							player.getX(), player.getY(),
-							player.getPlayerSize());
+							player.getX(), player.getY());
 					map.loadMap();
 					state = State.CHANGING_MAP;
 					player.changeMap(true);

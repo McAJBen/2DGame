@@ -16,38 +16,45 @@ public class MainJPanel extends JPanel {
 	private Game game;
 	
 	public MainJPanel() {
-		game = new Game(GLOBAL.SCREEN_SIZE);
+		game = new Game();
+		game.changeWindowSize(getSize());
 		
 	}
 
 	public static void main(String[] args) {
+		SettingsHandler sh = new SettingsHandler();
         JFrame frame = new JFrame("2DGame");
         MainJPanel imageEvolutionJPanel = new MainJPanel();
         frame.add(imageEvolutionJPanel);
         frame.addKeyListener(imageEvolutionJPanel.getKeyListener());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        SettingsHandler sh = new SettingsHandler();
-        if ((boolean) sh.getSetting("FULLSCREEN")) {
-        	frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        	frame.setUndecorated(true);
-        }
-        else {
-        	frame.setSize(GLOBAL.SCREEN_SIZE.width + GLOBAL.SCREEN_SIZE.width, GLOBAL.SCREEN_OFFSET.height + GLOBAL.SCREEN_OFFSET.height);
-        }
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
         frame.addComponentListener(new ComponentListener() {
+        	boolean fullscreen = (boolean) sh.getSetting("FULLSCREEN");
             public void componentResized(ComponentEvent e) {
-            	Dimension size = frame.getSize();
-            	size.width -= GLOBAL.SCREEN_OFFSET.width;
-            	size.height -= GLOBAL.SCREEN_OFFSET.height;
-                imageEvolutionJPanel.game.changeWindowSize(size);       
+            	if (fullscreen) {
+            		imageEvolutionJPanel.game.changeWindowSize(frame.getSize());
+                }
+            	else {
+            		Dimension size = frame.getSize();
+	            	size.width -= GLOBAL.SCREEN_OFFSET.width;
+	            	size.height -= GLOBAL.SCREEN_OFFSET.height;
+	                imageEvolutionJPanel.game.changeWindowSize(size);   
+            	}
             }
 			public void componentHidden(ComponentEvent arg0) {}
 			public void componentMoved(ComponentEvent arg0) {}
 			public void componentShown(ComponentEvent arg0) {}
         });
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        if ((boolean) sh.getSetting("FULLSCREEN")) {
+        	frame.setUndecorated(true);
+        	frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        }
+        else {
+        	frame.setSize(GLOBAL.SCREEN_SIZE.width + GLOBAL.SCREEN_OFFSET.width, GLOBAL.SCREEN_SIZE.height + GLOBAL.SCREEN_OFFSET.height);
+        }
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
         frame.requestFocus();
         imageEvolutionJPanel.start();
     }

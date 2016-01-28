@@ -11,12 +11,11 @@ public class MapChangeAnimation {
 	
 	private BufferedImage oldImg, newImg;
 	private Direction direction;
-	private Dimension playerSize;
 	private double stage;
 	private double x, y;
 	
 	public MapChangeAnimation(Point newMap, BufferedImage oldImg, BufferedImage newImg,
-			double x, double y, Dimension playerSize) {
+			double x, double y) {
 		if (newMap.x > 0) {
 			direction = Direction.RIGHT;
 		}
@@ -34,7 +33,6 @@ public class MapChangeAnimation {
 		this.newImg = newImg;
 		this.x = x;
 		this.y = y;
-		this.playerSize = playerSize;
 		
 	}
 	
@@ -90,20 +88,11 @@ public class MapChangeAnimation {
 				newPosition.y, 
 				screenSize.width, screenSize.height, null);
 		
-		
-		
-		
 		g.fillRect(
 				(int)(x * screenSize.width),
 				(int)(y * screenSize.height),
-				playerSize.width, playerSize.height);
+				(int)(GLOBAL.PLAYER_SIZE * screenSize.width),
+				(int)(GLOBAL.PLAYER_SIZE * screenSize.height));
 		
 	}
-	
-	
-	
-	
-	
-	
-	
 }
