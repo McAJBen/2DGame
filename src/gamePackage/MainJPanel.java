@@ -15,13 +15,11 @@ public class MainJPanel extends JPanel {
 
 	private static final Dimension 
 					SCREEN_SIZE = new Dimension(500, 500),
-					SCREEN_OFFSET = new Dimension(17, 40); // 7, 30
+					SCREEN_OFFSET = new Dimension(17, 40);
 	private static final long
 					FRAME_WAIT_MS = 20; // FPS = 50
 	
 	private Game game;
-	
-	
 	
 	public MainJPanel() {
 		game = new Game(SCREEN_SIZE);
