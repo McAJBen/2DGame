@@ -22,19 +22,15 @@ public class MapChangeAnimation {
 			double x, double y, Dimension playerSize) {
 		if (newMap.x > 0) {
 			direction = Direction.RIGHT;
-			x = 1;
 		}
 		else if (newMap.x < 0) {
 			direction = Direction.LEFT;
-			x = 0;
 		}
 		else if (newMap.y > 0) {
 			direction = Direction.DOWN;
-			y = 1;
 		}
 		else if (newMap.y < 0) {
 			direction = Direction.UP;
-			y = 0;
 		}
 		stage = 0;
 		this.oldImg = oldImg;
@@ -79,12 +75,12 @@ public class MapChangeAnimation {
 			newPosition.x = (int) ((stage - 1) * screenSize.width);
 			break;
 		case DOWN:
-			oldPosition.y = (int) (-stage * screenSize.width);
-			newPosition.y = (int) ((1 - stage) * screenSize.width);
+			oldPosition.y = (int) (-stage * screenSize.height);
+			newPosition.y = (int) ((1 - stage) * screenSize.height);
 			break;
 		case UP:
-			oldPosition.y = (int) (stage * screenSize.width);
-			newPosition.y = (int) ((stage - 1) * screenSize.width);
+			oldPosition.y = (int) (stage * screenSize.height);
+			newPosition.y = (int) ((stage - 1) * screenSize.height);
 			break;
 		}
 		
@@ -101,8 +97,8 @@ public class MapChangeAnimation {
 		
 		
 		g.fillRect(
-				(int)(x * (screenSize.width - playerSize.width)),
-				(int)(y * (screenSize.height - playerSize.height)),
+				(int)(x * screenSize.width),
+				(int)(y * screenSize.height),
 				playerSize.width, playerSize.height);
 		
 	}

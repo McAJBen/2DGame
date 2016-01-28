@@ -46,18 +46,25 @@ public class Game {
 			if (keyListener.getKey(KeyEvent.VK_UP)) {
 				y--;
 			}
-			player.move(x, y);
+			player.move(x, y, map, screenSize);
 			if (player.changedMap()) {
-				Point mapChangeTo = player.getMapChangeTo();
-				mapChangeAnimation = new MapChangeAnimation(
-						mapChangeTo,
-						map.getCurrentMap(),
-						map.getNextMap(),
-						player.getX(), player.getY(),
-						player.getPlayerSize());
 				
-				map.changeMap(mapChangeTo);
-				state = State.CHANGING_MAP;
+				Point mapChangeTo = player.getMapChangeTo();
+				if (map.checkValidMap(mapChangeTo)) {
+					
+					mapChangeAnimation = new MapChangeAnimation(
+							mapChangeTo,
+							map.getCurrentMap(),
+							map.getNextMap(mapChangeTo),
+							player.getX(), player.getY(),
+							player.getPlayerSize());
+					map.loadMap();
+					state = State.CHANGING_MAP;
+					player.changeMap(true);
+				}
+				else {
+					player.changeMap(false);
+				}
 			}
 			break;
 		case CHANGING_MAP:
