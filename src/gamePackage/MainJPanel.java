@@ -28,7 +28,7 @@ public class MainJPanel extends JPanel {
         frame.add(imageEvolutionJPanel);
         frame.addKeyListener(imageEvolutionJPanel.getKeyListener());
         frame.addComponentListener(new ComponentListener() {
-        	boolean fullscreen = (boolean) sh.getSetting("FULLSCREEN");
+        	boolean fullscreen = sh.getSettingBoolean("FULLSCREEN");
             public void componentResized(ComponentEvent e) {
             	if (fullscreen) {
             		imageEvolutionJPanel.game.changeWindowSize(frame.getSize());
@@ -46,7 +46,7 @@ public class MainJPanel extends JPanel {
         });
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        if ((boolean) sh.getSetting("FULLSCREEN")) {
+        if (sh.getSettingBoolean("FULLSCREEN")) {
         	frame.setUndecorated(true);
         	frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         }

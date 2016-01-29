@@ -1,5 +1,6 @@
 package gamePackage;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -99,7 +100,7 @@ public class Player {
 			offBounds = true;
 			mapChangeTo.x = -1;
 		}
-		if (y > GLOBAL.PLAYER_MAX_PIXEL) {
+		else if (y > GLOBAL.PLAYER_MAX_PIXEL) {
 			offBounds = true;
 			mapChangeTo.y = 1;
 		}
@@ -125,6 +126,7 @@ public class Player {
 	}
 
 	public void paint(Graphics g, Dimension screenSize) {
+		g.setColor(Color.BLACK);
 		g.fillRect(
 				(int)(x / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
 				(int)(y / GLOBAL.MAP_PIXEL_SIZE * screenSize.height),

@@ -5,10 +5,10 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-import gamePackage.GLOBAL.Direction;
-
 public class MapChangeAnimation {
-	
+	static enum Direction {
+		RIGHT, LEFT, DOWN, UP;
+	}
 	private BufferedImage oldImg, newImg;
 	private Direction direction;
 	private double stage;
@@ -40,16 +40,16 @@ public class MapChangeAnimation {
 		stage += GLOBAL.ANIMATION_STEP;
 		switch (direction) {
 		case DOWN:
-			y -= GLOBAL.ANIMATION_STEP;
+			y -= GLOBAL.PLAYER_ANIMATION_STEP;
 			break;
 		case LEFT:
-			x += GLOBAL.ANIMATION_STEP;
+			x += GLOBAL.PLAYER_ANIMATION_STEP;
 			break;
 		case RIGHT:
-			x -= GLOBAL.ANIMATION_STEP;
+			x -= GLOBAL.PLAYER_ANIMATION_STEP;
 			break;
 		case UP:
-			y += GLOBAL.ANIMATION_STEP;
+			y += GLOBAL.PLAYER_ANIMATION_STEP;
 			break;
 		}
 		return stage >= 1;
@@ -57,42 +57,42 @@ public class MapChangeAnimation {
 
 	public void paint(Graphics g, Dimension screenSize) {
 		
-		Point oldPosition = new Point(0, 0);
-		Point newPosition = new Point(0, 0);
+		Point oldMap = new Point(0, 0);
+		Point newMap = new Point(0, 0);
 		
 		switch (direction) {
 		case RIGHT:
-			oldPosition.x = (int) (-stage * screenSize.width);
-			newPosition.x = (int) ((1 - stage) * screenSize.width);
+			oldMap.x = (int) (-stage * screenSize.width);
+			newMap.x = (int) ((1 - stage) * screenSize.width);
 			break;
 		case LEFT:
-			oldPosition.x = (int) (stage * screenSize.width);
-			newPosition.x = (int) ((stage - 1) * screenSize.width);
+			oldMap.x = (int) (stage * screenSize.width);
+			newMap.x = (int) ((stage - 1) * screenSize.width);
 			break;
 		case DOWN:
-			oldPosition.y = (int) (-stage * screenSize.height);
-			newPosition.y = (int) ((1 - stage) * screenSize.height);
+			oldMap.y = (int) (-stage * screenSize.height);
+			newMap.y = (int) ((1 - stage) * screenSize.height);
 			break;
 		case UP:
-			oldPosition.y = (int) (stage * screenSize.height);
-			newPosition.y = (int) ((stage - 1) * screenSize.height);
+			oldMap.y = (int) (stage * screenSize.height);
+			newMap.y = (int) ((stage - 1) * screenSize.height);
 			break;
 		}
 		
 		g.drawImage(oldImg,
-				oldPosition.x,
-				oldPosition.y,
+				oldMap.x,
+				oldMap.y,
 				screenSize.width, screenSize.height, null);
 		g.drawImage(newImg,
-				newPosition.x,
-				newPosition.y, 
+				newMap.x,
+				newMap.y, 
 				screenSize.width, screenSize.height, null);
 		
 		g.fillRect(
-				(int)(x * screenSize.width),
-				(int)(y * screenSize.height),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.width),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.height));
+				(int)(x * screenSize.width / GLOBAL.MAP_PIXEL_SIZE),
+				(int)(y * screenSize.height / GLOBAL.MAP_PIXEL_SIZE),
+				(int)(GLOBAL.PLAYER_SIZE * screenSize.width / GLOBAL.MAP_PIXEL_SIZE),
+				(int)(GLOBAL.PLAYER_SIZE * screenSize.height / GLOBAL.MAP_PIXEL_SIZE));
 		
 	}
 }

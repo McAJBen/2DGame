@@ -48,13 +48,12 @@ public class Game {
 				
 				Point mapChangeTo = player.getMapChangeTo();
 				if (map.checkValidMap(mapChangeTo)) {
-					
+					System.out.println(mapChangeTo);
 					mapChangeAnimation = new MapChangeAnimation(
 							mapChangeTo,
-							map.getCurrentMap(),
-							map.getNextMap(mapChangeTo),
+							map.getCurrentMap(screenSize),
+							map.getNextMap(mapChangeTo, screenSize),
 							player.getX(), player.getY());
-					map.loadMap();
 					state = State.CHANGING_MAP;
 					player.changeMap(true);
 				}
@@ -65,6 +64,7 @@ public class Game {
 			break;
 		case CHANGING_MAP:
 			if (mapChangeAnimation.move()) {
+				map.loadMap();
 				state = State.NORMAL;
 			}
 			break;
