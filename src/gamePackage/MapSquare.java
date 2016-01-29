@@ -3,6 +3,7 @@ package gamePackage;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 
 public class MapSquare {
 	
@@ -34,58 +35,44 @@ public class MapSquare {
 
 	public static void paint(MapSquare[][] mapSquares, Graphics g, Dimension screenSize) {
 		
-		Dimension squareSize = new Dimension(
-				screenSize.width / GLOBAL.MAP_PIXEL_SIZE,
-				screenSize.height / GLOBAL.MAP_PIXEL_SIZE);
-		
-		Dimension offSet = new Dimension(
-				screenSize.width - squareSize.width * GLOBAL.MAP_PIXEL_SIZE,
-				screenSize.height - squareSize.height * GLOBAL.MAP_PIXEL_SIZE);
-				
+		double squareX = (double)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
+		double squareY = (double)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
+		g.setColor(FLOOR_COLOR);
+		g.fillRect(0, 0, screenSize.width, screenSize.height);
 		
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
-				 // TODO fix this
-				Dimension thisSquareSize = new Dimension(
-						squareSize.width + ((i % offSet.width == 0) ? 1 : 0),
-						squareSize.height + ((i % offSet.height == 0) ? 1 : 0));
-				
-				
-				
-				
-				g.setColor(mapSquares[i][j].getColor());
-				
-				switch (mapSquares[i][j].getType()) {
-				case COIN:
-					g.fillRect(
-							i * thisSquareSize.width, j * thisSquareSize.height,
-							thisSquareSize.width, thisSquareSize.height);
-					g.setColor(COIN_COLOR);
-					g.fillOval(
-						i * thisSquareSize.width, j * thisSquareSize.height,
-						thisSquareSize.width, thisSquareSize.height);
-					break;
-				case FLOOR:
-				case WALL:
-					g.fillRect(
-						i * thisSquareSize.width, j * thisSquareSize.height,
-						thisSquareSize.width, thisSquareSize.height);
-					break;
-				
-				}
-				
+				mapSquares[i][j].paint(g, new Point((int)(squareX * i), (int)(squareY * j)), new Dimension((int)(squareX), (int)(squareY)));
 			}
+		}
+	}
+
+	private void paint(Graphics g, Point position, Dimension thisSquareSize) {
+		g.setColor(getColor());
+		switch (getType()) {
+		case COIN:
+			g.fillOval(
+					position.x, position.y,
+				thisSquareSize.width, thisSquareSize.height);
+			break;
+		case WALL:
+		case FLOOR:
+			g.fillRect(
+					position.x, position.y,
+				thisSquareSize.width + 1, thisSquareSize.height + 1);
+			break;
 		}
 	}
 
 	private Color getColor() {
 		switch (squareType) {
 		case FLOOR:
-		case COIN:
 		default:
 			return FLOOR_COLOR;
 		case WALL:
 			return WALL_COLOR;
+		case COIN:
+			return COIN_COLOR;
 		}
 	}
 

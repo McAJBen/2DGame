@@ -6,7 +6,7 @@ public final class GLOBAL {
 	
 	
 	static final int 
-		MAP_PIXEL_SIZE = 250;
+		MAP_PIXEL_SIZE = 25;
 	static final double 
 		PLAYER_ORIGINAL_X = 10,
 		PLAYER_ORIGINAL_Y = 10,
@@ -21,7 +21,7 @@ public final class GLOBAL {
 	static final Dimension 
 		SCREEN_SIZE = new Dimension(500, 500),
 		SCREEN_OFFSET = new Dimension(17, 40),
-		MAP_SIZE = new Dimension(1, 2);
+		MAP_SIZE = new Dimension(2, 3);
 	
 	static enum ValueType {
 		BOOLEAN, BYTE, INT, DOUBLE;
