@@ -9,42 +9,37 @@ public class Player {
 	
 	private double x, y;
 	private Point mapChangeTo;
+	private int coins;
 	
 	public Player() {
+		coins = 0;
 		x = GLOBAL.PLAYER_ORIGINAL_X;
 		y = GLOBAL.PLAYER_ORIGINAL_Y;
 		mapChangeTo = new Point(0, 0);
 	}
 	
-	public boolean move(int dx, int dy, Map map, Dimension screenSize) {
-		
-		checkWall(map.getMapSquares(), dx, dy);
-		
-		return checkBounds();
-	}
-	
-	private void checkWall(MapSquare[][] mapSquares, int dx, int dy) {
+	public boolean move(int dx, int dy, MapSquare[][] mapSquares) {
 		double nx = x + dx * GLOBAL.PLAYER_STEP;
 		double ny = y + dy * GLOBAL.PLAYER_STEP;
 		if (nx < 0) {
 			mapChangeTo.x = -1;
 			x = nx;
-			return;
+			return true;
 		}
-		if (GLOBAL.PLAYER_MAX_PIXEL <= nx) {
+		else if (GLOBAL.PLAYER_MAX_PIXEL < nx) {
 			mapChangeTo.x = 1;
 			x = nx;
-			return;
+			return true;
 		}
-		if (ny < 0) {
+		else if (ny < 0) {
 			mapChangeTo.y = -1;
 			y = ny;
-			return;
+			return true;
 		}
-		if (GLOBAL.PLAYER_MAX_PIXEL <= ny) {
+		else if (GLOBAL.PLAYER_MAX_PIXEL < ny) {
 			mapChangeTo.y = 1;
 			y = ny;
-			return;
+			return true;
 		}
 		if (dx < 0 || dy < 0) {
 			if (mapSquares[(int) (nx)][(int) (ny)].getWall()) {
@@ -88,27 +83,7 @@ public class Player {
 		}
 		x = nx;
 		y = ny;
-	}
-	
-	private boolean checkBounds() {
-		boolean offBounds = false;
-		if (x > GLOBAL.PLAYER_MAX_PIXEL) {
-			offBounds = true;
-			mapChangeTo.x = 1;
-		}
-		else if (x < 0) {
-			offBounds = true;
-			mapChangeTo.x = -1;
-		}
-		else if (y > GLOBAL.PLAYER_MAX_PIXEL) {
-			offBounds = true;
-			mapChangeTo.y = 1;
-		}
-		else if (y < 0) {
-			offBounds = true;
-			mapChangeTo.y = -1;
-		}
-		return offBounds;
+		return false;
 	}
 	
 	public double getX() {
@@ -133,11 +108,13 @@ public class Player {
 				(int)(GLOBAL.PLAYER_SIZE * screenSize.width / GLOBAL.MAP_PIXEL_SIZE),
 				(int)(GLOBAL.PLAYER_SIZE * screenSize.height / GLOBAL.MAP_PIXEL_SIZE));
 		
+		g.drawString("Coins: " + coins, 0, screenSize.height - 4);
+		
 		/*g.drawString(x + "",
 				(int)(x / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
 				(int)(y / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 12);
 		
-		g.drawString(y + "",
+		g.drawString(y + "", 
 				(int)(x / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
 				(int)(y / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 2);*/
 	}
@@ -172,6 +149,10 @@ public class Player {
 			}
 		}
 		
+	}
+
+	public void addCoins(int numberOfCoins) {
+		coins += numberOfCoins;
 	}
 	
 }

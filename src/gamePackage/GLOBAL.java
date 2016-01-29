@@ -21,7 +21,7 @@ public final class GLOBAL {
 	static final Dimension 
 		SCREEN_SIZE = new Dimension(500, 500),
 		SCREEN_OFFSET = new Dimension(17, 40),
-		MAP_SIZE = new Dimension(2, 2);
+		MAP_SIZE = new Dimension(2, 3);
 	
 	static enum ValueType {
 		BOOLEAN, BYTE, INT, DOUBLE;

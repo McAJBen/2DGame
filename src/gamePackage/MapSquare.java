@@ -44,13 +44,26 @@ public class MapSquare {
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
 				
 				g.setColor(mapSquares[i][j].getColor());
-				g.fillRect(
+				
+				switch (mapSquares[i][j].getType()) {
+				case COIN:
+					g.fillRect(
+							i * squareSize.width, j * squareSize.height,
+							squareSize.width, squareSize.height);
+					g.setColor(COIN_COLOR);
+					g.fillOval(
 						i * squareSize.width, j * squareSize.height,
 						squareSize.width, squareSize.height);
-				g.drawString(
-						mapSquares[i][j].getChar(),
-						i * squareSize.width,
-						j * squareSize.height + 10);
+					break;
+				case FLOOR:
+				case WALL:
+					g.fillRect(
+						i * squareSize.width, j * squareSize.height,
+						squareSize.width, squareSize.height);
+					break;
+				
+				}
+				
 			}
 		}
 	}
@@ -63,19 +76,6 @@ public class MapSquare {
 			return FLOOR_COLOR;
 		case WALL:
 			return WALL_COLOR;
-		}
-	}
-
-	private String getChar() {
-		switch (squareType) {
-		case FLOOR:
-			return "F";
-		case WALL:
-			return "W";
-		case COIN:
-			return "C";
-		default:
-			return "";		
 		}
 	}
 
@@ -97,6 +97,10 @@ public class MapSquare {
 
 	public void setFloor() {
 		squareType = SquareType.FLOOR;
+	}
+
+	public boolean getCoin() {
+		return squareType == SquareType.COIN;
 	}
 	
 	

@@ -44,16 +44,16 @@ public class Game {
 				y--;
 			}
 			
-			if (player.move(x, y, map, screenSize)) {
-				
+			if (player.move(x, y, map.getMapSquares())) { // if changing map
 				Point mapChangeTo = player.getMapChangeTo();
 				if (map.checkValidMap(mapChangeTo)) {
-					System.out.println(mapChangeTo);
+					
 					mapChangeAnimation = new MapChangeAnimation(
 							mapChangeTo,
 							map.getCurrentMap(screenSize),
 							map.getNextMap(mapChangeTo, screenSize),
 							player.getX(), player.getY());
+					
 					state = State.CHANGING_MAP;
 					player.changeMap(true);
 				}
@@ -61,10 +61,12 @@ public class Game {
 					player.changeMap(false);
 				}
 			}
+			player.addCoins(map.checkCoins(player.getX(), player.getY()));
+			
 			break;
 		case CHANGING_MAP:
 			if (mapChangeAnimation.move()) {
-				map.loadMap();
+				//map.loadMap();
 				state = State.NORMAL;
 			}
 			break;

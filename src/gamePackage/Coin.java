@@ -27,8 +27,5 @@ public class Coin {
 					squareSize.width,
 					squareSize.height);
 		}
-		
 	}
-	
-	
 }
