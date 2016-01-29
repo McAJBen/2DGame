@@ -14,12 +14,14 @@ public class Game {
 	private GameKeyboardListener keyListener = new GameKeyboardListener();
 	
 	private MapChangeAnimation mapChangeAnimation;
+	private DeathAnimation deathAnimation;
+	private EndAnimation endAnimation;
 	private Player player;
 	private Map map;
 	private State state;
 	
 	private static enum State {
-		NORMAL, CHANGING_MAP
+		NORMAL, CHANGING_MAP, DEATH, END
 	}
 	
 	public Game() {
@@ -61,11 +63,31 @@ public class Game {
 			if (map.checkEnemy(player.getX(), player.getY())) {
 				player.kill();
 				keyListener.reset();
+				
+				deathAnimation = new DeathAnimation(
+						map.getCurrentMap(screenSize, width, height));
+				state = State.DEATH;
+			}
+			if (player.getCoins() >= 50) {
+				endAnimation = new EndAnimation();
+				state = State.END;
+				player.completeReset();
+				map.completeReset();
 			}
 			
 			break;
 		case CHANGING_MAP:
 			if (mapChangeAnimation.move()) {
+				state = State.NORMAL;
+			}
+			break;
+		case DEATH:
+			if (deathAnimation.move()) {
+				state = State.NORMAL;
+			}
+			break;
+		case END:
+			if (endAnimation.move()) {
 				state = State.NORMAL;
 			}
 			break;
@@ -83,7 +105,12 @@ public class Game {
 		case CHANGING_MAP:
 			mapChangeAnimation.paint(g, screenSize);
 			break;
-		
+		case DEATH:
+			deathAnimation.paint(g, screenSize);
+			break;
+		case END:
+			endAnimation.paint(g, screenSize);
+			break;
 		}
 	}
 	

@@ -164,5 +164,20 @@ public class Player {
 		x = lastX;
 		y = lastY;
 	}
+
+	public int getCoins() {
+		return coins;
+	}
+
+	public void completeReset() {
+		coins = 0;
+		x = GLOBAL.PLAYER_ORIGINAL_X;
+		y = GLOBAL.PLAYER_ORIGINAL_Y;
+		lastX = x;
+		lastY = y;
+		
+		mapChangeTo = new Point(0, 0);
+		
+	}
 	
 }

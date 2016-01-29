@@ -70,4 +70,16 @@ public class Map {
 	public void move() {
 		mapTile[currentMap.x][currentMap.y].move(getMapSquares());
 	}
+
+	public void completeReset() {
+		currentMap = new Point(0, 0);
+		for (int i = 0; i < GLOBAL.MAP_SIZE.width; i++) {
+			for (int j = 0; j < GLOBAL.MAP_SIZE.height; j++) {
+	    		try {
+	    			BufferedImage map = ImageIO.read(getClass().getResource("/Maps/" + i + "," + j + ".png"));
+	    			mapTile[i][j] = new MapTile(map);
+	    		} catch (IOException e) {}
+			}
+		}
+	}
 }
