@@ -11,7 +11,8 @@ public final class GLOBAL {
 		PLAYER_ORIGINAL_X = 10,
 		PLAYER_ORIGINAL_Y = 10,
 		ANIMATION_STEP = 0.01,
-		PLAYER_STEP = 0.06,
+		PLAYER_STEP = 0.07,
+		ENEMY_STEP = 0.1,
 		PLAYER_SIZE = 0.6,
 		PLAYER_MAX_PIXEL = GLOBAL.MAP_PIXEL_SIZE - GLOBAL.PLAYER_SIZE - 0.00001,
 		PLAYER_ANIMATION_STEP = ANIMATION_STEP * (MAP_PIXEL_SIZE - PLAYER_SIZE);
@@ -25,6 +26,19 @@ public final class GLOBAL {
 	
 	static enum ValueType {
 		BOOLEAN, BYTE, INT, DOUBLE;
+	}
+	static enum Direction {
+		RIGHT, DOWN, LEFT, 
+		UP {
+			@Override // sets the last iterator back to the beginning
+			public Direction next() {
+				return Direction.RIGHT;
+			};
+		};
+		// increases to the next type of TriangleMode
+		public Direction next() {
+			return values()[ordinal() + 1];
+		}
 	}
 	
 	

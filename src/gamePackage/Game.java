@@ -3,12 +3,14 @@ package gamePackage;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Game {
 	
 	private Dimension screenSize;
+	private double width;
+	private double height;
+	
 	private GameKeyboardListener keyListener = new GameKeyboardListener();
 	
 	private MapChangeAnimation mapChangeAnimation;
@@ -29,32 +31,26 @@ public class Game {
 	private void move() {
 		switch (state) {
 		case NORMAL:
-			byte x = 0;
-			byte y = 0;
-			if (keyListener.getKey(KeyEvent.VK_LEFT) || keyListener.getKey(KeyEvent.VK_A)) {
-				x--;
-			}
-			if (keyListener.getKey(KeyEvent.VK_RIGHT) || keyListener.getKey(KeyEvent.VK_D)) {
-				x++;
-			}
-			if (keyListener.getKey(KeyEvent.VK_DOWN) || keyListener.getKey(KeyEvent.VK_S)) {
-				y++;
-			}
-			if (keyListener.getKey(KeyEvent.VK_UP) || keyListener.getKey(KeyEvent.VK_W)) {
-				y--;
-			}
 			
-			if (player.move(x, y, map.getMapSquares())) { // if changing map
+			map.move();
+			if (player.move(keyListener.getX(), keyListener.getY(), map.getMapSquares())) { // if changing map
 				Point mapChangeTo = player.getMapChangeTo();
 				if (map.checkValidMap(mapChangeTo)) {
 					
 					mapChangeAnimation = new MapChangeAnimation(
 							mapChangeTo,
-							map.getCurrentMap(screenSize),
+							map.getCurrentMap(screenSize, width, height),
 							map.getNextMap(mapChangeTo, screenSize),
 							player.getX(), player.getY());
 					
 					state = State.CHANGING_MAP;
+					try {
+						Thread.sleep(GLOBAL.FRAME_WAIT_MS);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					
+					map.changeMap(mapChangeTo);
 					player.changeMap(true);
 				}
 				else {
@@ -62,11 +58,14 @@ public class Game {
 				}
 			}
 			player.addCoins(map.checkCoins(player.getX(), player.getY()));
+			if (map.checkEnemy(player.getX(), player.getY())) {
+				player.kill();
+				keyListener.reset();
+			}
 			
 			break;
 		case CHANGING_MAP:
 			if (mapChangeAnimation.move()) {
-				//map.loadMap();
 				state = State.NORMAL;
 			}
 			break;
@@ -77,7 +76,7 @@ public class Game {
 	public void paint(Graphics g) {
 		switch (state) {
 		case NORMAL:
-			map.paint(g, screenSize);
+			map.paint(g, screenSize, width, height);
 			player.paint(g, screenSize);
 			
 			break;
@@ -113,5 +112,7 @@ public class Game {
 
 	public void changeWindowSize(Dimension size) {
 		this.screenSize = size;
+		width = (double)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
+		height = (double)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
 	}
 }

@@ -5,10 +5,9 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import gamePackage.GLOBAL.Direction;
+
 public class MapChangeAnimation {
-	static enum Direction {
-		RIGHT, LEFT, DOWN, UP;
-	}
 	private BufferedImage oldImg, newImg;
 	private Direction direction;
 	private double stage;

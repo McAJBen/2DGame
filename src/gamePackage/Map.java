@@ -25,28 +25,24 @@ public class Map {
 		}
 	}
 
-	public void paint(Graphics g, Dimension screenSize) {
-		mapTile[currentMap.x][currentMap.y].paint(g, screenSize);
+	public void paint(Graphics g, Dimension screenSize, double width, double height) {
+		mapTile[currentMap.x][currentMap.y].paint(g, screenSize, width, height);
 	}
 
 	public Point getCurrentMapPoint() {
 		return currentMap;
 	}
 	
-	public BufferedImage getCurrentMap(Dimension screenSize) {
+	public BufferedImage getCurrentMap(Dimension screenSize, double width, double height) {
 		BufferedImage curMap = new BufferedImage(screenSize.width, screenSize.height, BufferedImage.TYPE_INT_ARGB);
 		Graphics mapG = curMap.getGraphics();
-		
-		paint(mapG, screenSize);
+		paint(mapG, screenSize, width, height);
 		mapG.dispose();
-		
 		return curMap;
 	}
 	
-	public BufferedImage getNextMap(Point newMap, Dimension screenSize) {
-		currentMap.translate(newMap.x, newMap.y);
-		
-		return mapTile[currentMap.x][currentMap.y].getImage(screenSize);
+	public BufferedImage getNextMap(Point mapChangeTo, Dimension screenSize) {
+		return mapTile[mapChangeTo.x + currentMap.x][mapChangeTo.y + currentMap.y].getImage(screenSize);
 	}
 
 	public boolean checkValidMap(Point mapChangeTo) {
@@ -61,5 +57,17 @@ public class Map {
 
 	public int checkCoins(double x, double y) {
 		return mapTile[currentMap.x][currentMap.y].checkCoins(x, y);
+	}
+
+	public void changeMap(Point mapChangeTo) {
+		currentMap.translate(mapChangeTo.x, mapChangeTo.y);
+	}
+
+	public boolean checkEnemy(double x, double y) {
+		return mapTile[currentMap.x][currentMap.y].checkEnemy(x, y);
+	}
+
+	public void move() {
+		mapTile[currentMap.x][currentMap.y].move(getMapSquares());
 	}
 }

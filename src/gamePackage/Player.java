@@ -8,6 +8,7 @@ import java.awt.Point;
 public class Player {
 	
 	private double x, y;
+	private double lastX, lastY;
 	private Point mapChangeTo;
 	private int coins;
 	
@@ -15,6 +16,9 @@ public class Player {
 		coins = 0;
 		x = GLOBAL.PLAYER_ORIGINAL_X;
 		y = GLOBAL.PLAYER_ORIGINAL_Y;
+		lastX = x;
+		lastY = y;
+		
 		mapChangeTo = new Point(0, 0);
 	}
 	
@@ -148,11 +152,17 @@ public class Player {
 				y = 0;
 			}
 		}
-		
+		lastX = x;
+		lastY = y;
 	}
 
 	public void addCoins(int numberOfCoins) {
 		coins += numberOfCoins;
+	}
+
+	public void kill() {
+		x = lastX;
+		y = lastY;
 	}
 	
 }

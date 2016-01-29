@@ -63,7 +63,33 @@ public class GameKeyboardListener implements KeyListener {
 		return false;
 		
 	}
+	
+	public byte getX() {
+		byte x = 0;
+		if (getKey(KeyEvent.VK_LEFT) || getKey(KeyEvent.VK_A)) {
+			x--;
+		}
+		if (getKey(KeyEvent.VK_RIGHT) || getKey(KeyEvent.VK_D)) {
+			x++;
+		}
+		return x;
+	}
+	
+	public byte getY() {
+		byte y = 0;
+		if (getKey(KeyEvent.VK_DOWN) || getKey(KeyEvent.VK_S)) {
+			y++;
+		}
+		if (getKey(KeyEvent.VK_UP) || getKey(KeyEvent.VK_W)) {
+			y--;
+		}
+		return y;
+	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {}
+
+	public void reset() {
+		keysDown.clear();
+	}
 }

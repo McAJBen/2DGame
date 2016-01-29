@@ -7,14 +7,17 @@ import java.awt.Point;
 
 public class MapSquare {
 	
-	private static final Color 
+	static final Color 
 				FLOOR_COLOR = new Color(195, 195, 195),
 				WALL_COLOR = new Color(239, 228, 176),
-				COIN_COLOR = new Color(255, 255, 0);
+				COIN_COLOR = new Color(255, 255, 0),
+				ENEMY_COLOR = new Color(237, 28, 36),
+				ENEMY_COLOR_DOWN = new Color(255, 127, 39),
+				ENEMY_WALL_COLOR = new Color(185, 122, 87);
 				
 	
 	static enum SquareType {
-		FLOOR, WALL, COIN
+		FLOOR, WALL, COIN, ENEMY, ENEMY_WALL
 	}
 	
 	private SquareType squareType;
@@ -27,6 +30,15 @@ public class MapSquare {
 		}
 		else if (pixelColor.equals(COIN_COLOR)) {
 			squareType = SquareType.COIN;
+		}
+		else if (pixelColor.equals(ENEMY_COLOR)) {
+			squareType = SquareType.ENEMY;
+		}
+		else if (pixelColor.equals(ENEMY_COLOR_DOWN)) {
+			squareType = SquareType.ENEMY;
+		}
+		else if (pixelColor.equals(ENEMY_WALL_COLOR)) {
+			squareType = SquareType.ENEMY_WALL;
 		}
 		else {
 			squareType = SquareType.FLOOR;
@@ -56,34 +68,57 @@ public class MapSquare {
 				thisSquareSize.width, thisSquareSize.height);
 			break;
 		case WALL:
-		case FLOOR:
+		case ENEMY:
+		case ENEMY_WALL:
 			g.fillRect(
 					position.x, position.y,
 				thisSquareSize.width + 1, thisSquareSize.height + 1);
 			break;
+		case FLOOR:
 		}
 	}
 
 	private Color getColor() {
 		switch (squareType) {
 		case FLOOR:
-		default:
 			return FLOOR_COLOR;
 		case WALL:
 			return WALL_COLOR;
 		case COIN:
 			return COIN_COLOR;
+		case ENEMY:
+			return ENEMY_COLOR;
+		case ENEMY_WALL:
+			return ENEMY_WALL_COLOR;
+		default:
+			return null;
 		}
 	}
 
 	public boolean getWall() {
 		switch (squareType) {
 		case FLOOR:
-		default:
-				
+		case COIN:
+		case ENEMY:	
 			return false;
-		case WALL:
 			
+		case ENEMY_WALL:
+		case WALL:
+		default:
+			return true;
+		}
+	}
+	
+	public boolean getWallEnemy() {
+		switch (squareType) {
+		case FLOOR:
+		case COIN:
+		case ENEMY:	
+		case ENEMY_WALL:
+			return false;
+		
+		case WALL:
+		default:
 			return true;
 		}
 	}
@@ -96,11 +131,11 @@ public class MapSquare {
 		squareType = SquareType.FLOOR;
 	}
 
-	public boolean getCoin() {
+	public boolean isCoin() {
 		return squareType == SquareType.COIN;
 	}
-	
-	
-	
-	
+
+	public boolean isEnemy() {
+		return squareType == SquareType.ENEMY;
+	}
 }
