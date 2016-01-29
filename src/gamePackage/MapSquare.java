@@ -12,7 +12,7 @@ public class MapSquare {
 	
 	public MapSquare(int rgb) {
 		Color c = new Color(rgb);
-		if (c.getRed() == 239) {
+		if (c.equals(new Color(239, 228, 176))) {
 			squareType = SquareType.WALL;
 		}
 		else {
@@ -23,18 +23,14 @@ public class MapSquare {
 	public static void paint(MapSquare[][] mapSquares, Graphics g, Dimension screenSize) {
 		
 		Dimension squareSize = new Dimension(
-				screenSize.width / mapSquares.length,
-				screenSize.height / mapSquares[0].length);
+				screenSize.width / GLOBAL.MAP_PIXEL_SIZE,
+				screenSize.height / GLOBAL.MAP_PIXEL_SIZE);
 		
-		
-		
-		
-		for (int i = 0; i < mapSquares.length; i++) {
-			for (int j = 0; j < mapSquares[i].length; j++) {
+		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
+			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
 				g.drawRect(i * squareSize.width, j * squareSize.height,
 						squareSize.width, squareSize.height);
 				g.drawString(mapSquares[i][j].getChar(), i * squareSize.width, j * squareSize.height + 10);
-				// TODO mapSquares[i][j]
 			}
 		}
 	}

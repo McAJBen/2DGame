@@ -43,8 +43,8 @@ public class Game {
 			if (keyListener.getKey(KeyEvent.VK_UP) || keyListener.getKey(KeyEvent.VK_W)) {
 				y--;
 			}
-			player.move(x, y, map, screenSize);
-			if (player.changedMap()) {
+			
+			if (player.move(x, y, map, screenSize)) {
 				
 				Point mapChangeTo = player.getMapChangeTo();
 				if (map.checkValidMap(mapChangeTo)) {
@@ -84,7 +84,6 @@ public class Game {
 			break;
 		
 		}
-		g.drawString("KL:" + keyListener.getBuffer(), 10, 10);
 	}
 	
 	public void start() {

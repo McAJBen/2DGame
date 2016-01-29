@@ -35,7 +35,7 @@ public class SettingsHandler {
 			
 		} catch (IOException e1) {
 			System.out.println("Default settings have been set");
-			createSettingsFile();
+			//createSettingsFile();
 			return;
 		}
 		

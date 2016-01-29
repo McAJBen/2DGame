@@ -8,152 +8,90 @@ public class Player {
 	
 	private double x, y;
 	private Point mapChangeTo;
-	private boolean changedMap;
 	
 	public Player() {
-		x = 0;
-		y = 0;
+		x = GLOBAL.PLAYER_ORIGINAL_X;
+		y = GLOBAL.PLAYER_ORIGINAL_Y;
 		mapChangeTo = new Point(0, 0);
 	}
 	
-	public void move(int dx, int dy, Map map, Dimension screenSize) {
+	public boolean move(int dx, int dy, Map map, Dimension screenSize) {
 		
-		double
-			nx = x + dx * GLOBAL.PLAYER_STEP,
-			ny = y + dy * GLOBAL.PLAYER_STEP;
+		checkWall(map.getMapSquares(), dx, dy);
 		
-		checkWall(map.getMapSquares(), nx, ny, dx, dy);
-		
-		changedMap = checkBounds();
+		return checkBounds();
 	}
 	
-	private void checkWall(MapSquare[][] mapSquares, double nx, double ny, int dx, int dy) {
-		if (0 > nx || nx + GLOBAL.PLAYER_SIZE >= GLOBAL.MAP_PIXEL_SIZE || 0 > ny || ny + GLOBAL.PLAYER_SIZE >= GLOBAL.MAP_PIXEL_SIZE) {
-			if (0 > nx || nx + GLOBAL.PLAYER_SIZE >= GLOBAL.MAP_PIXEL_SIZE) {
-				x = nx;
-			}
-			else if (0 > ny || ny + GLOBAL.PLAYER_SIZE >= GLOBAL.MAP_PIXEL_SIZE) {
-				y = ny;
-			}
+	private void checkWall(MapSquare[][] mapSquares, int dx, int dy) {
+		double nx = x + dx * GLOBAL.PLAYER_STEP;
+		double ny = y + dy * GLOBAL.PLAYER_STEP;
+		if (nx < 0) {
+			mapChangeTo.x = -1;
+			x = nx;
+			return;
 		}
-		else if (dx < 0) {
-			if (dy < 0) {
-				if(!(mapSquares[(int) (nx)][(int) (ny)].getWall() ||
-					mapSquares[(int) (nx)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall() ||
-					mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny)].getWall())) {
-						x = nx;
-						y = ny;
-				}
-			}
-			else if (dy > 0) {
-				if (!(mapSquares[(int) (nx)][(int) (ny)].getWall() ||
-					mapSquares[(int) (nx)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall() ||
-					mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall())) {
-						x = nx;
-						y = ny;
-				}
-			}
-			else {
-				if (!(mapSquares[(int) (nx)][(int) (ny)].getWall() ||
-					mapSquares[(int) (nx)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall())) {
-						x = nx;
-						y = ny;
-				}
-			}
+		if (GLOBAL.PLAYER_MAX_PIXEL <= nx) {
+			mapChangeTo.x = 1;
+			x = nx;
+			return;
 		}
-		else if (dx > 0) {
-			if (dy < 0) {
-				if (!( mapSquares[(int) (nx)][(int) (ny)].getWall() ||
-					mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny)].getWall() ||
-					mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall())) {
-						x = nx;
-						y = ny;
+		if (ny < 0) {
+			mapChangeTo.y = -1;
+			y = ny;
+			return;
+		}
+		if (GLOBAL.PLAYER_MAX_PIXEL <= ny) {
+			mapChangeTo.y = 1;
+			y = ny;
+			return;
+		}
+		if (dx < 0 || dy < 0) {
+			if (mapSquares[(int) (nx)][(int) (ny)].getWall()) {
+				if (mapSquares[(int) (x)][(int) (ny)].getWall()) {
+					ny = y;
 				}
-			}
-			else if (dy > 0) {
-				if (!(mapSquares[(int) (nx)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall() ||
-					mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny)].getWall() ||
-					mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall())) {
-						x = nx;
-						y = ny;
-				}
-			}
-			else {
-				if (!(mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny)].getWall() ||
-					mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall())) {
-						x = nx;
-						y = ny;
+				if (mapSquares[(int) (nx)][(int) (y)].getWall()) {
+					nx = x;
 				}
 			}
 		}
-		else {
-			if (dy < 0) {
-				if (!(mapSquares[(int) (nx)][(int) (ny)].getWall() ||
-					mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny)].getWall())) {
-						x = nx;
-						y = ny;
+		if (dx < 0 || dy > 0) {
+			if (mapSquares[(int) (nx)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall()) {
+				if (mapSquares[(int) (x)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall()) {
+					ny = y;
 				}
-			}
-			else if (dy > 0) {
-				if (!(mapSquares[(int) (nx)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall() ||
-					mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall())) {
-						x = nx;
-						y = ny;
+				if (mapSquares[(int) (nx)][(int) (y + GLOBAL.PLAYER_SIZE)].getWall()) {
+					nx = x;
 				}
 			}
 		}
-	}
-
-	/*private void getWallX(MapSquare[][] mapSquares, int dx) {
-		if (dx < 0) {
-			if (x < 0) {
-				changedMap = true;
-				mapChangeTo.x = -1;
-			}
-			else if (mapSquares[(int) x][(int) y].getWall() ||
-					mapSquares[(int) x][(int) (y + GLOBAL.PLAYER_SIZE)].getWall()) {
-				x = (int)x + 1;
+		if (dx > 0 || dy < 0) {
+			if (mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny)].getWall()) {
+				if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (ny)].getWall()) {
+					ny = y;
+				}
+				if (mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (y)].getWall()) {
+					nx = x;
+				}
 			}
 		}
-		else if (dx > 0) {
-			if (x >= GLOBAL.MAP_PIXEL_SIZE - GLOBAL.PLAYER_SIZE) {
-				changedMap = true;
-				mapChangeTo.x = 1;
-			}
-			else if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) y].getWall() ||
-					mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (y + GLOBAL.PLAYER_SIZE)].getWall()) {
-				x = (int)x - GLOBAL.PLAYER_SIZE + 1;
+		if (dx > 0 || dy > 0) {
+			if (mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall()) {
+				if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall()) {
+					ny = y;
+				}
+				if (mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (y + GLOBAL.PLAYER_SIZE)].getWall()) {
+					nx = x;
+				}
 			}
 		}
+		x = nx;
+		y = ny;
 	}
 	
-	private void getWallY(MapSquare[][] mapSquares, int dy) {
-		if (dy < 0) {
-			if (y < 0) {
-				changedMap = true;
-				mapChangeTo.y = -1;
-			}
-			else if (mapSquares[(int) x][(int) y].getWall() ||
-					mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) y].getWall()) {
-				y = (int)y + 1;
-			}
-		}
-		else if (dy > 0) {
-			if (y >= GLOBAL.MAP_PIXEL_SIZE - GLOBAL.PLAYER_SIZE) {
-				changedMap = true;
-				mapChangeTo.y = 1;
-			}
-			else if (mapSquares[(int) x][(int) (y + GLOBAL.PLAYER_SIZE)].getWall() ||
-					mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (y + GLOBAL.PLAYER_SIZE)].getWall()) {
-				y = (int)y - GLOBAL.PLAYER_SIZE + 1;
-			}
-		}
-		
-	}*/
-
 	private boolean checkBounds() {
 		boolean offBounds = false;
-		if (x + GLOBAL.PLAYER_SIZE > GLOBAL.MAP_PIXEL_SIZE) {
+		if (x > GLOBAL.PLAYER_MAX_PIXEL) {
 			offBounds = true;
 			mapChangeTo.x = 1;
 		}
@@ -161,7 +99,7 @@ public class Player {
 			offBounds = true;
 			mapChangeTo.x = -1;
 		}
-		if (y + GLOBAL.PLAYER_SIZE > GLOBAL.MAP_PIXEL_SIZE) {
+		if (y > GLOBAL.PLAYER_MAX_PIXEL) {
 			offBounds = true;
 			mapChangeTo.y = 1;
 		}
@@ -170,10 +108,6 @@ public class Player {
 			mapChangeTo.y = -1;
 		}
 		return offBounds;
-	}
-	
-	public boolean changedMap() {
-		return changedMap;
 	}
 	
 	public double getX() {
@@ -197,13 +131,13 @@ public class Player {
 				(int)(GLOBAL.PLAYER_SIZE * screenSize.width / GLOBAL.MAP_PIXEL_SIZE),
 				(int)(GLOBAL.PLAYER_SIZE * screenSize.height / GLOBAL.MAP_PIXEL_SIZE));
 		
-		g.drawString(x + "",
+		/*g.drawString(x + "",
 				(int)(x / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
 				(int)(y / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 12);
 		
 		g.drawString(y + "",
 				(int)(x / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(y / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 2);
+				(int)(y / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 2);*/
 	}
 
 	public void changeMap(boolean isChanging) {

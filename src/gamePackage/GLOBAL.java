@@ -8,6 +8,8 @@ public final class GLOBAL {
 	static final int 
 		MAP_PIXEL_SIZE = 25;
 	static final double 
+		PLAYER_ORIGINAL_X = 10,
+		PLAYER_ORIGINAL_Y = 10,
 		ANIMATION_STEP = 0.01,
 		PLAYER_STEP = 0.06,
 		PLAYER_SIZE = 0.6,
