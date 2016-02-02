@@ -31,10 +31,10 @@ public class MapTile {
 		return image;
 	}
 	
-	public boolean checkEnemy(double x, double y) {
+	public boolean checkEnemy(Position position) {
 		
 		for (Enemy e: enemys) {
-			if (e.checkEnemy(x, y)) {
+			if (e.checkEnemy(position)) {
 				return true;
 			}
 		}
@@ -47,16 +47,16 @@ public class MapTile {
 			mapSquares[(int) (x)][(int) (y)].setFloor();
 			numberOfCoins++;
 		}
-		if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (y)].isCoin()) {
-			mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (y)].setFloor();
+		if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE_DOUBLE)][(int) (y)].isCoin()) {
+			mapSquares[(int) (x + GLOBAL.PLAYER_SIZE_DOUBLE)][(int) (y)].setFloor();
 			numberOfCoins++;
 		}
-		if (mapSquares[(int) (x)][(int) (y + GLOBAL.PLAYER_SIZE)].isCoin()) {
-			mapSquares[(int) (x)][(int) (y + GLOBAL.PLAYER_SIZE)].setFloor();
+		if (mapSquares[(int) (x)][(int) (y + GLOBAL.PLAYER_SIZE_DOUBLE)].isCoin()) {
+			mapSquares[(int) (x)][(int) (y + GLOBAL.PLAYER_SIZE_DOUBLE)].setFloor();
 			numberOfCoins++;
 		}
-		if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (y + GLOBAL.PLAYER_SIZE)].isCoin()) {
-			mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (y + GLOBAL.PLAYER_SIZE)].setFloor();
+		if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE_DOUBLE)][(int) (y + GLOBAL.PLAYER_SIZE_DOUBLE)].isCoin()) {
+			mapSquares[(int) (x + GLOBAL.PLAYER_SIZE_DOUBLE)][(int) (y + GLOBAL.PLAYER_SIZE_DOUBLE)].setFloor();
 			numberOfCoins++;
 		}
 		return numberOfCoins;
@@ -69,7 +69,7 @@ public class MapTile {
 	public void paint(Graphics g, Dimension screenSize, double width, double height) {
 		g.drawImage(getImage(screenSize), 0, 0, null);
 		for (Enemy e: enemys) {
-			e.paint(g, width, height);
+			e.paint(g, width, height, screenSize);
 		}
 	}
 

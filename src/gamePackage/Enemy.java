@@ -1,20 +1,21 @@
 package gamePackage;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import gamePackage.GLOBAL.Direction;
 
 public class Enemy {
 	
-	int x;
-	int y;
+	Position position;
 	Direction direction;
 	
 	
 	public Enemy(int x, int y, int i) {
-		this.x = x * 10;
-		this.y = y * 10;
+		x *= GLOBAL.SHORT_MULTIPLIER;
+		y *= GLOBAL.SHORT_MULTIPLIER;
+		position = new Position(x, y);
 		
 		if (MapSquare.ENEMY_COLOR.getRGB() == i) {
 			this.direction = Direction.UP;
@@ -22,83 +23,77 @@ public class Enemy {
 		else {
 			this.direction = Direction.DOWN;
 		}
-		
-		
 	}
 
 	public void move(MapSquare[][] mapSquares) {
 		
-		int nx = x;
-		int ny = y;
+		Position newPosition = new Position(position);
 		
 		switch (direction) {
 		case DOWN:
-			ny++;
+			newPosition.addYShort(GLOBAL.ENEMY_STEP);
 			break;
 		case LEFT:
-			nx--;
+			newPosition.subtractXShort(GLOBAL.ENEMY_STEP);
 			break;
 		case RIGHT:
-			nx++;
+			newPosition.addXShort(GLOBAL.ENEMY_STEP);
 			break;
 		case UP:
-			ny--;
+			newPosition.subtractYShort(GLOBAL.ENEMY_STEP);
 			break;
 		}
-		if (nx < 0 ||
-			GLOBAL.MAP_PIXEL_SIZE < nx / 10 ||
-			ny < 0 ||
-			GLOBAL.MAP_PIXEL_SIZE < ny / 10) {
+		if (!newPosition.within(GLOBAL.MAP_SHORT_SIZE)) {
 				direction = direction.next();
 		}
 		
 		switch (direction) {
 		case DOWN:
-			if (mapSquares[(nx - 1) / 10 + 1][(ny - 1) / 10 + 1].getWallEnemy()) {
+			if (mapSquares[newPosition.getX()][newPosition.getYMaxM1()].getWallEnemy()) {
 				direction = direction.next();
 				return;
 			}
 			break;
 		case LEFT:
-			if (mapSquares[nx / 10][(ny - 1) / 10 + 1].getWallEnemy()) {
+			if (mapSquares[newPosition.getX()][newPosition.getY()].getWallEnemy()) {
 				direction = direction.next();
 				return;
 			}
 			break;
 		case RIGHT:
-			if (mapSquares[(nx - 1) / 10 + 1][ny / 10].getWallEnemy()) {
+			if (mapSquares[newPosition.getXMaxM1()][newPosition.getY()].getWallEnemy()) {
 				direction = direction.next();
 				return;
 			}
 			break;
 		case UP:
-			if (mapSquares[nx / 10][ny / 10].getWallEnemy()) {
+			if (mapSquares[newPosition.getX()][newPosition.getY()].getWallEnemy()) {
 				direction = direction.next();
 				return;
 			}
 			break;
 		}
-		x = nx;
-		y = ny;
+		position.set(newPosition);
 	}
 
-	public boolean checkEnemy(double px, double py) {
-		return withinEnemy(px, py) ||
-			   withinEnemy(px + GLOBAL.PLAYER_SIZE, py) ||
-			   withinEnemy(px, py + GLOBAL.PLAYER_SIZE) ||
-			   withinEnemy(px + GLOBAL.PLAYER_SIZE, py + GLOBAL.PLAYER_SIZE);
+	public boolean checkEnemy(Position checkPosition) {
+		return 	withinEnemy(checkPosition.getXShort(), checkPosition.getYShort()) ||
+				withinEnemy(checkPosition.getXShort() + GLOBAL.PLAYER_SIZE, checkPosition.getYShort()) ||
+				withinEnemy(checkPosition.getXShort(), checkPosition.getYShort() + GLOBAL.PLAYER_SIZE) ||
+				withinEnemy(checkPosition.getXShort() + GLOBAL.PLAYER_SIZE, checkPosition.getYShort() + GLOBAL.PLAYER_SIZE);
 	}
 	
-	private boolean withinEnemy(double px, double py) {
-		return x / 10 < px && px < x / 10 + 1 && y / 10 < py && py < y / 10 + 1;
+	private boolean withinEnemy(int px, int py) {
+		return 	position.getXShort() < px && px < position.getXMaxShort() && 
+				position.getYShort() < py && py < position.getYMaxShort();
 	}
 
-	public void paint(Graphics g, double width, double height) {
+	public void paint(Graphics g, double width, double height, Dimension screenSize) {
 		
 		g.setColor(Color.RED);
 		
-		g.fillOval((int)(x * width / 10), (int)(y * height / 10), (int)width, (int)height);
+		g.fillOval(position.getX(screenSize), position.getY(screenSize), (int)width, (int)height);
 		
-		//g.drawString(x + ", " + y, (int)(x * width / 10), (int)(y * height / 10));
+		g.drawString(position.toString(), position.getX(screenSize), position.getY(screenSize));
 	}
 }

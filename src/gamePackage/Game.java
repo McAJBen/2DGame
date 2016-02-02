@@ -35,7 +35,7 @@ public class Game {
 		case NORMAL:
 			
 			map.move();
-			if (player.move(keyListener.getX(), keyListener.getY(), map.getMapSquares())) { // if changing map
+			if (player.move(keyListener.getX(), keyListener.getY(), keyListener.getJump(), map.getMapSquares())) { // if changing map
 				Point mapChangeTo = player.getMapChangeTo();
 				if (map.checkValidMap(mapChangeTo)) {
 					
@@ -59,8 +59,11 @@ public class Game {
 					player.changeMap(false);
 				}
 			}
-			player.addCoins(map.checkCoins(player.getX(), player.getY()));
-			if (map.checkEnemy(player.getX(), player.getY())) {
+			else {
+				player.addCoins(map.checkCoins(player.getX(), player.getY()));
+			}
+			
+			if (map.checkEnemy(player.getPosition())) {
 				player.kill();
 				keyListener.reset();
 				

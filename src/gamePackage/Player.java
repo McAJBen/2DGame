@@ -7,95 +7,137 @@ import java.awt.Point;
 
 public class Player {
 	
-	private double x, y;
-	private double lastX, lastY;
+	private Position position;
+	private Position velocity;
+	private Position lastPosition;
 	private Point mapChangeTo;
 	private int coins;
 	
 	public Player() {
-		coins = 0;
-		x = GLOBAL.PLAYER_ORIGINAL_X;
-		y = GLOBAL.PLAYER_ORIGINAL_Y;
-		lastX = x;
-		lastY = y;
-		
-		mapChangeTo = new Point(0, 0);
+		completeReset();
 	}
 	
-	public boolean move(int dx, int dy, MapSquare[][] mapSquares) {
-		double nx = x + dx * GLOBAL.PLAYER_STEP;
-		double ny = y + dy * GLOBAL.PLAYER_STEP;
-		if (nx < 0) {
+	public boolean move(int dx, int dy, boolean jump, MapSquare[][] mapSquares) {
+		
+		
+		velocity.addX(dx * GLOBAL.PLAYER_STEP);
+		velocity.addY(dy * GLOBAL.PLAYER_STEP);
+		velocity.addY(GLOBAL.PLAYER_STEP);
+		
+		if (jump) {
+			velocity.addY( -GLOBAL.PLAYER_JUMP); // TODO disable multi-jumping
+		}
+		
+		velocity.Friction(0.9);
+		
+		Position newPosition = new Position(
+					position.getXShort() + velocity.getXShort(),
+					position.getYShort() + velocity.getYShort());
+		
+		
+		if (newPosition.getXShort() < 0) {
 			mapChangeTo.x = -1;
-			x = nx;
+			position.setX(newPosition);
 			return true;
 		}
-		else if (GLOBAL.PLAYER_MAX_PIXEL < nx) {
+		else if (GLOBAL.PLAYER_MAX_PIXEL < newPosition.getXShort()) {
 			mapChangeTo.x = 1;
-			x = nx;
+			position.setX(newPosition);
 			return true;
 		}
-		else if (ny < 0) {
+		else if (newPosition.getYShort() < 0) {
 			mapChangeTo.y = -1;
-			y = ny;
+			position.setY(newPosition);
 			return true;
 		}
-		else if (GLOBAL.PLAYER_MAX_PIXEL < ny) {
+		else if (GLOBAL.PLAYER_MAX_PIXEL < newPosition.getYShort()) {
 			mapChangeTo.y = 1;
-			y = ny;
+			position.setY(newPosition);
 			return true;
 		}
-		if (dx < 0 || dy < 0) {
-			if (mapSquares[(int) (nx)][(int) (ny)].getWall()) {
-				if (mapSquares[(int) (x)][(int) (ny)].getWall()) {
-					ny = y;
-				}
-				if (mapSquares[(int) (nx)][(int) (y)].getWall()) {
-					nx = x;
-				}
-			}
-		}
-		if (dx < 0 || dy > 0) {
-			if (mapSquares[(int) (nx)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall()) {
-				if (mapSquares[(int) (x)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall()) {
-					ny = y;
-				}
-				if (mapSquares[(int) (nx)][(int) (y + GLOBAL.PLAYER_SIZE)].getWall()) {
-					nx = x;
-				}
-			}
-		}
-		if (dx > 0 || dy < 0) {
-			if (mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny)].getWall()) {
-				if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (ny)].getWall()) {
-					ny = y;
-				}
-				if (mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (y)].getWall()) {
-					nx = x;
-				}
-			}
-		}
-		if (dx > 0 || dy > 0) {
-			if (mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall()) {
-				if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE)][(int) (ny + GLOBAL.PLAYER_SIZE)].getWall()) {
-					ny = y;
-				}
-				if (mapSquares[(int) (nx + GLOBAL.PLAYER_SIZE)][(int) (y + GLOBAL.PLAYER_SIZE)].getWall()) {
-					nx = x;
-				}
-			}
-		}
-		x = nx;
-		y = ny;
+		
+		movePlayer(newPosition, mapSquares);
+		
 		return false;
 	}
 	
-	public double getX() {
-		return x;
+	private void movePlayer(Position newPosition, MapSquare[][] mapSquares) {
+		boolean tryAgain = false;
+		
+		if (velocity.getXShort() < 0 || velocity.getYShort() < 0) {
+			if (mapSquares[newPosition.getX()][newPosition.getY()].getWall()) {
+				if (mapSquares[position.getX()][newPosition.getY()].getWall()) {
+					newPosition.setY(position);
+					velocity.setY(0);
+					tryAgain = true;
+				}
+				if (mapSquares[newPosition.getX()][position.getY()].getWall()) {
+					newPosition.setX(position);
+					velocity.setX(0);
+					tryAgain = true;
+				}
+			}
+		}
+		if (velocity.getXShort() < 0 || velocity.getYShort() > 0) {
+			if (mapSquares[newPosition.getX()][newPosition.getYMaxPlayer()].getWall()) {
+				if (mapSquares[position.getX()][newPosition.getYMaxPlayer()].getWall()) {
+					newPosition.setY(position);
+					velocity.setY(0);
+					tryAgain = true;
+				}
+				if (mapSquares[newPosition.getX()][position.getYMaxPlayer()].getWall()) {
+					newPosition.setX(position);
+					velocity.setX(0);
+					tryAgain = true;
+				}
+			}
+		}
+		if (velocity.getXShort() > 0 || velocity.getYShort() < 0) {
+			if (mapSquares[newPosition.getXMaxPlayer()][newPosition.getY()].getWall()) {
+				if (mapSquares[position.getXMaxPlayer()][newPosition.getY()].getWall()) {
+					newPosition.setY(position);
+					velocity.setY(0);
+					tryAgain = true;
+				}
+				if (mapSquares[newPosition.getXMaxPlayer()][position.getY()].getWall()) {
+					newPosition.setX(position);
+					velocity.setX(0);
+					tryAgain = true;
+				}
+			}
+		}
+		if (velocity.getXShort() > 0 || velocity.getYShort() > 0) {
+			if (mapSquares[newPosition.getXMaxPlayer()][newPosition.getYMaxPlayer()].getWall()) {
+				if (mapSquares[position.getXMaxPlayer()][newPosition.getYMaxPlayer()].getWall()) {
+					newPosition.setY(position);
+					velocity.setY(0);
+					tryAgain = true;
+				}
+				if (mapSquares[newPosition.getXMaxPlayer()][position.getYMaxPlayer()].getWall()) {
+					newPosition.setX(position);
+					velocity.setX(0);
+					tryAgain = true;
+				}
+			}
+		}
+		if (tryAgain) {
+			movePlayer(newPosition, mapSquares);
+		}
+		else {
+			position.set(newPosition);
+		}
+	}
+	
+	public double getX() { // TODO get rid of this
+		return position.getXDouble();
 	}
 	
 	public double getY() {
-		return y;
+		return position.getYDouble();
+	}
+	
+	public Position getPosition() {
+		return position.clone();
 	}
 
 	public Point getMapChangeTo() {
@@ -107,53 +149,63 @@ public class Player {
 	public void paint(Graphics g, Dimension screenSize) {
 		g.setColor(Color.BLACK);
 		g.fillRect(
-				(int)(x / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(y / GLOBAL.MAP_PIXEL_SIZE * screenSize.height),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.width / GLOBAL.MAP_PIXEL_SIZE),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.height / GLOBAL.MAP_PIXEL_SIZE));
+				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
+				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height),
+				(int)(GLOBAL.PLAYER_SIZE * screenSize.width / GLOBAL.MAP_SHORT_SIZE),
+				(int)(GLOBAL.PLAYER_SIZE * screenSize.height / GLOBAL.MAP_SHORT_SIZE));
 		
 		g.drawString("Coins: " + coins, 0, screenSize.height - 4);
 		
-		/*g.drawString(x + "",
-				(int)(x / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(y / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 12);
 		
-		g.drawString(y + "", 
-				(int)(x / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(y / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 2);*/
+		
+		g.drawString(position.getXShort() + "",
+				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
+				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 32);
+		
+		g.drawString(position.getYShort() + "", 
+				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
+				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 22);
+		
+		g.drawString(velocity.getXShort() + "",
+				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
+				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 12);
+		
+		g.drawString(velocity.getYShort() + "", 
+				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
+				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 2);
 	}
 
 	public void changeMap(boolean isChanging) {
 		if (isChanging) {
-			if (x > GLOBAL.PLAYER_MAX_PIXEL) {
-				x = 0;
+			if (position.getXShort() > GLOBAL.PLAYER_MAX_PIXEL) {
+				position.setX(0);
 			}
-			else if (x < 0) {
-				x = GLOBAL.PLAYER_MAX_PIXEL;
+			else if (position.getXShort() < 0) {
+				position.setXShort(GLOBAL.PLAYER_MAX_PIXEL);
 			}
-			if (y > GLOBAL.PLAYER_MAX_PIXEL) {
-				y = 0;
+			if (position.getYShort() > GLOBAL.PLAYER_MAX_PIXEL) {
+				position.setY(0);
 			}
-			else if (y < 0) {
-				y = GLOBAL.PLAYER_MAX_PIXEL;
+			else if (position.getYShort() < 0) {
+				position.setYShort(GLOBAL.PLAYER_MAX_PIXEL);
 			}
 		}
 		else {
-			if (x > GLOBAL.PLAYER_MAX_PIXEL) {
-				x = GLOBAL.PLAYER_MAX_PIXEL;
+			if (position.getXShort() > GLOBAL.PLAYER_MAX_PIXEL) {
+				position.setXShort(GLOBAL.PLAYER_MAX_PIXEL);
 			}
-			else if (x < 0) {
-				x = 0;
+			else if (position.getXShort() < 0) {
+				position.setX(0);
 			}
-			if (y > GLOBAL.PLAYER_MAX_PIXEL) {
-				y = GLOBAL.PLAYER_MAX_PIXEL;
+			if (position.getYShort() > GLOBAL.PLAYER_MAX_PIXEL) {
+				position.setYShort(GLOBAL.PLAYER_MAX_PIXEL);
 			}
-			else if (y < 0) {
-				y = 0;
+			else if (position.getYShort() < 0) {
+				position.setY(0);
 			}
+			
 		}
-		lastX = x;
-		lastY = y;
+		lastPosition.set(position);
 	}
 
 	public void addCoins(int numberOfCoins) {
@@ -161,8 +213,7 @@ public class Player {
 	}
 
 	public void kill() {
-		x = lastX;
-		y = lastY;
+		position.set(lastPosition);
 	}
 
 	public int getCoins() {
@@ -171,10 +222,13 @@ public class Player {
 
 	public void completeReset() {
 		coins = 0;
-		x = GLOBAL.PLAYER_ORIGINAL_X;
-		y = GLOBAL.PLAYER_ORIGINAL_Y;
-		lastX = x;
-		lastY = y;
+		position = new Position();
+		velocity = new Position();
+		
+		
+		position.setX(GLOBAL.PLAYER_ORIGINAL_X);
+		position.setY(GLOBAL.PLAYER_ORIGINAL_Y);
+		lastPosition = new Position(position);
 		
 		mapChangeTo = new Point(0, 0);
 		

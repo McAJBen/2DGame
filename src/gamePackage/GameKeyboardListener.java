@@ -92,4 +92,8 @@ public class GameKeyboardListener implements KeyListener {
 	public void reset() {
 		keysDown.clear();
 	}
+
+	public boolean getJump() {
+		return getKey(KeyEvent.VK_SPACE);
+	}
 }

@@ -73,8 +73,8 @@ public class Map {
 		currentMap.translate(mapChangeTo.x, mapChangeTo.y);
 	}
 
-	public boolean checkEnemy(double x, double y) {
-		return mapTile[currentMap.x][currentMap.y].checkEnemy(x, y);
+	public boolean checkEnemy(Position position) {
+		return mapTile[currentMap.x][currentMap.y].checkEnemy(position);
 	}
 
 	public void move() {

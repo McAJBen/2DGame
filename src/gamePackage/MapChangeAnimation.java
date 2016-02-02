@@ -90,8 +90,8 @@ public class MapChangeAnimation {
 		g.fillRect(
 				(int)(x * screenSize.width / GLOBAL.MAP_PIXEL_SIZE),
 				(int)(y * screenSize.height / GLOBAL.MAP_PIXEL_SIZE),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.width / GLOBAL.MAP_PIXEL_SIZE),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.height / GLOBAL.MAP_PIXEL_SIZE));
+				(int)(GLOBAL.PLAYER_SIZE * screenSize.width / GLOBAL.MAP_SHORT_SIZE),
+				(int)(GLOBAL.PLAYER_SIZE * screenSize.height / GLOBAL.MAP_SHORT_SIZE));
 		
 	}
 }
