@@ -1,4 +1,4 @@
-package gamePackage;
+package animationPackage;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,14 +20,14 @@ public class DeathAnimation {
 	}
 
 	public boolean move() {
-		stage += GLOBAL.ANIMATION_STEP;
+		stage += 0.01; // TODO fix
 		return stage >= 1;
 	}
 
 	public void paint(Graphics g, Dimension screenSize) {
 		g.drawImage(map, 0, 0, screenSize.width, screenSize.height, null);
 		g.setColor(Color.RED);
-		//g.drawImage(getBlood(), 0, 0, (int) ((2 - stage) * screenSize.width), (int) (stage * screenSize.height * 5), null);
+		g.drawImage(getBlood(), 0, 0, (int) ((2 - stage) * screenSize.width), (int) (stage * screenSize.height * 5), null);
 		
 	}
 

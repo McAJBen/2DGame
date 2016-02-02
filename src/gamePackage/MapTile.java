@@ -23,10 +23,10 @@ public class MapTile {
 		}
 	}
 	
-	BufferedImage getImage(Dimension screenSize) {
+	BufferedImage getImage(Dimension screenSize, double width, double height) {
 		BufferedImage image = new BufferedImage(screenSize.width, screenSize.height, BufferedImage.TYPE_INT_ARGB);
 		Graphics imageG = image.getGraphics();
-		MapSquare.paint(mapSquares, imageG, screenSize);
+		MapSquare.paint(mapSquares, imageG, screenSize, width, height);
 		imageG.dispose();
 		return image;
 	}
@@ -67,7 +67,7 @@ public class MapTile {
 	}
 
 	public void paint(Graphics g, Dimension screenSize, double width, double height) {
-		g.drawImage(getImage(screenSize), 0, 0, null);
+		g.drawImage(getImage(screenSize, width, height), 0, 0, null);
 		for (Enemy e: enemys) {
 			e.paint(g, width, height, screenSize);
 		}

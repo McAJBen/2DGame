@@ -45,16 +45,14 @@ public class MapSquare {
 		}
 	}
 
-	public static void paint(MapSquare[][] mapSquares, Graphics g, Dimension screenSize) {
+	public static void paint(MapSquare[][] mapSquares, Graphics g, Dimension screenSize, double width, double height) {
 		
-		double squareX = (double)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
-		double squareY = (double)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
 		g.setColor(FLOOR_COLOR);
 		g.fillRect(0, 0, screenSize.width, screenSize.height);
-		
+		Dimension squareSize = new Dimension((int)width, (int)height);
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
-				mapSquares[i][j].paint(g, new Point((int)(squareX * i), (int)(squareY * j)), new Dimension((int)(squareX), (int)(squareY)));
+				mapSquares[i][j].paint(g, new Point((int)(width * i), (int)(height * j)), squareSize);
 			}
 		}
 	}

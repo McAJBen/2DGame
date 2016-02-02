@@ -1,4 +1,4 @@
-package gamePackage;
+package animationPackage;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,7 +12,7 @@ public class EndAnimation {
 	}
 
 	public boolean move() {
-		stage += GLOBAL.ANIMATION_STEP;
+		stage += 1; // TODO fix
 		return stage >= 10;
 	}
 

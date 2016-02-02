@@ -51,8 +51,8 @@ public class Map {
 		return curMap;
 	}
 	
-	public BufferedImage getNextMap(Point mapChangeTo, Dimension screenSize) {
-		return mapTile[mapChangeTo.x + currentMap.x][mapChangeTo.y + currentMap.y].getImage(screenSize);
+	public BufferedImage getNextMap(Point mapChangeTo, Dimension screenSize, double width, double height) {
+		return mapTile[mapChangeTo.x + currentMap.x][mapChangeTo.y + currentMap.y].getImage(screenSize, width, height);
 	}
 
 	public boolean checkValidMap(Point mapChangeTo) {

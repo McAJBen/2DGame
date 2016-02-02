@@ -5,6 +5,10 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyListener;
 
+import animationPackage.DeathAnimation;
+import animationPackage.EndAnimation;
+import animationPackage.MapChangeAnimation;
+
 public class Game {
 	
 	private Dimension screenSize;
@@ -42,8 +46,8 @@ public class Game {
 					mapChangeAnimation = new MapChangeAnimation(
 							mapChangeTo,
 							map.getCurrentMap(screenSize, width, height),
-							map.getNextMap(mapChangeTo, screenSize),
-							player.getX(), player.getY());
+							map.getNextMap(mapChangeTo, screenSize, width, height),
+							player.getPosition());
 					
 					state = State.CHANGING_MAP;
 					try {
@@ -96,7 +100,6 @@ public class Game {
 			break;
 		}
 	}
-	
 	
 	public void paint(Graphics g) {
 		switch (state) {
