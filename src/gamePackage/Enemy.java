@@ -11,7 +11,6 @@ public class Enemy {
 	Position position;
 	Direction direction;
 	
-	
 	public Enemy(int x, int y, int i) {
 		x *= GLOBAL.SHORT_MULTIPLIER;
 		y *= GLOBAL.SHORT_MULTIPLIER;
@@ -89,11 +88,7 @@ public class Enemy {
 	}
 
 	public void paint(Graphics g, double width, double height, Dimension screenSize) {
-		
 		g.setColor(Color.RED);
-		
 		g.fillOval(position.getX(screenSize), position.getY(screenSize), (int)width, (int)height);
-		
-		g.drawString(position.toString(), position.getX(screenSize), position.getY(screenSize));
 	}
 }

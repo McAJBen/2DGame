@@ -58,6 +58,14 @@ public class Position {
 		y += i;
 	}
 	
+	public void addXShort(int i) {
+		x += i;
+	}
+	
+	public void addYShort(int i) {
+		y += i;
+	}
+	
 	public void subtractXShort(short i) {
 		x -= i;
 	}
@@ -67,7 +75,6 @@ public class Position {
 	}
 	
 	public void Friction(double d) {
-		y *= d;
 		x *= d;
 	}
 	
@@ -148,11 +155,11 @@ public class Position {
 	}
 	
 	public int getX(Dimension screenSize) {
-		return x * screenSize.width / GLOBAL.SHORT_MULTIPLIER / GLOBAL.MAP_PIXEL_SIZE;
+		return x * screenSize.width / GLOBAL.MAP_SHORT_SIZE;
 	}
 	
 	public int getY(Dimension screenSize) {
-		return y * screenSize.height / GLOBAL.SHORT_MULTIPLIER / GLOBAL.MAP_PIXEL_SIZE;
+		return y * screenSize.height / GLOBAL.MAP_SHORT_SIZE;
 	}
 
 	public boolean within(short mapPixelSize) {
@@ -167,6 +174,4 @@ public class Position {
 	public String toString() {
 		return x + ", " + y;
 	}
-
-	
 }

@@ -9,26 +9,27 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import gamePackage.GLOBAL;
+
 public class DeathAnimation {
 	
 	private BufferedImage map, blood;
-	private double stage;
+	private short step;
 
 	public DeathAnimation(BufferedImage currentMap) {
 		map = currentMap;
-		stage = 0;
+		step = 0;
 	}
 
 	public boolean move() {
-		stage += 0.01; // TODO fix
-		return stage >= 1;
+		step += GLOBAL.DEATH_ANIMATION_STEP;
+		return step >= GLOBAL.DEATH_ANIMATION_LENGTH;
 	}
 
 	public void paint(Graphics g, Dimension screenSize) {
 		g.drawImage(map, 0, 0, screenSize.width, screenSize.height, null);
 		g.setColor(Color.RED);
-		g.drawImage(getBlood(), 0, 0, (int) ((2 - stage) * screenSize.width), (int) (stage * screenSize.height * 5), null);
-		
+		g.drawImage(getBlood(), 0, 0, screenSize.width, step * screenSize.height / GLOBAL.DEATH_ANIMATION_LENGTH * 2, null);
 	}
 
 	private Image getBlood() {

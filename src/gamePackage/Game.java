@@ -37,9 +37,8 @@ public class Game {
 	private void move() {
 		switch (state) {
 		case NORMAL:
-			
 			map.move();
-			if (player.move(keyListener.getX(), keyListener.getY(), keyListener.getJump(), map.getMapSquares())) { // if changing map
+			if (player.move(keyListener.getX(), keyListener.getJump(), map.getMapSquares())) { // if changing map
 				Point mapChangeTo = player.getMapChangeTo();
 				if (map.checkValidMap(mapChangeTo)) {
 					
@@ -64,7 +63,7 @@ public class Game {
 				}
 			}
 			else {
-				player.addCoins(map.checkCoins(player.getX(), player.getY()));
+				player.addCoins(map.checkCoins(player.getPosition()));
 			}
 			
 			if (map.checkEnemy(player.getPosition())) {
@@ -147,5 +146,6 @@ public class Game {
 		this.screenSize = size;
 		width = (double)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
 		height = (double)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
+		player.setWindowSize(size);
 	}
 }

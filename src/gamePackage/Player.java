@@ -7,28 +7,35 @@ import java.awt.Point;
 
 public class Player {
 	
+	private Dimension size;
 	private Position position;
 	private Position velocity;
 	private Position lastPosition;
 	private Point mapChangeTo;
 	private int coins;
+	private short jumpWait;
+	private boolean jumpLanded;
 	
 	public Player() {
 		completeReset();
 	}
 	
-	public boolean move(int dx, int dy, boolean jump, MapSquare[][] mapSquares) {
-		
-		
-		velocity.addX(dx * GLOBAL.PLAYER_STEP);
-		velocity.addY(dy * GLOBAL.PLAYER_STEP);
-		velocity.addY(GLOBAL.PLAYER_STEP);
+	public boolean move(int dx, boolean jump, MapSquare[][] mapSquares) {
+		velocity.addXShort(dx * GLOBAL.PLAYER_STEP);
+		velocity.addYShort(GLOBAL.PLAYER_GRAV);
 		
 		if (jump) {
-			velocity.addY( -GLOBAL.PLAYER_JUMP); // TODO disable multi-jumping
+			if (jumpLanded) {
+				velocity.subtractYShort(GLOBAL.PLAYER_JUMP);
+				jumpLanded = false;
+			}
+			else if (jumpWait < GLOBAL.PLAYER_JUMP_WAIT) {
+				velocity.subtractYShort(GLOBAL.PLAYER_JUMP);
+				jumpWait++;
+			}
 		}
 		
-		velocity.Friction(0.9);
+		velocity.Friction(GLOBAL.PLAYER_FRICTION);
 		
 		Position newPosition = new Position(
 					position.getXShort() + velocity.getXShort(),
@@ -60,7 +67,7 @@ public class Player {
 		
 		return false;
 	}
-	
+
 	private void movePlayer(Position newPosition, MapSquare[][] mapSquares) {
 		boolean tryAgain = false;
 		
@@ -81,6 +88,10 @@ public class Player {
 		if (velocity.getXShort() < 0 || velocity.getYShort() > 0) {
 			if (mapSquares[newPosition.getX()][newPosition.getYMaxPlayer()].getWall()) {
 				if (mapSquares[position.getX()][newPosition.getYMaxPlayer()].getWall()) {
+					
+					jumpLanded = true;
+					jumpWait = 0;
+					
 					newPosition.setY(position);
 					velocity.setY(0);
 					tryAgain = true;
@@ -109,6 +120,10 @@ public class Player {
 		if (velocity.getXShort() > 0 || velocity.getYShort() > 0) {
 			if (mapSquares[newPosition.getXMaxPlayer()][newPosition.getYMaxPlayer()].getWall()) {
 				if (mapSquares[position.getXMaxPlayer()][newPosition.getYMaxPlayer()].getWall()) {
+					
+					jumpLanded = true;
+					jumpWait = 0;
+					
 					newPosition.setY(position);
 					velocity.setY(0);
 					tryAgain = true;
@@ -128,14 +143,6 @@ public class Player {
 		}
 	}
 	
-	public double getX() { // TODO get rid of this
-		return position.getXDouble();
-	}
-	
-	public double getY() {
-		return position.getYDouble();
-	}
-	
 	public Position getPosition() {
 		return position.clone();
 	}
@@ -148,31 +155,10 @@ public class Player {
 
 	public void paint(Graphics g, Dimension screenSize) {
 		g.setColor(Color.BLACK);
-		g.fillRect(
-				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.width / GLOBAL.MAP_SHORT_SIZE),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.height / GLOBAL.MAP_SHORT_SIZE));
+		
+		g.fillRect(position.getX(screenSize) + 1, position.getY(screenSize) + 1, size.width, size.height);
 		
 		g.drawString("Coins: " + coins, 0, screenSize.height - 4);
-		
-		
-		
-		g.drawString(position.getXShort() + "",
-				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 32);
-		
-		g.drawString(position.getYShort() + "", 
-				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 22);
-		
-		g.drawString(velocity.getXShort() + "",
-				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 12);
-		
-		g.drawString(velocity.getYShort() + "", 
-				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height) - 2);
 	}
 
 	public void changeMap(boolean isChanging) {
@@ -221,17 +207,23 @@ public class Player {
 	}
 
 	public void completeReset() {
+		jumpLanded = false;
+		jumpWait = 0;
 		coins = 0;
 		position = new Position();
 		velocity = new Position();
 		
-		
-		position.setX(GLOBAL.PLAYER_ORIGINAL_X);
-		position.setY(GLOBAL.PLAYER_ORIGINAL_Y);
+		position.setX(GLOBAL.PLAYER_ORIGINAL_POSITION.x);
+		position.setY(GLOBAL.PLAYER_ORIGINAL_POSITION.y);
 		lastPosition = new Position(position);
 		
 		mapChangeTo = new Point(0, 0);
-		
+	}
+
+	public void setWindowSize(Dimension screenSize) {
+		size = new Dimension(
+				screenSize.width * GLOBAL.PLAYER_SIZE / GLOBAL.MAP_SHORT_SIZE,
+				screenSize.height * GLOBAL.PLAYER_SIZE / GLOBAL.MAP_SHORT_SIZE);
 	}
 	
 }

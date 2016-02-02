@@ -7,11 +7,13 @@ import java.util.ArrayList;
 
 public class MapTile {
 	
-	private MapSquare[][] mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
-	ArrayList<Enemy> enemys = new ArrayList<>();
+	private MapSquare[][] mapSquares;
+	ArrayList<Enemy> enemys;
 	
 	
 	public MapTile(BufferedImage map) {
+		mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
+		enemys = new ArrayList<>();
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
 				mapSquares[i][j] = new MapSquare(map.getRGB(i, j));
@@ -23,16 +25,18 @@ public class MapTile {
 		}
 	}
 	
-	BufferedImage getImage(Dimension screenSize, double width, double height) {
+	public BufferedImage getImage(Dimension screenSize, double width, double height) {
 		BufferedImage image = new BufferedImage(screenSize.width, screenSize.height, BufferedImage.TYPE_INT_ARGB);
 		Graphics imageG = image.getGraphics();
 		MapSquare.paint(mapSquares, imageG, screenSize, width, height);
+		for (Enemy e: enemys) {
+			e.paint(imageG, width, height, screenSize);
+		}
 		imageG.dispose();
 		return image;
 	}
 	
 	public boolean checkEnemy(Position position) {
-		
 		for (Enemy e: enemys) {
 			if (e.checkEnemy(position)) {
 				return true;
@@ -41,25 +45,19 @@ public class MapTile {
 		return false;
 	}
 	
-	public int checkCoins(double x, double y) {
-		int numberOfCoins = 0;
-		if (mapSquares[(int) (x)][(int) (y)].isCoin()) {
-			mapSquares[(int) (x)][(int) (y)].setFloor();
-			numberOfCoins++;
+	public int checkCoins(Position position) {
+		return 	checkCoins(position.getX(), 		 position.getY()) +
+				checkCoins(position.getXMaxPlayer(), position.getY()) +
+				checkCoins(position.getX(), 		 position.getYMaxPlayer()) +
+				checkCoins(position.getXMaxPlayer(), position.getYMaxPlayer());
+	}
+	
+	private int checkCoins(int x, int y) {
+		if (mapSquares[x][y].isCoin()) {
+			mapSquares[x][y].setFloor();
+			return 1;
 		}
-		if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE_DOUBLE)][(int) (y)].isCoin()) {
-			mapSquares[(int) (x + GLOBAL.PLAYER_SIZE_DOUBLE)][(int) (y)].setFloor();
-			numberOfCoins++;
-		}
-		if (mapSquares[(int) (x)][(int) (y + GLOBAL.PLAYER_SIZE_DOUBLE)].isCoin()) {
-			mapSquares[(int) (x)][(int) (y + GLOBAL.PLAYER_SIZE_DOUBLE)].setFloor();
-			numberOfCoins++;
-		}
-		if (mapSquares[(int) (x + GLOBAL.PLAYER_SIZE_DOUBLE)][(int) (y + GLOBAL.PLAYER_SIZE_DOUBLE)].isCoin()) {
-			mapSquares[(int) (x + GLOBAL.PLAYER_SIZE_DOUBLE)][(int) (y + GLOBAL.PLAYER_SIZE_DOUBLE)].setFloor();
-			numberOfCoins++;
-		}
-		return numberOfCoins;
+		return 0;
 	}
 
 	public MapSquare[][] getMapSquares() {
@@ -68,9 +66,6 @@ public class MapTile {
 
 	public void paint(Graphics g, Dimension screenSize, double width, double height) {
 		g.drawImage(getImage(screenSize, width, height), 0, 0, null);
-		for (Enemy e: enemys) {
-			e.paint(g, width, height, screenSize);
-		}
 	}
 
 	public void move(MapSquare[][] mapSquares) {

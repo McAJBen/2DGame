@@ -19,9 +19,6 @@ public class Map {
 			map = ImageIO.read(getClass().getResource("/Map.png"));
 		} catch (IOException e) {}
 		
-		
-		
-		
 		currentMap = GLOBAL.MAP_START;
 		for (int i = 0; i < GLOBAL.MAP_SIZE.width; i++) {
 			for (int j = 0; j < GLOBAL.MAP_SIZE.height; j++) {
@@ -44,11 +41,7 @@ public class Map {
 	}
 	
 	public BufferedImage getCurrentMap(Dimension screenSize, double width, double height) {
-		BufferedImage curMap = new BufferedImage(screenSize.width, screenSize.height, BufferedImage.TYPE_INT_ARGB);
-		Graphics mapG = curMap.getGraphics();
-		paint(mapG, screenSize, width, height);
-		mapG.dispose();
-		return curMap;
+		return mapTile[currentMap.x][currentMap.y].getImage(screenSize, width, height);
 	}
 	
 	public BufferedImage getNextMap(Point mapChangeTo, Dimension screenSize, double width, double height) {
@@ -65,8 +58,8 @@ public class Map {
 		return mapTile[currentMap.x][currentMap.y].getMapSquares();
 	}
 
-	public int checkCoins(double x, double y) {
-		return mapTile[currentMap.x][currentMap.y].checkCoins(x, y);
+	public int checkCoins(Position position) {
+		return mapTile[currentMap.x][currentMap.y].checkCoins(position);
 	}
 
 	public void changeMap(Point mapChangeTo) {

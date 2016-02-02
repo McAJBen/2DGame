@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import gamePackage.GLOBAL;
+
 public class EndAnimation {
 	private double stage;
 
@@ -12,8 +14,8 @@ public class EndAnimation {
 	}
 
 	public boolean move() {
-		stage += 1; // TODO fix
-		return stage >= 10;
+		stage += GLOBAL.END_ANIMATION_STEP;
+		return stage >= GLOBAL.END_ANIMATION_LENGTH;
 	}
 
 	public void paint(Graphics g, Dimension screenSize) {
@@ -21,6 +23,5 @@ public class EndAnimation {
 		g.fillRect(0, 0, screenSize.width, screenSize.height);
 		g.setColor(Color.BLACK);
 		g.drawString("Congraturation", screenSize.width / 2, screenSize.height / 2);
-		
 	}
 }

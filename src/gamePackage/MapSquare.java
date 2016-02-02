@@ -10,12 +10,11 @@ public class MapSquare {
 	static final Color 
 				FLOOR_COLOR = new Color(195, 195, 195),
 				WALL_COLOR = new Color(239, 228, 176),
-				COIN_COLOR = new Color(255, 255, 0),
+				COIN_COLOR = new Color(255, 242, 0),
 				ENEMY_COLOR = new Color(237, 28, 36),
 				ENEMY_COLOR_DOWN = new Color(255, 127, 39),
 				ENEMY_WALL_COLOR = new Color(185, 122, 87);
 				
-	
 	static enum SquareType {
 		FLOOR, WALL, COIN, ENEMY, ENEMY_WALL
 	}
