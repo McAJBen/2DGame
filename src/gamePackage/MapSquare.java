@@ -99,16 +99,16 @@ public class MapSquare {
 	}
 
 	private void paintElectricity(Graphics g, int x, int y, int width, int height) {
-		
 		g.setColor(ELECTRICITY_COLOR);
-		for (int i = 0; i < 3; i++) {
-			g.drawLine(
-				x + (int)(width * rand.nextFloat()),
-				y + (int)(height * rand.nextFloat()),
-				x + (int)(width * rand.nextFloat()),
-				y + (int)(height * rand.nextFloat()));
+		int lastX = x + (int)(width * rand.nextFloat());
+		int lastY = y + (int)(height * rand.nextFloat());
+		for (int i = 0; i < 2; i++) {
+			int thisX = x + (int)(width * rand.nextFloat());
+			int thisY = y + (int)(height * rand.nextFloat());
+			g.drawLine( lastX, lastY, thisX, thisY);
+			lastX = thisX;
+			lastY = thisY;
 		}
-		
 	}
 
 	private Color getColor() {
