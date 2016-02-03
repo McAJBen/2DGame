@@ -73,65 +73,29 @@ public class Player {
 		boolean tryAgain = false;
 		
 		if (velocity.getXShort() < 0 || velocity.getYShort() < 0) {
-			if (mapSquares[newPosition.getX()][newPosition.getY()].getWallPlayer()) {
-				if (mapSquares[position.getX()][newPosition.getY()].getWallPlayer()) {
-					newPosition.setY(position);
-					velocity.setY(0);
+			if (checkCollide(newPosition.getX(), newPosition.getY(),
+				position.getX(), position.getY(), mapSquares, newPosition)) {
 					tryAgain = true;
-				}
-				if (mapSquares[newPosition.getX()][position.getY()].getWallPlayer()) {
-					newPosition.setX(position);
-					velocity.setX(0);
-					tryAgain = true;
-				}
 			}
 		}
 		if (velocity.getXShort() < 0 || velocity.getYShort() > 0) {
-			if (mapSquares[newPosition.getX()][newPosition.getYMaxPlayer()].getWallPlayer()) {
-				if (mapSquares[position.getX()][newPosition.getYMaxPlayer()].getWallPlayer()) {
-					
-					jumpsLeft = GLOBAL.PLAYER_JUMP_LIMIT;
-					
-					newPosition.setY(position);
-					velocity.setY(0);
+			if (checkCollide(newPosition.getX(), newPosition.getYMaxPlayer(),
+				position.getX(), position.getYMaxPlayer(), mapSquares, newPosition)) {
 					tryAgain = true;
-				}
-				if (mapSquares[newPosition.getX()][position.getYMaxPlayer()].getWallPlayer()) {
-					newPosition.setX(position);
-					velocity.setX(0);
-					tryAgain = true;
-				}
+					resetJump();
 			}
 		}
 		if (velocity.getXShort() > 0 || velocity.getYShort() < 0) {
-			if (mapSquares[newPosition.getXMaxPlayer()][newPosition.getY()].getWallPlayer()) {
-				if (mapSquares[position.getXMaxPlayer()][newPosition.getY()].getWallPlayer()) {
-					newPosition.setY(position);
-					velocity.setY(0);
+			if (checkCollide(newPosition.getXMaxPlayer(), newPosition.getY(),
+				position.getXMaxPlayer(), position.getY(), mapSquares, newPosition)) {
 					tryAgain = true;
-				}
-				if (mapSquares[newPosition.getXMaxPlayer()][position.getY()].getWallPlayer()) {
-					newPosition.setX(position);
-					velocity.setX(0);
-					tryAgain = true;
-				}
 			}
 		}
 		if (velocity.getXShort() > 0 || velocity.getYShort() > 0) {
-			if (mapSquares[newPosition.getXMaxPlayer()][newPosition.getYMaxPlayer()].getWallPlayer()) {
-				if (mapSquares[position.getXMaxPlayer()][newPosition.getYMaxPlayer()].getWallPlayer()) {
-					
-					jumpsLeft = GLOBAL.PLAYER_JUMP_LIMIT;
-					
-					newPosition.setY(position);
-					velocity.setY(0);
+			if (checkCollide(newPosition.getXMaxPlayer(), newPosition.getYMaxPlayer(),
+				position.getXMaxPlayer(), position.getYMaxPlayer(), mapSquares, newPosition)) {
 					tryAgain = true;
-				}
-				if (mapSquares[newPosition.getXMaxPlayer()][position.getYMaxPlayer()].getWallPlayer()) {
-					newPosition.setX(position);
-					velocity.setX(0);
-					tryAgain = true;
-				}
+					resetJump();
 			}
 		}
 		if (tryAgain) {
@@ -142,6 +106,28 @@ public class Player {
 		}
 	}
 	
+	private boolean checkCollide(int x, int y, int x2, int y2, MapSquare[][] mapSquares, Position newPosition) {
+		boolean tryAgain = false;
+		if (mapSquares[x][y].getWallPlayer()) {
+			if (mapSquares[x2][y].getWallPlayer()) {
+				newPosition.setY(position);
+				velocity.setY(0);
+				tryAgain = true;
+			}
+			if (mapSquares[x][y2].getWallPlayer()) {
+				newPosition.setX(position);
+				velocity.setX(0);
+				tryAgain = true;
+			}
+		}
+		
+		return tryAgain;
+	}
+
+	private void resetJump() {
+		jumpsLeft = GLOBAL.PLAYER_JUMP_LIMIT;
+	}
+
 	public void tinyJump() {
 		velocity.subtractYShort(GLOBAL.PLAYER_JUMP);
 	}
@@ -168,7 +154,7 @@ public class Player {
 		g.drawString("Coins: " + coins, GLOBAL.screenCoinPosition.x, GLOBAL.screenCoinPosition.y);
 	}
 
-	public void changeMap(boolean isChanging) { // TODO check map change position
+	public void changeMap(boolean isChanging) {
 		if (isChanging) {
 			if (position.getXShort() > GLOBAL.PLAYER_U_MAX) {
 				position.setX(0);
@@ -196,7 +182,6 @@ public class Player {
 			else if (position.getYShort() < 0) {
 				position.setY(0);
 			}
-			
 		}
 		lastPosition.set(position);
 	}
