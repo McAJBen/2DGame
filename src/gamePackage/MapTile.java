@@ -34,15 +34,22 @@ public class MapTile {
 		return image;
 	}
 	
-	public boolean checkEnemy(Position position) {
+	public boolean checkDeath(Position position) {
 		for (Enemy e: enemys) {
 			if (e.checkEnemy(position)) {
 				return true;
 			}
 		}
-		return false;
+		return 	checkDeath(position.getX(), 		 position.getY()) ||
+				checkDeath(position.getXMaxPlayer(), position.getY()) ||
+				checkDeath(position.getX(), 		 position.getYMaxPlayer()) ||
+				checkDeath(position.getXMaxPlayer(), position.getYMaxPlayer());
 	}
 	
+	private boolean checkDeath(int x, int y) {
+		return (mapSquares[x][y].isElectric());
+	}
+
 	public int checkCoins(Position position) {
 		return 	checkCoins(position.getX(), 		 position.getY()) +
 				checkCoins(position.getXMaxPlayer(), position.getY()) +

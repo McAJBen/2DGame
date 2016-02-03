@@ -65,8 +65,8 @@ public class Map {
 		currentMap.translate(mapChangeTo.x, mapChangeTo.y);
 	}
 
-	public boolean checkEnemy(Position position) {
-		return getCurrentMap().checkEnemy(position);
+	public boolean checkDeath(Position position) {
+		return getCurrentMap().checkDeath(position);
 	}
 
 	public void move() {

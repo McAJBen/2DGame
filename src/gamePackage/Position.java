@@ -153,11 +153,11 @@ public class Position {
 	}
 	
 	public int getXScreen() {
-		return (int) (x * GLOBAL.screenShortWidth) + 1;
+		return (int) (x * GLOBAL.screenShortWidth);
 	}
 	
 	public int getYScreen() {
-		return (int) (y * GLOBAL.screenShortHeight) + 1;
+		return (int) (y * GLOBAL.screenShortHeight);
 	}
 
 	public boolean within(short mapPixelSize) {

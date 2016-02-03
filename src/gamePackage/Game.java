@@ -64,7 +64,7 @@ public class Game {
 				player.jump();
 			}
 			
-			if (map.checkEnemy(player.getPosition())) {
+			if (map.checkDeath(player.getPosition())) {
 				player.kill();
 				keyListener.reset();
 				
@@ -72,7 +72,7 @@ public class Game {
 						map.getCurrentMapImage());
 				state = State.DEATH;
 			}
-			if (player.getCoins() >= 50) {
+			if (player.getCoins() >= GLOBAL.MAX_COINS) {
 				endAnimation = new EndAnimation();
 				state = State.END;
 				player.completeReset();

@@ -42,6 +42,8 @@ public final class GLOBAL {
 	public static final long FRAME_WAIT_MS = 20; // 20ms between frames FPS = 50
 	public static final long MOVE_WAIT_MS = 10; // 10ms between moves 100/second
 	
+	public static final int MAX_COINS = 50;
+	
 	public static Dimension screenSize;
 	public static Dimension playerScreenSize;
 	
@@ -57,8 +59,8 @@ public final class GLOBAL {
 		screenShortWidth = (float)screenSize.width / GLOBAL.MAP_SHORT_SIZE;
 		screenShortHeight = (float)screenSize.height / GLOBAL.MAP_SHORT_SIZE;
 		playerScreenSize = new Dimension(
-				screenSize.width * GLOBAL.PLAYER_SIZE / GLOBAL.MAP_SHORT_SIZE,
-				screenSize.height * GLOBAL.PLAYER_SIZE / GLOBAL.MAP_SHORT_SIZE);
+				screenSize.width * GLOBAL.PLAYER_SIZE / GLOBAL.MAP_SHORT_SIZE + 1,
+				screenSize.height * GLOBAL.PLAYER_SIZE / GLOBAL.MAP_SHORT_SIZE + 1);
 		pixelWidth = (float)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
 		pixelHeight = (float)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
 		screenCoinPosition = new Point(0, screenSize.height);

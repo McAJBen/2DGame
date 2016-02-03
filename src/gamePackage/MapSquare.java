@@ -1,11 +1,12 @@
 package gamePackage;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
+import java.util.Random;
 
 public class MapSquare {
+	
+	private static Random rand = new Random();
 	
 	static final Color 
 				FLOOR_COLOR = new Color(195, 195, 195),
@@ -15,10 +16,12 @@ public class MapSquare {
 				ENEMY_COLOR_DOWN = new Color(136, 0, 21),
 				ENEMY_WALL_COLOR = new Color(127, 127, 127),
 				PLAYER_WALL_COLOR = new Color(255, 127, 39),
-				JUMP_WALL_COLOR = new Color(255, 174, 201);
+				JUMP_WALL_COLOR = new Color(255, 174, 201),
+				ELECTRIC_WALL_COLOR = new Color(153, 217, 234),
+				ELECTRICITY_COLOR = new Color(0, 162, 232);
 				
-	static enum SquareType {
-		FLOOR, WALL, COIN, ENEMY, ENEMY_WALL, PLAYER_WALL, JUMP_WALL
+	private static enum SquareType {
+		FLOOR, WALL, COIN, ENEMY, ENEMY_WALL, PLAYER_WALL, JUMP_WALL, ELECTRIC_WALL
 	}
 	
 	private SquareType squareType;
@@ -47,46 +50,70 @@ public class MapSquare {
 		else if (pixelColor.equals(JUMP_WALL_COLOR)) {
 			squareType = SquareType.JUMP_WALL;
 		}
+		else if (pixelColor.equals(ELECTRIC_WALL_COLOR)) {
+			squareType = SquareType.ELECTRIC_WALL;
+		}
 		else {
 			squareType = SquareType.FLOOR;
 		}
 	}
 
 	public static void paint(MapSquare[][] mapSquares, Graphics g) {
-		
 		g.setColor(FLOOR_COLOR);
 		g.fillRect(0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height);
-		Dimension squareSize = new Dimension((int)GLOBAL.pixelWidth, (int)GLOBAL.pixelHeight);
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
+			int px = (int)(GLOBAL.pixelWidth * i);
+			int width = (int)(GLOBAL.pixelWidth * (i + 1) - px);
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
-				mapSquares[i][j].paint(g, new Point((int)(GLOBAL.pixelWidth * i), (int)(GLOBAL.pixelHeight * j)), squareSize);
+				int py = (int)(GLOBAL.pixelHeight * j);
+				int height = (int)(GLOBAL.pixelHeight * (j + 1) - py);
+				mapSquares[i][j].paint(g, px, py, width, height);
 			}
 		}
 	}
 
-	private void paint(Graphics g, Point position, Dimension thisSquareSize) {
+	private void paint(Graphics g, int x, int y, int width, int height) {
 		g.setColor(getColor());
 		switch (getType()) {
 		case COIN:
-			g.fillOval(
-					position.x, position.y,
-				thisSquareSize.width, thisSquareSize.height);
+			g.fillOval(x, y,
+				width, height);
 			break;
 		case WALL:
 		case ENEMY:
 		case ENEMY_WALL:
 		case PLAYER_WALL:
 		case JUMP_WALL:
-			g.fillRect(
-					position.x, position.y,
-				thisSquareSize.width + 1, thisSquareSize.height + 1);
+			g.fillRect(x, y,
+				width, height);
 			break;
+		case ELECTRIC_WALL:
+			g.fillRect(
+					x, y,
+				width, height);
+			paintElectricity(g, x, y, width, height);
+			
+			
 		case FLOOR:
 		}
 	}
 
+	private void paintElectricity(Graphics g, int x, int y, int width, int height) {
+		
+		g.setColor(ELECTRICITY_COLOR);
+		for (int i = 0; i < 3; i++) {
+			g.drawLine(
+				x + (int)(width * rand.nextFloat()),
+				y + (int)(height * rand.nextFloat()),
+				x + (int)(width * rand.nextFloat()),
+				y + (int)(height * rand.nextFloat()));
+		}
+		
+	}
+
 	private Color getColor() {
 		switch (squareType) {
+		default:
 		case FLOOR:
 			return FLOOR_COLOR;
 		case WALL:
@@ -101,8 +128,9 @@ public class MapSquare {
 			return PLAYER_WALL_COLOR;
 		case JUMP_WALL:
 			return JUMP_WALL_COLOR;
-		default:
-			return null;
+		case ELECTRIC_WALL:
+			return ELECTRIC_WALL_COLOR;
+		
 		}
 	}
 
@@ -113,6 +141,7 @@ public class MapSquare {
 		case ENEMY:
 		case PLAYER_WALL:
 		case JUMP_WALL:
+		case ELECTRIC_WALL:
 			return false;
 			
 		case ENEMY_WALL:
@@ -130,6 +159,7 @@ public class MapSquare {
 		case ENEMY:	
 		case ENEMY_WALL:
 		case JUMP_WALL:
+		case ELECTRIC_WALL:
 			return false;
 		
 		case WALL:
@@ -156,7 +186,13 @@ public class MapSquare {
 		return squareType == SquareType.ENEMY;
 	}
 	
+	public boolean isElectric() {
+		return squareType == SquareType.ELECTRIC_WALL;
+	}
+	
 	public boolean isJumpWall() {
 		return squareType == SquareType.JUMP_WALL;
 	}
+
+	
 }
