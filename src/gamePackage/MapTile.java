@@ -8,15 +8,21 @@ public class MapTile {
 	
 	private MapSquare[][] mapSquares;
 	ArrayList<Enemy> enemys;
+	ArrayList<JumpSquare> jumpSquares;
 	
 	public MapTile(BufferedImage map) {
 		mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
 		enemys = new ArrayList<>();
+		jumpSquares = new ArrayList<>();
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
 				mapSquares[i][j] = new MapSquare(map.getRGB(i, j));
 				if (mapSquares[i][j].isEnemy()) {
 					enemys.add(new Enemy(i, j, map.getRGB(i, j)));
+					mapSquares[i][j].setFloor();
+				}
+				else if (mapSquares[i][j].isJumpSquare()) {
+					jumpSquares.add(new JumpSquare(i, j));
 					mapSquares[i][j].setFloor();
 				}
 			}
@@ -30,20 +36,26 @@ public class MapTile {
 		for (Enemy e: enemys) {
 			e.paint(imageG);
 		}
+		for (JumpSquare js: jumpSquares) {
+			js.paint(imageG);
+		}
 		imageG.dispose();
 		return image;
 	}
 	
 	public boolean checkDeath(Position position) {
+		if (checkDeath(position.getX(), 		 position.getY()) ||
+			checkDeath(position.getXMaxPlayer(), position.getY()) ||
+			checkDeath(position.getX(), 		 position.getYMaxPlayer()) ||
+			checkDeath(position.getXMaxPlayer(), position.getYMaxPlayer())) {
+				return true;
+		}
 		for (Enemy e: enemys) {
 			if (e.checkEnemy(position)) {
 				return true;
 			}
 		}
-		return 	checkDeath(position.getX(), 		 position.getY()) ||
-				checkDeath(position.getXMaxPlayer(), position.getY()) ||
-				checkDeath(position.getX(), 		 position.getYMaxPlayer()) ||
-				checkDeath(position.getXMaxPlayer(), position.getYMaxPlayer());
+		return false;
 	}
 	
 	private boolean checkDeath(int x, int y) {
@@ -78,16 +90,17 @@ public class MapTile {
 		for (Enemy e: enemys) {
 			e.move(mapSquares);
 		}
+		for (JumpSquare js: jumpSquares) {
+			js.move();
+		}
 	}
 	
-	public boolean checkJumpWall(Position position) {
-		return 	checkJumpWall(position.getX(), 		 position.getY()) ||
-				checkJumpWall(position.getXMaxPlayer(), position.getY()) ||
-				checkJumpWall(position.getX(), 		 position.getYMaxPlayer()) ||
-				checkJumpWall(position.getXMaxPlayer(), position.getYMaxPlayer());
-	}
-	
-	private boolean checkJumpWall(int x, int y) {
-		return mapSquares[x][y].isJumpWall();
+	public boolean checkJumpSquare(Position position) {
+		for (JumpSquare js: jumpSquares) {
+			if (js.checkJumpSquare(position)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

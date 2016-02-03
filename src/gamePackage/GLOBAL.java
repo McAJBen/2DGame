@@ -9,7 +9,7 @@ public final class GLOBAL {
 	public static final Dimension SCREEN_OFFSET = new Dimension(17, 40);
 	public static final Dimension MAP_SIZE = new Dimension(7, 5);
 	
-	public static final Point MAP_START = new Point(0, 0);
+	public static final Point MAP_START = new Point(3, 1);
 	
 	public static final short MAP_PIXEL_SIZE = 50;
 	public static final short U_MULTIPLIER = 100;
@@ -40,6 +40,9 @@ public final class GLOBAL {
 	
 	public static final long FRAME_WAIT_MS = 10; // 20ms between frames FPS = 50
 	public static final long MOVE_WAIT_MS = 10; // 10ms between moves 100/second
+	
+	public static final short MAX_BUBBLE_RADIUS = 20;
+	public static final short MAX_BUBBLE_DIAM = MAX_BUBBLE_RADIUS * 2;
 	
 	public static final int MAX_COINS = 50;
 	

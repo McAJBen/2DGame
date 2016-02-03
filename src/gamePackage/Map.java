@@ -81,7 +81,7 @@ public class Map {
 		return mapTile[currentMap.x][currentMap.y];
 	}
 
-	public boolean checkJumpWall(Position position) {
-		return getCurrentMap().checkJumpWall(position);
+	public boolean checkJumpSquare(Position position) {
+		return getCurrentMap().checkJumpSquare(position);
 	}
 }

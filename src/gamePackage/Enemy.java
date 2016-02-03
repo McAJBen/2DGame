@@ -7,8 +7,8 @@ import gamePackage.GLOBAL.Direction;
 
 public class Enemy {
 	
-	Position position;
-	Direction direction;
+	private Position position;
+	private Direction direction;
 	
 	private static int stepX;
 	private static int stepY;

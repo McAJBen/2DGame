@@ -33,7 +33,7 @@ public class Game {
 		switch (state) {
 		case NORMAL:
 			map.move();
-			if (map.checkJumpWall(player.getPosition())) {
+			if (map.checkJumpSquare(player.getPosition())) {
 				player.tinyJump();
 			}
 			if (player.move(keyListener.getX(), keyListener.getJump(), map.getMapSquares())) { // if changing map

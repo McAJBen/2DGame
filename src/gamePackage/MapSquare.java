@@ -16,12 +16,12 @@ public class MapSquare {
 				ENEMY_COLOR_DOWN = new Color(136, 0, 21),
 				ENEMY_WALL_COLOR = new Color(127, 127, 127),
 				PLAYER_WALL_COLOR = new Color(255, 127, 39),
-				JUMP_WALL_COLOR = new Color(255, 174, 201),
+				JUMP_SQUARE_COLOR = new Color(255, 174, 201),
 				ELECTRIC_WALL_COLOR = new Color(153, 217, 234),
 				ELECTRICITY_COLOR = new Color(0, 162, 232);
 				
 	private static enum SquareType {
-		FLOOR, WALL, COIN, ENEMY, ENEMY_WALL, PLAYER_WALL, JUMP_WALL, ELECTRIC_WALL
+		FLOOR, WALL, COIN, ENEMY, ENEMY_WALL, PLAYER_WALL, JUMP_SQUARE, ELECTRIC_WALL
 	}
 	
 	private SquareType squareType;
@@ -47,8 +47,8 @@ public class MapSquare {
 		else if (pixelColor.equals(PLAYER_WALL_COLOR)) {
 			squareType = SquareType.PLAYER_WALL;
 		}
-		else if (pixelColor.equals(JUMP_WALL_COLOR)) {
-			squareType = SquareType.JUMP_WALL;
+		else if (pixelColor.equals(JUMP_SQUARE_COLOR)) {
+			squareType = SquareType.JUMP_SQUARE;
 		}
 		else if (pixelColor.equals(ELECTRIC_WALL_COLOR)) {
 			squareType = SquareType.ELECTRIC_WALL;
@@ -76,14 +76,14 @@ public class MapSquare {
 		g.setColor(getColor());
 		switch (getType()) {
 		case COIN:
+		case ENEMY:
 			g.fillOval(x, y,
 				width, height);
 			break;
 		case WALL:
-		case ENEMY:
 		case ENEMY_WALL:
 		case PLAYER_WALL:
-		case JUMP_WALL:
+		case JUMP_SQUARE:
 			g.fillRect(x, y,
 				width, height);
 			break;
@@ -92,8 +92,6 @@ public class MapSquare {
 					x, y,
 				width, height);
 			paintElectricity(g, x, y, width, height);
-			
-			
 		case FLOOR:
 		}
 	}
@@ -126,11 +124,10 @@ public class MapSquare {
 			return ENEMY_WALL_COLOR;
 		case PLAYER_WALL:
 			return PLAYER_WALL_COLOR;
-		case JUMP_WALL:
-			return JUMP_WALL_COLOR;
+		case JUMP_SQUARE:
+			return JUMP_SQUARE_COLOR;
 		case ELECTRIC_WALL:
 			return ELECTRIC_WALL_COLOR;
-		
 		}
 	}
 
@@ -140,13 +137,12 @@ public class MapSquare {
 		case COIN:
 		case ENEMY:
 		case PLAYER_WALL:
-		case JUMP_WALL:
+		case JUMP_SQUARE:
 		case ELECTRIC_WALL:
 			return false;
 			
 		case ENEMY_WALL:
 		case WALL:
-		
 		default:
 			return true;
 		}
@@ -158,14 +154,12 @@ public class MapSquare {
 		case COIN:
 		case ENEMY:	
 		case ENEMY_WALL:
-		case JUMP_WALL:
 		case ELECTRIC_WALL:
 			return false;
-		
+		default:
 		case WALL:
 		case PLAYER_WALL:
-		
-		default:
+		case JUMP_SQUARE:
 			return true;
 		}
 	}
@@ -190,8 +184,8 @@ public class MapSquare {
 		return squareType == SquareType.ELECTRIC_WALL;
 	}
 	
-	public boolean isJumpWall() {
-		return squareType == SquareType.JUMP_WALL;
+	public boolean isJumpSquare() {
+		return squareType == SquareType.JUMP_SQUARE;
 	}
 
 	
