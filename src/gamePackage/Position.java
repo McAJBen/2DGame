@@ -1,7 +1,5 @@
 package gamePackage;
 
-import java.awt.Dimension;
-
 public class Position {
 	
 	
@@ -154,12 +152,12 @@ public class Position {
 		return getMax(y, GLOBAL.SHORT_MULTIPLIER - 1);
 	}
 	
-	public int getX(Dimension screenSize) {
-		return x * screenSize.width / GLOBAL.MAP_SHORT_SIZE;
+	public int getXScreen() {
+		return (int) (x * GLOBAL.screenShortWidth) + 1;
 	}
 	
-	public int getY(Dimension screenSize) {
-		return y * screenSize.height / GLOBAL.MAP_SHORT_SIZE;
+	public int getYScreen() {
+		return (int) (y * GLOBAL.screenShortHeight) + 1;
 	}
 
 	public boolean within(short mapPixelSize) {

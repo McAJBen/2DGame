@@ -17,7 +17,6 @@ public class MainJPanel extends JPanel {
 	
 	public MainJPanel() {
 		game = new Game();
-		game.changeWindowSize(getSize());
 		
 	}
 
@@ -30,15 +29,12 @@ public class MainJPanel extends JPanel {
         frame.addComponentListener(new ComponentListener() {
         	boolean fullscreen = sh.getSettingBoolean("FULLSCREEN");
             public void componentResized(ComponentEvent e) {
-            	if (fullscreen) {
-            		imageEvolutionJPanel.game.changeWindowSize(frame.getSize());
-                }
-            	else {
-            		Dimension size = frame.getSize();
+            	Dimension size = frame.getSize();
+            	if (!fullscreen) {
 	            	size.width -= GLOBAL.SCREEN_OFFSET.width;
 	            	size.height -= GLOBAL.SCREEN_OFFSET.height;
-	                imageEvolutionJPanel.game.changeWindowSize(size);   
             	}
+            	GLOBAL.setWindowSize(size);
             }
 			public void componentHidden(ComponentEvent arg0) {}
 			public void componentMoved(ComponentEvent arg0) {}

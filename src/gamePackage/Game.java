@@ -1,6 +1,5 @@
 package gamePackage;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyListener;
@@ -10,10 +9,6 @@ import animationPackage.EndAnimation;
 import animationPackage.MapChangeAnimation;
 
 public class Game {
-	
-	private Dimension screenSize;
-	private double width;
-	private double height;
 	
 	private GameKeyboardListener keyListener = new GameKeyboardListener();
 	
@@ -44,8 +39,8 @@ public class Game {
 					
 					mapChangeAnimation = new MapChangeAnimation(
 							mapChangeTo,
-							map.getCurrentMap(screenSize, width, height),
-							map.getNextMap(mapChangeTo, screenSize, width, height),
+							map.getCurrentMapImage(),
+							map.getNextMap(mapChangeTo),
 							player.getPosition());
 					
 					state = State.CHANGING_MAP;
@@ -65,13 +60,16 @@ public class Game {
 			else {
 				player.addCoins(map.checkCoins(player.getPosition()));
 			}
+			if (map.checkJumpWall(player.getPosition())) {
+				player.jump();
+			}
 			
 			if (map.checkEnemy(player.getPosition())) {
 				player.kill();
 				keyListener.reset();
 				
 				deathAnimation = new DeathAnimation(
-						map.getCurrentMap(screenSize, width, height));
+						map.getCurrentMapImage());
 				state = State.DEATH;
 			}
 			if (player.getCoins() >= 50) {
@@ -103,18 +101,17 @@ public class Game {
 	public void paint(Graphics g) {
 		switch (state) {
 		case NORMAL:
-			map.paint(g, screenSize, width, height);
-			player.paint(g, screenSize);
-			
+			map.paint(g);
+			player.paint(g);
 			break;
 		case CHANGING_MAP:
-			mapChangeAnimation.paint(g, screenSize);
+			mapChangeAnimation.paint(g);
 			break;
 		case DEATH:
-			deathAnimation.paint(g, screenSize);
+			deathAnimation.paint(g);
 			break;
 		case END:
-			endAnimation.paint(g, screenSize);
+			endAnimation.paint(g);
 			break;
 		}
 	}
@@ -140,12 +137,5 @@ public class Game {
 	
 	public KeyListener getKeyListener() {
 		return keyListener;
-	}
-
-	public void changeWindowSize(Dimension size) {
-		this.screenSize = size;
-		width = (double)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
-		height = (double)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
-		player.setWindowSize(size);
 	}
 }

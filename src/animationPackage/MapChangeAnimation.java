@@ -1,10 +1,8 @@
 package animationPackage;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-
 import gamePackage.GLOBAL;
 import gamePackage.Position;
 import gamePackage.GLOBAL.Direction;
@@ -16,10 +14,6 @@ public class MapChangeAnimation {
 	private Position position;
 	
 	private int step;
-	
-	
-	
-	
 	
 	public MapChangeAnimation(Point newMap, BufferedImage oldImg, BufferedImage newImg, Position position) {
 		if (newMap.x > 0) {
@@ -59,43 +53,35 @@ public class MapChangeAnimation {
 		return step >= GLOBAL.MAP_SHORT_SIZE;
 	}
 
-	public void paint(Graphics g, Dimension screenSize) {
+	public void paint(Graphics g) {
 		
 		switch (direction) {
 		case RIGHT:
-			paintImages(g, screenSize, -step, 0, GLOBAL.MAP_SHORT_SIZE - step, 0);
+			paintImages(g, -step, 0, GLOBAL.MAP_SHORT_SIZE - step, 0);
 			break;
 		case LEFT:
-			paintImages(g, screenSize, step, 0, step - GLOBAL.MAP_SHORT_SIZE, 0);
+			paintImages(g, step, 0, step - GLOBAL.MAP_SHORT_SIZE, 0);
 			break;
 		case DOWN:
-			paintImages(g, screenSize, 0, -step, 0, GLOBAL.MAP_SHORT_SIZE - step);
+			paintImages(g, 0, -step, 0, GLOBAL.MAP_SHORT_SIZE - step);
 			break;
 		case UP:
-			paintImages(g, screenSize, 0, step, 0, step - GLOBAL.MAP_SHORT_SIZE);
+			paintImages(g, 0, step, 0, step - GLOBAL.MAP_SHORT_SIZE);
 			break;
 		}
 	}
 	
-	private void paintImages(Graphics g, Dimension screenSize, int ox, int oy, int nx, int ny) {
-		
+	private void paintImages(Graphics g, int ox, int oy, int nx, int ny) {
 		g.drawImage(oldImg,
-				ox * screenSize.width / GLOBAL.MAP_SHORT_SIZE,
-				oy * screenSize.height / GLOBAL.MAP_SHORT_SIZE,
-				screenSize.width, screenSize.height, null);
+				(int)(ox * GLOBAL.screenShortWidth),
+				(int) (oy * GLOBAL.screenShortHeight),
+				GLOBAL.screenSize.width, GLOBAL.screenSize.height, null);
 		
 		g.drawImage(newImg,
-				nx * screenSize.width / GLOBAL.MAP_SHORT_SIZE,
-				ny * screenSize.height / GLOBAL.MAP_SHORT_SIZE,
-				screenSize.width, screenSize.height, null);
+				(int)(nx * GLOBAL.screenShortWidth),
+				(int) (ny * GLOBAL.screenShortHeight),
+				GLOBAL.screenSize.width, GLOBAL.screenSize.height, null);
 		
-		/*g.fillRect( // TODO fix
-				(int)(position.getXDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.width),
-				(int)(position.getYDouble() / GLOBAL.MAP_PIXEL_SIZE * screenSize.height),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.width / GLOBAL.MAP_SHORT_SIZE),
-				(int)(GLOBAL.PLAYER_SIZE * screenSize.height / GLOBAL.MAP_SHORT_SIZE));*/
+		g.fillRect(position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 	}
-	
-	
-	
 }

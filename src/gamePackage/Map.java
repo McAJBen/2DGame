@@ -1,6 +1,5 @@
 package gamePackage;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
@@ -32,20 +31,20 @@ public class Map {
 		}
 	}
 
-	public void paint(Graphics g, Dimension screenSize, double width, double height) {
-		mapTile[currentMap.x][currentMap.y].paint(g, screenSize, width, height);
+	public void paint(Graphics g) {
+		getCurrentMap().paint(g);
 	}
 
 	public Point getCurrentMapPoint() {
 		return currentMap;
 	}
 	
-	public BufferedImage getCurrentMap(Dimension screenSize, double width, double height) {
-		return mapTile[currentMap.x][currentMap.y].getImage(screenSize, width, height);
+	public BufferedImage getCurrentMapImage() {
+		return getCurrentMap().getImage();
 	}
 	
-	public BufferedImage getNextMap(Point mapChangeTo, Dimension screenSize, double width, double height) {
-		return mapTile[mapChangeTo.x + currentMap.x][mapChangeTo.y + currentMap.y].getImage(screenSize, width, height);
+	public BufferedImage getNextMap(Point mapChangeTo) {
+		return mapTile[mapChangeTo.x + currentMap.x][mapChangeTo.y + currentMap.y].getImage();
 	}
 
 	public boolean checkValidMap(Point mapChangeTo) {
@@ -55,11 +54,11 @@ public class Map {
 	}
 
 	public MapSquare[][] getMapSquares() {
-		return mapTile[currentMap.x][currentMap.y].getMapSquares();
+		return getCurrentMap().getMapSquares();
 	}
 
 	public int checkCoins(Position position) {
-		return mapTile[currentMap.x][currentMap.y].checkCoins(position);
+		return getCurrentMap().checkCoins(position);
 	}
 
 	public void changeMap(Point mapChangeTo) {
@@ -67,11 +66,11 @@ public class Map {
 	}
 
 	public boolean checkEnemy(Position position) {
-		return mapTile[currentMap.x][currentMap.y].checkEnemy(position);
+		return getCurrentMap().checkEnemy(position);
 	}
 
 	public void move() {
-		mapTile[currentMap.x][currentMap.y].move(getMapSquares());
+		getCurrentMap().move(getMapSquares());
 	}
 
 	public void completeReset() {
@@ -84,5 +83,13 @@ public class Map {
 	    		} catch (IOException e) {}
 			}
 		}
+	}
+	
+	private MapTile getCurrentMap() {
+		return mapTile[currentMap.x][currentMap.y];
+	}
+
+	public boolean checkJumpWall(Position position) {
+		return getCurrentMap().checkJumpWall(position);
 	}
 }

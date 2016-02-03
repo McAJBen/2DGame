@@ -1,7 +1,6 @@
 package animationPackage;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,8 @@ import gamePackage.GLOBAL;
 
 public class DeathAnimation {
 	
-	private BufferedImage map, blood;
+	private BufferedImage map;
+	private static BufferedImage blood;
 	private short step;
 
 	public DeathAnimation(BufferedImage currentMap) {
@@ -26,10 +26,10 @@ public class DeathAnimation {
 		return step >= GLOBAL.DEATH_ANIMATION_LENGTH;
 	}
 
-	public void paint(Graphics g, Dimension screenSize) {
-		g.drawImage(map, 0, 0, screenSize.width, screenSize.height, null);
+	public void paint(Graphics g) {
+		g.drawImage(map, 0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height, null);
 		g.setColor(Color.RED);
-		g.drawImage(getBlood(), 0, 0, screenSize.width, step * screenSize.height / GLOBAL.DEATH_ANIMATION_LENGTH * 2, null);
+		g.drawImage(getBlood(), 0, 0, GLOBAL.screenSize.width, (int) (step * GLOBAL.screenShortHeight), null);
 	}
 
 	private Image getBlood() {

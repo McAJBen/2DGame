@@ -1,7 +1,6 @@
 package gamePackage;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 
 import gamePackage.GLOBAL.Direction;
@@ -87,8 +86,8 @@ public class Enemy {
 				position.getYShort() < py && py < position.getYMaxShort();
 	}
 
-	public void paint(Graphics g, double width, double height, Dimension screenSize) {
+	public void paint(Graphics g) {
 		g.setColor(Color.RED);
-		g.fillOval(position.getX(screenSize), position.getY(screenSize), (int)width, (int)height);
+		g.fillOval(position.getXScreen(), position.getYScreen(), (int)GLOBAL.pixelWidth, (int)GLOBAL.pixelHeight);
 	}
 }

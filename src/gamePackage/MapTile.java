@@ -1,6 +1,5 @@
 package gamePackage;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ public class MapTile {
 	
 	private MapSquare[][] mapSquares;
 	ArrayList<Enemy> enemys;
-	
 	
 	public MapTile(BufferedImage map) {
 		mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
@@ -25,12 +23,12 @@ public class MapTile {
 		}
 	}
 	
-	public BufferedImage getImage(Dimension screenSize, double width, double height) {
-		BufferedImage image = new BufferedImage(screenSize.width, screenSize.height, BufferedImage.TYPE_INT_ARGB);
+	public BufferedImage getImage() {
+		BufferedImage image = new BufferedImage(GLOBAL.screenSize.width, GLOBAL.screenSize.height, BufferedImage.TYPE_INT_ARGB);
 		Graphics imageG = image.getGraphics();
-		MapSquare.paint(mapSquares, imageG, screenSize, width, height);
+		MapSquare.paint(mapSquares, imageG);
 		for (Enemy e: enemys) {
-			e.paint(imageG, width, height, screenSize);
+			e.paint(imageG);
 		}
 		imageG.dispose();
 		return image;
@@ -64,13 +62,24 @@ public class MapTile {
 		return mapSquares;
 	}
 
-	public void paint(Graphics g, Dimension screenSize, double width, double height) {
-		g.drawImage(getImage(screenSize, width, height), 0, 0, null);
+	public void paint(Graphics g) {
+		g.drawImage(getImage(), 0, 0, null);
 	}
 
 	public void move(MapSquare[][] mapSquares) {
 		for (Enemy e: enemys) {
 			e.move(mapSquares);
 		}
+	}
+	
+	public boolean checkJumpWall(Position position) {
+		return 	checkJumpWall(position.getX(), 		 position.getY()) ||
+				checkJumpWall(position.getXMaxPlayer(), position.getY()) ||
+				checkJumpWall(position.getX(), 		 position.getYMaxPlayer()) ||
+				checkJumpWall(position.getXMaxPlayer(), position.getYMaxPlayer());
+	}
+	
+	private boolean checkJumpWall(int x, int y) {
+		return mapSquares[x][y].isJumpWall();
 	}
 }

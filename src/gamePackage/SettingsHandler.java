@@ -79,7 +79,7 @@ public class SettingsHandler {
 		for (int i = 0; i < settings.length; i++) {
 			settingsString = settingsString.concat(settings[i].getID() + IDENTIFIER_SYMBOL + settings[i].getValue() + "\n");
 		}
-		try {
+		/*try {
 			File settingsFile = new File(
 					System.getProperty("user.dir") + FILE_NAME);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(settingsFile));
@@ -87,7 +87,7 @@ public class SettingsHandler {
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public boolean getSettingBoolean(String id) {
