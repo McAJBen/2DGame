@@ -20,8 +20,11 @@ public final class GLOBAL {
 	public static final short PLAYER_GRAV = 1;
 	public static final short PLAYER_SIZE = 60;
 	public static final short PLAYER_SHORT_MAX = MAP_SHORT_SIZE - PLAYER_SIZE - 1;
-	public static final short PLAYER_JUMP = 4;
-	public static final short PLAYER_JUMP_WAIT = 10;
+	public static final byte PLAYER_JUMP = 6;
+	public static final byte PLAYER_SECOND_JUMP = 7;
+	public static final byte PLYER_TINY_JUMP = 3;
+	public static final byte PLAYER_JUMP_WAIT = 10;
+	public static final byte PLAYER_JUMP_LIMIT = 2;
 	public static final double PLAYER_FRICTION = 0.90;
 	
 	public static final short ENEMY_STEP = 10;

@@ -11,8 +11,8 @@ public class Player {
 	private Position lastPosition;
 	private Point mapChangeTo;
 	private int coins;
-	private short jumpWait;
-	private boolean jumpLanded;
+	private byte jumpWait;
+	private byte jumpsLeft;
 	
 	public Player() {
 		completeReset();
@@ -22,16 +22,29 @@ public class Player {
 		velocity.addXShort(dx * GLOBAL.PLAYER_STEP);
 		velocity.addYShort(GLOBAL.PLAYER_GRAV);
 		
+		
 		if (jump) {
-			if (jumpLanded) {
-				jump();
-				jumpLanded = false;
+			if (jumpWait == GLOBAL.PLAYER_JUMP_WAIT) {
+				if (jumpsLeft < GLOBAL.PLAYER_JUMP_LIMIT) {
+					secondJump();
+				}
+				else {
+					jump();
+				}
 			}
-			else if (jumpWait < GLOBAL.PLAYER_JUMP_WAIT) {
-				jump();
-				jumpWait++;
+			
+			else if (jumpWait > 0) {
+				tinyJump();
+			}
+			if (jumpWait > 0) {
+				jumpWait--;
 			}
 		}
+		else if (jumpsLeft > 0) {
+			jumpsLeft--;
+			jumpWait = GLOBAL.PLAYER_JUMP_WAIT;
+		}
+		
 		
 		velocity.Friction(GLOBAL.PLAYER_FRICTION);
 		
@@ -87,8 +100,7 @@ public class Player {
 			if (mapSquares[newPosition.getX()][newPosition.getYMaxPlayer()].getWallPlayer()) {
 				if (mapSquares[position.getX()][newPosition.getYMaxPlayer()].getWallPlayer()) {
 					
-					jumpLanded = true;
-					jumpWait = 0;
+					jumpsLeft = GLOBAL.PLAYER_JUMP_LIMIT;
 					
 					newPosition.setY(position);
 					velocity.setY(0);
@@ -119,8 +131,7 @@ public class Player {
 			if (mapSquares[newPosition.getXMaxPlayer()][newPosition.getYMaxPlayer()].getWallPlayer()) {
 				if (mapSquares[position.getXMaxPlayer()][newPosition.getYMaxPlayer()].getWallPlayer()) {
 					
-					jumpLanded = true;
-					jumpWait = 0;
+					jumpsLeft = GLOBAL.PLAYER_JUMP_LIMIT;
 					
 					newPosition.setY(position);
 					velocity.setY(0);
@@ -139,6 +150,14 @@ public class Player {
 		else {
 			position.set(newPosition);
 		}
+	}
+	
+	private void secondJump() {
+		velocity.subtractYShort(GLOBAL.PLAYER_SECOND_JUMP);
+	}
+	
+	private void tinyJump() {
+		velocity.subtractYShort(GLOBAL.PLYER_TINY_JUMP);
 	}
 	
 	public void jump() {
@@ -161,6 +180,9 @@ public class Player {
 		g.fillRect(position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 		
 		g.drawString("Coins: " + coins, GLOBAL.screenCoinPosition.x, GLOBAL.screenCoinPosition.y);
+		
+		
+		g.drawString(jumpsLeft + ":  :" + jumpWait, 200, GLOBAL.screenCoinPosition.y);
 	}
 
 	public void changeMap(boolean isChanging) {
@@ -209,7 +231,7 @@ public class Player {
 	}
 
 	public void completeReset() {
-		jumpLanded = false;
+		jumpsLeft = 0;
 		jumpWait = 0;
 		coins = 0;
 		position = new Position();
