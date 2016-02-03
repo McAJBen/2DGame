@@ -7,7 +7,7 @@ public final class GLOBAL {
 	
 	public static final Dimension SCREEN_SIZE = new Dimension(500, 500);
 	public static final Dimension SCREEN_OFFSET = new Dimension(17, 40);
-	public static final Dimension MAP_SIZE = new Dimension(2, 2);
+	public static final Dimension MAP_SIZE = new Dimension(7, 5);
 	
 	public static final Point MAP_START = new Point(0, 0);
 	
@@ -20,9 +20,7 @@ public final class GLOBAL {
 	public static final short PLAYER_GRAV = 1;
 	public static final short PLAYER_SIZE = 60;
 	public static final short PLAYER_SHORT_MAX = MAP_SHORT_SIZE - PLAYER_SIZE - 1;
-	public static final byte PLAYER_JUMP = 6;
-	public static final byte PLAYER_SECOND_JUMP = 7;
-	public static final byte PLYER_TINY_JUMP = 3;
+	public static final byte PLAYER_JUMP = 4;
 	public static final byte PLAYER_JUMP_WAIT = 10;
 	public static final byte PLAYER_JUMP_LIMIT = 2;
 	public static final double PLAYER_FRICTION = 0.90;

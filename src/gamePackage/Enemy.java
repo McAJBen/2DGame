@@ -10,6 +10,12 @@ public class Enemy {
 	Position position;
 	Direction direction;
 	
+	private static int stepWidth;
+	private static int stepHeight;
+	private static int stepSWidth;
+	private static int stepSHeight;
+	private static byte step;
+	
 	public Enemy(int x, int y, int i) {
 		x *= GLOBAL.SHORT_MULTIPLIER;
 		y *= GLOBAL.SHORT_MULTIPLIER;
@@ -22,9 +28,17 @@ public class Enemy {
 			this.direction = Direction.DOWN;
 		}
 	}
+	
+	public static void move() {
+		step--;
+		stepWidth = (int) ((step + Byte.MAX_VALUE) * GLOBAL.pixelWidth / Byte.MAX_VALUE / 4);
+		stepHeight = (int) ((step + Byte.MAX_VALUE) * GLOBAL.pixelHeight / Byte.MAX_VALUE / 4);
+		stepSWidth = stepWidth * 2;
+		stepSHeight = stepHeight * 2;
+		
+	}
 
 	public void move(MapSquare[][] mapSquares) {
-		
 		Position newPosition = new Position(position);
 		
 		switch (direction) {
@@ -87,7 +101,25 @@ public class Enemy {
 	}
 
 	public void paint(Graphics g) {
-		g.setColor(Color.RED);
+		g.setColor(new Color(136, 0, 21));
 		g.fillOval(position.getXScreen(), position.getYScreen(), (int)GLOBAL.pixelWidth, (int)GLOBAL.pixelHeight);
+		g.setColor(Color.RED);
+		g.fillOval(
+				position.getXScreen() + stepWidth,
+				position.getYScreen() + stepHeight,
+				(int)GLOBAL.pixelWidth - stepSWidth,
+				(int)GLOBAL.pixelHeight - stepSHeight);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -74,6 +74,7 @@ public class MapTile {
 	}
 
 	public void move(MapSquare[][] mapSquares) {
+		Enemy.move();
 		for (Enemy e: enemys) {
 			e.move(mapSquares);
 		}

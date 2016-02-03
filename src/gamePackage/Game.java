@@ -61,7 +61,7 @@ public class Game {
 				player.addCoins(map.checkCoins(player.getPosition()));
 			}
 			if (map.checkJumpWall(player.getPosition())) {
-				player.jump();
+				player.tinyJump();
 			}
 			
 			if (map.checkDeath(player.getPosition())) {

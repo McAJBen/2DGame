@@ -104,8 +104,8 @@ public class Position {
 		x = i;
 	}
 	
-	public void setYShort(short i) {
-		y = i;
+	public void setYShort(int i) {
+		y = (short) i;
 	}
 
 	public short getXShort() {

@@ -25,14 +25,8 @@ public class Player {
 		
 		if (jump) {
 			if (jumpWait == GLOBAL.PLAYER_JUMP_WAIT) {
-				if (jumpsLeft < GLOBAL.PLAYER_JUMP_LIMIT) {
-					secondJump();
-				}
-				else {
-					jump();
-				}
+				jump();
 			}
-			
 			else if (jumpWait > 0) {
 				tinyJump();
 			}
@@ -40,7 +34,7 @@ public class Player {
 				jumpWait--;
 			}
 		}
-		else if (jumpsLeft > 0) {
+		else if (jumpsLeft > 0 && jumpWait < GLOBAL.PLAYER_JUMP_WAIT) {
 			jumpsLeft--;
 			jumpWait = GLOBAL.PLAYER_JUMP_WAIT;
 		}
@@ -152,16 +146,12 @@ public class Player {
 		}
 	}
 	
-	private void secondJump() {
-		velocity.subtractYShort(GLOBAL.PLAYER_SECOND_JUMP);
-	}
-	
-	private void tinyJump() {
-		velocity.subtractYShort(GLOBAL.PLYER_TINY_JUMP);
-	}
-	
-	public void jump() {
+	public void tinyJump() {
 		velocity.subtractYShort(GLOBAL.PLAYER_JUMP);
+	}
+	
+	private void jump() {
+		velocity.setYShort(-GLOBAL.PLAYER_JUMP);
 	}
 	
 	public Position getPosition() {
