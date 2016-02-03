@@ -10,10 +10,10 @@ public class Enemy {
 	Position position;
 	Direction direction;
 	
+	private static int stepX;
+	private static int stepY;
 	private static int stepWidth;
 	private static int stepHeight;
-	private static int stepSWidth;
-	private static int stepSHeight;
 	private static byte step;
 	
 	public Enemy(int x, int y, int i) {
@@ -31,10 +31,10 @@ public class Enemy {
 	
 	public static void move() {
 		step--;
-		stepWidth = (int) ((step + Byte.MAX_VALUE) * GLOBAL.pixelWidth / Byte.MAX_VALUE / 4);
-		stepHeight = (int) ((step + Byte.MAX_VALUE) * GLOBAL.pixelHeight / Byte.MAX_VALUE / 4);
-		stepSWidth = stepWidth * 2;
-		stepSHeight = stepHeight * 2;
+		stepX = (int) ((step + Byte.MAX_VALUE) * GLOBAL.pixelWidth / Byte.MAX_VALUE / 4);
+		stepY = (int) ((step + Byte.MAX_VALUE) * GLOBAL.pixelHeight / Byte.MAX_VALUE / 4);
+		stepWidth = stepX * 2;
+		stepHeight = stepY * 2;
 	}
 
 	public void move(MapSquare[][] mapSquares) {
@@ -104,9 +104,9 @@ public class Enemy {
 		g.fillOval(position.getXScreen(), position.getYScreen(), (int)GLOBAL.pixelWidth, (int)GLOBAL.pixelHeight);
 		g.setColor(Color.RED);
 		g.fillOval(
-				position.getXScreen() + stepWidth,
-				position.getYScreen() + stepHeight,
-				(int)GLOBAL.pixelWidth - stepSWidth,
-				(int)GLOBAL.pixelHeight - stepSHeight);
+				position.getXScreen() + stepX,
+				position.getYScreen() + stepY,
+				(int)GLOBAL.pixelWidth - stepWidth,
+				(int)GLOBAL.pixelHeight - stepHeight);
 	}
 }
