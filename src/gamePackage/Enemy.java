@@ -35,7 +35,6 @@ public class Enemy {
 		stepHeight = (int) ((step + Byte.MAX_VALUE) * GLOBAL.pixelHeight / Byte.MAX_VALUE / 4);
 		stepSWidth = stepWidth * 2;
 		stepSHeight = stepHeight * 2;
-		
 	}
 
 	public void move(MapSquare[][] mapSquares) {
@@ -111,15 +110,3 @@ public class Enemy {
 				(int)GLOBAL.pixelHeight - stepSHeight);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
