@@ -86,8 +86,6 @@ public class Position {
 		else if (x < -GLOBAL.PLAYER_MAX_VELOCITY) {
 			x = -GLOBAL.PLAYER_MAX_VELOCITY;
 		}
-		
-		
 	}
 	
 	public void setX(int i) {

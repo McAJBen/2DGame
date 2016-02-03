@@ -33,6 +33,9 @@ public class Game {
 		switch (state) {
 		case NORMAL:
 			map.move();
+			if (map.checkJumpWall(player.getPosition())) {
+				player.tinyJump();
+			}
 			if (player.move(keyListener.getX(), keyListener.getJump(), map.getMapSquares())) { // if changing map
 				Point mapChangeTo = player.getMapChangeTo();
 				if (map.checkValidMap(mapChangeTo)) {
@@ -59,9 +62,6 @@ public class Game {
 			}
 			else {
 				player.addCoins(map.checkCoins(player.getPosition()));
-			}
-			if (map.checkJumpWall(player.getPosition())) {
-				player.tinyJump();
 			}
 			
 			if (map.checkDeath(player.getPosition())) {

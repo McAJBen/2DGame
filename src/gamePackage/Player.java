@@ -13,6 +13,7 @@ public class Player {
 	private int coins;
 	private byte jumpWait;
 	private byte jumpsLeft;
+	private byte mapChangeWait;
 	
 	public Player() {
 		completeReset();
@@ -39,29 +40,47 @@ public class Player {
 		}
 		velocity.PlayerFriction(GLOBAL.PLAYER_FRICTION);
 		
+		
+		
 		Position newPosition = new Position(
 					position.getXShort() + velocity.getXShort(),
 					position.getYShort() + velocity.getYShort());
-		
-		if (newPosition.getXShort() < 0) {
-			mapChangeTo.x = -1;
-			position.setX(newPosition);
-			return true;
+		if (!canChangeMap()) {
+			mapChangeWait++;
+			if (newPosition.getXShort() < 0) {
+				newPosition.setX(position);
+			}
+			else if (GLOBAL.PLAYER_U_MAX < newPosition.getXShort()) {
+				newPosition.setX(position);
+			}
+			else if (newPosition.getYShort() < 0) {
+				newPosition.setY(position);
+			}
+			else if (GLOBAL.PLAYER_U_MAX < newPosition.getYShort()) {
+				newPosition.setY(position);
+			}
 		}
-		else if (GLOBAL.PLAYER_U_MAX < newPosition.getXShort()) {
-			mapChangeTo.x = 1;
-			position.setX(newPosition);
-			return true;
-		}
-		else if (newPosition.getYShort() < 0) {
-			mapChangeTo.y = -1;
-			position.setY(newPosition);
-			return true;
-		}
-		else if (GLOBAL.PLAYER_U_MAX < newPosition.getYShort()) {
-			mapChangeTo.y = 1;
-			position.setY(newPosition);
-			return true;
+		else {
+			if (newPosition.getXShort() < 0) {
+				mapChangeTo.x = -1;
+				position.setX(newPosition);
+				return true;
+			}
+			else if (GLOBAL.PLAYER_U_MAX < newPosition.getXShort()) {
+				mapChangeTo.x = 1;
+				position.setX(newPosition);
+				return true;
+			}
+			else if (newPosition.getYShort() < 0) {
+				mapChangeTo.y = -1;
+				position.setY(newPosition);
+				return true;
+			}
+			else if (GLOBAL.PLAYER_U_MAX < newPosition.getYShort()) {
+				mapChangeTo.y = 1;
+				position.setY(newPosition);
+				return true;
+			}
 		}
 		
 		movePlayer(newPosition, mapSquares);
@@ -104,6 +123,10 @@ public class Player {
 		else {
 			position.set(newPosition);
 		}
+	}
+	
+	private boolean canChangeMap() {
+		return mapChangeWait >= GLOBAL.PLAYER_MAP_CHANGE_WAIT;
 	}
 	
 	private boolean checkCollide(int x, int y, int x2, int y2, MapSquare[][] mapSquares, Position newPosition) {
@@ -155,6 +178,7 @@ public class Player {
 	}
 
 	public void changeMap(boolean isChanging) {
+		mapChangeWait = 0;
 		if (isChanging) {
 			if (position.getXShort() > GLOBAL.PLAYER_U_MAX) {
 				position.setX(0);
@@ -200,6 +224,7 @@ public class Player {
 	}
 
 	public void completeReset() {
+		mapChangeWait = 0;
 		jumpsLeft = 0;
 		jumpWait = 0;
 		coins = 0;
