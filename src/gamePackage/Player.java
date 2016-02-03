@@ -22,7 +22,6 @@ public class Player {
 		velocity.addXShort(dx * GLOBAL.PLAYER_MOVE_SPEED);
 		velocity.addYShort(GLOBAL.PLAYER_GRAV);
 		
-		
 		if (jump) {
 			if (jumpWait == GLOBAL.PLAYER_JUMP_WAIT) {
 				jump();
@@ -38,16 +37,11 @@ public class Player {
 			jumpsLeft--;
 			jumpWait = GLOBAL.PLAYER_JUMP_WAIT;
 		}
-		
-		
 		velocity.PlayerFriction(GLOBAL.PLAYER_FRICTION);
-		
-		
 		
 		Position newPosition = new Position(
 					position.getXShort() + velocity.getXShort(),
 					position.getYShort() + velocity.getYShort());
-		
 		
 		if (newPosition.getXShort() < 0) {
 			mapChangeTo.x = -1;

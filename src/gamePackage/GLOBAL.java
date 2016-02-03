@@ -63,7 +63,6 @@ public final class GLOBAL {
 		pixelWidth = (float)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
 		pixelHeight = (float)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
 		screenCoinPosition = new Point(0, screenSize.height);
-		
 	}
 	
 	public static enum ValueType {
