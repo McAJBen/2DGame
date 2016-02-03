@@ -7,23 +7,24 @@ public final class GLOBAL {
 	
 	public static final Dimension SCREEN_SIZE = new Dimension(500, 500);
 	public static final Dimension SCREEN_OFFSET = new Dimension(17, 40);
-	public static final Dimension MAP_SIZE = new Dimension(7, 5);
+	public static final Dimension MAP_SIZE = new Dimension(0, 0);
 	
-	public static final Point MAP_START = new Point(0, 0);
+	public static final Point MAP_START = new Point(5, 1);
 	
 	public static final short MAP_PIXEL_SIZE = 50;
 	public static final short SHORT_MULTIPLIER = 100;
 	public static final short MAP_SHORT_SIZE = MAP_PIXEL_SIZE * SHORT_MULTIPLIER;
 	
 	public static final Point PLAYER_ORIGINAL_POSITION = new Point(13, 13);
-	public static final short PLAYER_STEP = 2;
+	public static final short PLAYER_MOVE_SPEED = 2;
 	public static final short PLAYER_GRAV = 1;
 	public static final short PLAYER_SIZE = 60;
 	public static final short PLAYER_SHORT_MAX = MAP_SHORT_SIZE - PLAYER_SIZE - 1;
 	public static final byte PLAYER_JUMP = 4;
 	public static final byte PLAYER_JUMP_WAIT = 10;
-	public static final byte PLAYER_JUMP_LIMIT = 2;
+	public static final byte PLAYER_JUMP_LIMIT = 3;
 	public static final double PLAYER_FRICTION = 0.90;
+	public static final short PLAYER_MAX_VELOCITY = SHORT_MULTIPLIER;
 	
 	public static final short ENEMY_STEP = 10;
 	
@@ -52,7 +53,7 @@ public final class GLOBAL {
 	
 	public static Point screenCoinPosition;
 	
-	public static void setWindowSize(Dimension screenSize) { // TODO use to prevent more calcs
+	public static void setWindowSize(Dimension screenSize) {
 		GLOBAL.screenSize = screenSize;
 		screenShortWidth = (float)screenSize.width / GLOBAL.MAP_SHORT_SIZE;
 		screenShortHeight = (float)screenSize.height / GLOBAL.MAP_SHORT_SIZE;

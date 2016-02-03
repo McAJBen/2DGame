@@ -13,22 +13,7 @@ public class Map {
 	private Point currentMap;
 		
 	public Map() {
-		BufferedImage map = null;
-		try {
-			map = ImageIO.read(getClass().getResource("/Map.png"));
-		} catch (IOException e) {}
-		
-		currentMap = GLOBAL.MAP_START;
-		for (int i = 0; i < GLOBAL.MAP_SIZE.width; i++) {
-			for (int j = 0; j < GLOBAL.MAP_SIZE.height; j++) {
-				
-				BufferedImage mapBlock = new BufferedImage(GLOBAL.MAP_PIXEL_SIZE, GLOBAL.MAP_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB);
-				
-				mapBlock.getGraphics().drawImage(map, -i * GLOBAL.MAP_PIXEL_SIZE, -j * GLOBAL.MAP_PIXEL_SIZE, null);
-				
-	    		mapTile[i][j] = new MapTile(mapBlock);
-			}
-		}
+		completeReset();
 	}
 
 	public void paint(Graphics g) {
@@ -74,13 +59,20 @@ public class Map {
 	}
 
 	public void completeReset() {
+		BufferedImage map = null;
+		try {
+			map = ImageIO.read(getClass().getResource("/Map.png"));
+		} catch (IOException e) {}
+		
 		currentMap = GLOBAL.MAP_START;
 		for (int i = 0; i < GLOBAL.MAP_SIZE.width; i++) {
 			for (int j = 0; j < GLOBAL.MAP_SIZE.height; j++) {
-	    		try {
-	    			BufferedImage map = ImageIO.read(getClass().getResource("/Maps/" + i + "," + j + ".png"));
-	    			mapTile[i][j] = new MapTile(map);
-	    		} catch (IOException e) {}
+				
+				BufferedImage mapBlock = new BufferedImage(GLOBAL.MAP_PIXEL_SIZE, GLOBAL.MAP_PIXEL_SIZE, BufferedImage.TYPE_INT_ARGB);
+				
+				mapBlock.getGraphics().drawImage(map, -i * GLOBAL.MAP_PIXEL_SIZE, -j * GLOBAL.MAP_PIXEL_SIZE, null);
+				
+	    		mapTile[i][j] = new MapTile(mapBlock);
 			}
 		}
 	}

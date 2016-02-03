@@ -19,7 +19,7 @@ public class Player {
 	}
 	
 	public boolean move(int dx, boolean jump, MapSquare[][] mapSquares) {
-		velocity.addXShort(dx * GLOBAL.PLAYER_STEP);
+		velocity.addXShort(dx * GLOBAL.PLAYER_MOVE_SPEED);
 		velocity.addYShort(GLOBAL.PLAYER_GRAV);
 		
 		
@@ -34,13 +34,15 @@ public class Player {
 				jumpWait--;
 			}
 		}
-		else if (jumpsLeft > 0 && jumpWait < GLOBAL.PLAYER_JUMP_WAIT) {
+		else if (jumpsLeft > 1 && jumpWait < GLOBAL.PLAYER_JUMP_WAIT) {
 			jumpsLeft--;
 			jumpWait = GLOBAL.PLAYER_JUMP_WAIT;
 		}
 		
 		
-		velocity.Friction(GLOBAL.PLAYER_FRICTION);
+		velocity.PlayerFriction(GLOBAL.PLAYER_FRICTION);
+		
+		
 		
 		Position newPosition = new Position(
 					position.getXShort() + velocity.getXShort(),
@@ -170,9 +172,6 @@ public class Player {
 		g.fillRect(position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 		
 		g.drawString("Coins: " + coins, GLOBAL.screenCoinPosition.x, GLOBAL.screenCoinPosition.y);
-		
-		
-		g.drawString(jumpsLeft + ":  :" + jumpWait, 200, GLOBAL.screenCoinPosition.y);
 	}
 
 	public void changeMap(boolean isChanging) {
@@ -214,6 +213,7 @@ public class Player {
 
 	public void kill() {
 		position.set(lastPosition);
+		velocity = new Position();
 	}
 
 	public int getCoins() {

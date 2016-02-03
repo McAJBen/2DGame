@@ -72,8 +72,22 @@ public class Position {
 		y -= i;
 	}
 	
-	public void Friction(double d) {
+	public void PlayerFriction(double d) {
 		x *= d;
+		if (y > GLOBAL.PLAYER_MAX_VELOCITY) {
+			y = GLOBAL.PLAYER_MAX_VELOCITY;
+		}
+		else if (y < -GLOBAL.PLAYER_MAX_VELOCITY) {
+			y = -GLOBAL.PLAYER_MAX_VELOCITY;
+		}
+		if (x > GLOBAL.PLAYER_MAX_VELOCITY) {
+			x = GLOBAL.PLAYER_MAX_VELOCITY;
+		}
+		else if (x < -GLOBAL.PLAYER_MAX_VELOCITY) {
+			x = -GLOBAL.PLAYER_MAX_VELOCITY;
+		}
+		
+		
 	}
 	
 	public void setX(int i) {
