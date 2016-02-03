@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import gamePackage.GLOBAL;
 import gamePackage.Position;
 import gamePackage.GLOBAL.Direction;
+import gamePackage.Player;
 
 public class MapChangeAnimation {
 	
@@ -80,7 +81,8 @@ public class MapChangeAnimation {
 	private void paintImages(Graphics g, int ox, int oy, int nx, int ny) {
 		paintMap(g, oldImg, ox, oy);
 		paintMap(g, newImg, nx, ny);
-		g.fillRect(playerPosition.getXScreen(), playerPosition.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
+		Player.paintPlayer(g, playerPosition.getXScreen(), playerPosition.getYScreen(),
+				GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 	}
 	
 	private void paintMap(Graphics g, BufferedImage img, int x, int y) {

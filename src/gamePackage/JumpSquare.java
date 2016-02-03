@@ -19,8 +19,8 @@ public class JumpSquare {
 		x *= GLOBAL.U_MULTIPLIER;
 		y *= GLOBAL.U_MULTIPLIER;
 		position = new Position(x, y);
-		bubblePosition = new Position(position);
-		bubbleWidth = (short) rand.nextInt(GLOBAL.MAX_BUBBLE_DIAM);
+		bubblePosition = new Position();
+		bubbleWidth = GLOBAL.MAX_BUBBLE_DIAM;
 		move();
 	}
 

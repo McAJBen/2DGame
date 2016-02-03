@@ -172,9 +172,9 @@ public class Position {
 		return (int) (y * GLOBAL.screenShortHeight);
 	}
 
-	public boolean within(short mapPixelSize) {
-		return  x >= 0 && mapPixelSize > x &&
-				y >= 0 && mapPixelSize > y;
+	public boolean within(int mapSize) {
+		return  x >= 0 && mapSize > x &&
+				y >= 0 && mapSize > y;
 	}
 	
 	public Position clone() {

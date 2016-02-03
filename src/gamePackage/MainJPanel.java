@@ -10,6 +10,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import animationPackage.DeathAnimation;
+
 @SuppressWarnings("serial")
 public class MainJPanel extends JPanel {
 	
@@ -17,20 +19,18 @@ public class MainJPanel extends JPanel {
 	
 	public MainJPanel() {
 		game = new Game();
-		
 	}
 
 	public static void main(String[] args) {
-		SettingsHandler sh = new SettingsHandler();
+		load();
         JFrame frame = new JFrame("2DGame");
         MainJPanel imageEvolutionJPanel = new MainJPanel();
         frame.add(imageEvolutionJPanel);
         frame.addKeyListener(imageEvolutionJPanel.getKeyListener());
         frame.addComponentListener(new ComponentListener() {
-        	boolean fullscreen = sh.getSettingBoolean("FULLSCREEN");
             public void componentResized(ComponentEvent e) {
             	Dimension size = frame.getSize();
-            	if (!fullscreen) {
+            	if (!GLOBAL.FULLSCREEN) {
 	            	size.width -= GLOBAL.SCREEN_OFFSET.width;
 	            	size.height -= GLOBAL.SCREEN_OFFSET.height;
             	}
@@ -42,7 +42,7 @@ public class MainJPanel extends JPanel {
         });
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        if (sh.getSettingBoolean("FULLSCREEN")) {
+        if (GLOBAL.FULLSCREEN) {
         	frame.setUndecorated(true);
         	frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         }
@@ -55,6 +55,13 @@ public class MainJPanel extends JPanel {
         imageEvolutionJPanel.start();
     }
 	
+	private static void load() {
+		GLOBAL.setSettings();
+		Player.load();
+		DeathAnimation.load();
+		MapSquare.load();
+	}
+
 	private KeyListener getKeyListener() {
 		return game.getKeyListener();
 	}

@@ -64,7 +64,7 @@ public class Map {
 			map = ImageIO.read(getClass().getResource("/Map.png"));
 		} catch (IOException e) {}
 		
-		currentMap = GLOBAL.MAP_START.getLocation();
+		currentMap = new Point(GLOBAL.MAP_START_X, GLOBAL.MAP_START_Y);
 		for (int i = 0; i < GLOBAL.MAP_SIZE.width; i++) {
 			for (int j = 0; j < GLOBAL.MAP_SIZE.height; j++) {
 				

@@ -2,10 +2,17 @@ package gamePackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
+
+import animationPackage.DeathAnimation;
 
 public class MapSquare {
 	
+	private static BufferedImage coin;
 	private static Random rand = new Random();
 	
 	static final Color 
@@ -77,20 +84,16 @@ public class MapSquare {
 		switch (getType()) {
 		case COIN:
 		case ENEMY:
-			g.fillOval(x, y,
-				width, height);
+			g.drawImage(coin, x, y, width, height, null);
 			break;
 		case WALL:
 		case ENEMY_WALL:
 		case PLAYER_WALL:
 		case JUMP_SQUARE:
-			g.fillRect(x, y,
-				width, height);
+			g.fillRect(x, y, width, height);
 			break;
 		case ELECTRIC_WALL:
-			g.fillRect(
-					x, y,
-				width, height);
+			g.fillRect(x, y, width, height);
 			paintElectricity(g, x, y, width, height);
 		case FLOOR:
 		}
@@ -187,6 +190,10 @@ public class MapSquare {
 	public boolean isJumpSquare() {
 		return squareType == SquareType.JUMP_SQUARE;
 	}
-
 	
+	public static void load() {
+		try {
+			coin = ImageIO.read(DeathAnimation.class.getResource("/Coin.png"));
+		} catch (IOException e) {}
+	}
 }

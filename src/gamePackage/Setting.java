@@ -40,6 +40,8 @@ public class Setting {
 			return Double.parseDouble(value);
 		case INT:
 			return Integer.parseInt(value);
+		case SHORT:
+			return Short.parseShort(value);
 		}
 		return null;
 	}

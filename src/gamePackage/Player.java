@@ -3,8 +3,14 @@ package gamePackage;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Player {
+	
+	private static BufferedImage playerImage;
 	
 	private Position position;
 	private Position velocity;
@@ -172,9 +178,20 @@ public class Player {
 	public void paint(Graphics g) {
 		g.setColor(Color.BLACK);
 		
-		g.fillRect(position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
+		
+		paintPlayer(g, position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 		
 		g.drawString("Coins: " + coins, GLOBAL.screenCoinPosition.x, GLOBAL.screenCoinPosition.y);
+	}
+	
+	public static void paintPlayer(Graphics g, int x, int y, int width, int height) {
+		g.drawImage(playerImage, x, y, width, height, null);
+	}
+
+	public static void load() {
+		try {
+			playerImage = ImageIO.read(Player.class.getResource("/Player.png"));
+		} catch (IOException e) {}
 	}
 
 	public void changeMap(boolean isChanging) {
@@ -231,8 +248,8 @@ public class Player {
 		position = new Position();
 		velocity = new Position();
 		
-		position.setX(GLOBAL.PLAYER_ORIGINAL_POSITION.x);
-		position.setY(GLOBAL.PLAYER_ORIGINAL_POSITION.y);
+		position.setX(GLOBAL.PLAYER_ORIGINAL_POSITION_X);
+		position.setY(GLOBAL.PLAYER_ORIGINAL_POSITION_Y);
 		lastPosition = new Position(position);
 		
 		mapChangeTo = new Point(0, 0);
