@@ -87,8 +87,8 @@ public class MapChangeAnimation {
 	
 	private void paintMap(Graphics g, BufferedImage img, int x, int y) {
 		g.drawImage(img,
-			(int)(x * GLOBAL.screenShortWidth),
-			(int)(y * GLOBAL.screenShortHeight),
+			(int)(x * GLOBAL.screenUWidth),
+			(int)(y * GLOBAL.screenUHeight),
 			GLOBAL.screenSize.width, GLOBAL.screenSize.height, null);
 	}
 }

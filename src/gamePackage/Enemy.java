@@ -31,8 +31,8 @@ public class Enemy {
 	
 	public static void move() {
 		step--;
-		stepX = (int) ((step + Byte.MAX_VALUE) * GLOBAL.pixelWidth / Byte.MAX_VALUE / 4);
-		stepY = (int) ((step + Byte.MAX_VALUE) * GLOBAL.pixelHeight / Byte.MAX_VALUE / 4);
+		stepX = (int) ((step + Byte.MAX_VALUE) * GLOBAL.screenPixelWidth / Byte.MAX_VALUE / 4);
+		stepY = (int) ((step + Byte.MAX_VALUE) * GLOBAL.screenPixelHeight / Byte.MAX_VALUE / 4);
 		stepWidth = stepX * 2;
 		stepHeight = stepY * 2;
 	}
@@ -101,12 +101,12 @@ public class Enemy {
 
 	public void paint(Graphics g) {
 		g.setColor(new Color(136, 0, 21));
-		g.fillOval(position.getXScreen(), position.getYScreen(), (int)GLOBAL.pixelWidth, (int)GLOBAL.pixelHeight);
+		g.fillOval(position.getXScreen(), position.getYScreen(), (int)GLOBAL.screenPixelWidth, (int)GLOBAL.screenPixelHeight);
 		g.setColor(Color.RED);
 		g.fillOval(
 				position.getXScreen() + stepX,
 				position.getYScreen() + stepY,
-				(int)GLOBAL.pixelWidth - stepWidth,
-				(int)GLOBAL.pixelHeight - stepHeight);
+				(int)GLOBAL.screenPixelWidth - stepWidth,
+				(int)GLOBAL.screenPixelHeight - stepHeight);
 	}
 }

@@ -53,22 +53,22 @@ public final class GLOBAL {
 	public static Dimension screenSize;
 	public static Dimension playerScreenSize;
 	
-	public static float pixelWidth;
-	public static float pixelHeight;
-	public static float screenShortWidth;
-	public static float screenShortHeight;
+	public static float screenPixelWidth;
+	public static float screenPixelHeight;
+	public static float screenUWidth;
+	public static float screenUHeight;
 	
 	public static Point screenCoinPosition;
 	
 	public static void setWindowSize(Dimension screenSize) {
 		GLOBAL.screenSize = screenSize;
-		screenShortWidth = (float)screenSize.width / GLOBAL.MAP_U_SIZE;
-		screenShortHeight = (float)screenSize.height / GLOBAL.MAP_U_SIZE;
+		screenUWidth = (float)screenSize.width / GLOBAL.MAP_U_SIZE;
+		screenUHeight = (float)screenSize.height / GLOBAL.MAP_U_SIZE;
 		playerScreenSize = new Dimension(
 				screenSize.width * GLOBAL.PLAYER_SIZE / GLOBAL.MAP_U_SIZE + 1,
 				screenSize.height * GLOBAL.PLAYER_SIZE / GLOBAL.MAP_U_SIZE + 1);
-		pixelWidth = (float)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
-		pixelHeight = (float)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
+		screenPixelWidth = (float)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
+		screenPixelHeight = (float)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
 		screenCoinPosition = new Point(0, screenSize.height);
 	}
 	

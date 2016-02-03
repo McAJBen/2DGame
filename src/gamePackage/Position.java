@@ -165,11 +165,11 @@ public class Position {
 	}
 	
 	public int getXScreen() {
-		return (int) (x * GLOBAL.screenShortWidth);
+		return (int) (x * GLOBAL.screenUWidth);
 	}
 	
 	public int getYScreen() {
-		return (int) (y * GLOBAL.screenShortHeight);
+		return (int) (y * GLOBAL.screenUHeight);
 	}
 
 	public boolean within(int mapSize) {

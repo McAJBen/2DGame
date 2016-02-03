@@ -69,11 +69,11 @@ public class MapSquare {
 		g.setColor(FLOOR_COLOR);
 		g.fillRect(0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height);
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
-			int px = (int)(GLOBAL.pixelWidth * i);
-			int width = (int)(GLOBAL.pixelWidth * (i + 1) - px);
+			int px = (int)(GLOBAL.screenPixelWidth * i);
+			int width = (int)(GLOBAL.screenPixelWidth * (i + 1) - px);
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
-				int py = (int)(GLOBAL.pixelHeight * j);
-				int height = (int)(GLOBAL.pixelHeight * (j + 1) - py);
+				int py = (int)(GLOBAL.screenPixelHeight * j);
+				int height = (int)(GLOBAL.screenPixelHeight * (j + 1) - py);
 				mapSquares[i][j].paint(g, px, py, width, height);
 			}
 		}

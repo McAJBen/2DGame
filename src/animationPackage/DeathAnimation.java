@@ -28,7 +28,7 @@ public class DeathAnimation {
 	public void paint(Graphics g) {
 		g.drawImage(map, 0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height, null);
 		g.setColor(Color.RED);
-		g.drawImage(blood, 0, 0, GLOBAL.screenSize.width, (int) (step * GLOBAL.screenShortHeight), null);
+		g.drawImage(blood, 0, 0, GLOBAL.screenSize.width, (int) (step * GLOBAL.screenUHeight), null);
 	}
 
 	public static void load() {

@@ -25,7 +25,7 @@ public class JumpSquare {
 	}
 
 	public void move() {
-		if (bubbleWidth >= GLOBAL.MAX_BUBBLE_DIAM) { // reset bubble
+		if (bubbleWidth >= GLOBAL.MAX_BUBBLE_DIAM || rand.nextFloat() > 0.999f) { // reset bubble
 			bubblePosition.set(position);
 			
 			bubblePosition.addXShort(getRandom());
@@ -36,7 +36,7 @@ public class JumpSquare {
 		else if (rand.nextFloat() > 0.99f){
 			bubbleWidth += 2;
 			bubblePosition.addXShort(-1);
-			bubblePosition.addXShort(-1);
+			bubblePosition.addYShort(-1);
 		}
 	}
 	
@@ -58,12 +58,20 @@ public class JumpSquare {
 
 	public void paint(Graphics g) {
 		g.setColor(MapSquare.JUMP_SQUARE_COLOR);
-		g.fillRect(position.getXScreen(), position.getYScreen(), (int)GLOBAL.pixelWidth, (int)GLOBAL.pixelHeight);
+		
+		int px = position.getXScreen();
+		int py = position.getYScreen();
+		int width = (int)((position.getXShort() + GLOBAL.U_MULTIPLIER) * GLOBAL.screenUWidth) - px;
+		int height = (int)((position.getYShort() + GLOBAL.U_MULTIPLIER) * GLOBAL.screenUHeight) - py;
+		
+		g.fillRect(px, py, width, height);
 		g.setColor(BUBBLE_COLOR);
-		g.fillOval(
-				bubblePosition.getXScreen(),
-				bubblePosition.getYScreen(),
-				(int)(bubbleWidth * GLOBAL.screenShortWidth),
-				(int)(bubbleWidth * GLOBAL.screenShortHeight));
+		
+		px = bubblePosition.getXScreen();
+		py = bubblePosition.getYScreen();
+		width = (int)((bubblePosition.getXShort() + bubbleWidth) * GLOBAL.screenUWidth) - px;
+		height = (int)((bubblePosition.getYShort() + bubbleWidth) * GLOBAL.screenUHeight) - py;
+		
+		g.fillOval(px, py, width, height);
 	}
 }
