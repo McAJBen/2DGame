@@ -7,9 +7,9 @@ public final class GLOBAL {
 	
 	public static final Dimension SCREEN_SIZE = new Dimension(500, 500);
 	public static final Dimension SCREEN_OFFSET = new Dimension(17, 40);
-	public static final Dimension MAP_SIZE = new Dimension(0, 0);
+	public static final Dimension MAP_SIZE = new Dimension(7, 5);
 	
-	public static final Point MAP_START = new Point(5, 1);
+	public static final Point MAP_START = new Point(0, 0);
 	
 	public static final short MAP_PIXEL_SIZE = 50;
 	public static final short SHORT_MULTIPLIER = 100;
