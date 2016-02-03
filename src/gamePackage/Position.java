@@ -173,8 +173,8 @@ public class Position {
 	}
 
 	public boolean within(int mapSize) {
-		return  x >= 0 && mapSize > x &&
-				y >= 0 && mapSize > y;
+		return  x >= 0 && mapSize - GLOBAL.U_MULTIPLIER >= x &&
+				y >= 0 && mapSize - GLOBAL.U_MULTIPLIER >= y;
 	}
 	
 	public Position clone() {

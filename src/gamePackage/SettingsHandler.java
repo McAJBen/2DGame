@@ -18,7 +18,7 @@ public class SettingsHandler {
 			new Setting("FULLSCREEN", "false", GLOBAL.ValueType.BOOLEAN),
 			new Setting("MAP_START_X", "0", GLOBAL.ValueType.SHORT),
 			new Setting("MAP_START_Y", "0", GLOBAL.ValueType.SHORT),
-			new Setting("MAP_PIXEL_SIZE", "25", GLOBAL.ValueType.SHORT),
+			new Setting("MAP_PIXEL_SIZE", "50", GLOBAL.ValueType.SHORT),
 			new Setting("PLAYER_ORIGINAL_POSITION_X", "13", GLOBAL.ValueType.SHORT),
 			new Setting("PLAYER_ORIGINAL_POSITION_Y", "13", GLOBAL.ValueType.SHORT),
 			new Setting("MAX_COINS", "50", GLOBAL.ValueType.INT)

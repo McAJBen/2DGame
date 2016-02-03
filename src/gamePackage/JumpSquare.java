@@ -33,7 +33,7 @@ public class JumpSquare {
 			
 			bubbleWidth = (short) rand.nextInt(GLOBAL.MAX_BUBBLE_DIAM);
 		}
-		else if (rand.nextFloat() > 0.99f){
+		else if (rand.nextFloat() > 0.99f) {
 			bubbleWidth += 2;
 			bubblePosition.addXShort(-1);
 			bubblePosition.addYShort(-1);

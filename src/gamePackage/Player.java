@@ -56,13 +56,13 @@ public class Player {
 			if (newPosition.getXShort() < 0) {
 				newPosition.setX(position);
 			}
-			else if (GLOBAL.PLAYER_U_MAX < newPosition.getXShort()) {
+			if (GLOBAL.PLAYER_U_MAX < newPosition.getXShort()) {
 				newPosition.setX(position);
 			}
-			else if (newPosition.getYShort() < 0) {
+			if (newPosition.getYShort() < 0) {
 				newPosition.setY(position);
 			}
-			else if (GLOBAL.PLAYER_U_MAX < newPosition.getYShort()) {
+			if (GLOBAL.PLAYER_U_MAX < newPosition.getYShort()) {
 				newPosition.setY(position);
 			}
 		}
@@ -72,17 +72,17 @@ public class Player {
 				position.setX(newPosition);
 				return true;
 			}
-			else if (GLOBAL.PLAYER_U_MAX < newPosition.getXShort()) {
+			if (GLOBAL.PLAYER_U_MAX < newPosition.getXShort()) {
 				mapChangeTo.x = 1;
 				position.setX(newPosition);
 				return true;
 			}
-			else if (newPosition.getYShort() < 0) {
+			if (newPosition.getYShort() < 0) {
 				mapChangeTo.y = -1;
 				position.setY(newPosition);
 				return true;
 			}
-			else if (GLOBAL.PLAYER_U_MAX < newPosition.getYShort()) {
+			if (GLOBAL.PLAYER_U_MAX < newPosition.getYShort()) {
 				mapChangeTo.y = 1;
 				position.setY(newPosition);
 				return true;
