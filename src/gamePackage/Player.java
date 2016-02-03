@@ -48,7 +48,7 @@ public class Player {
 			position.setX(newPosition);
 			return true;
 		}
-		else if (GLOBAL.PLAYER_SHORT_MAX < newPosition.getXShort()) {
+		else if (GLOBAL.PLAYER_U_MAX < newPosition.getXShort()) {
 			mapChangeTo.x = 1;
 			position.setX(newPosition);
 			return true;
@@ -58,7 +58,7 @@ public class Player {
 			position.setY(newPosition);
 			return true;
 		}
-		else if (GLOBAL.PLAYER_SHORT_MAX < newPosition.getYShort()) {
+		else if (GLOBAL.PLAYER_U_MAX < newPosition.getYShort()) {
 			mapChangeTo.y = 1;
 			position.setY(newPosition);
 			return true;
@@ -168,30 +168,30 @@ public class Player {
 		g.drawString("Coins: " + coins, GLOBAL.screenCoinPosition.x, GLOBAL.screenCoinPosition.y);
 	}
 
-	public void changeMap(boolean isChanging) {
+	public void changeMap(boolean isChanging) { // TODO check map change position
 		if (isChanging) {
-			if (position.getXShort() > GLOBAL.PLAYER_SHORT_MAX) {
+			if (position.getXShort() > GLOBAL.PLAYER_U_MAX) {
 				position.setX(0);
 			}
 			else if (position.getXShort() < 0) {
-				position.setXShort(GLOBAL.PLAYER_SHORT_MAX);
+				position.setXShort(GLOBAL.PLAYER_U_MAX);
 			}
-			if (position.getYShort() > GLOBAL.PLAYER_SHORT_MAX) {
+			if (position.getYShort() > GLOBAL.PLAYER_U_MAX) {
 				position.setY(0);
 			}
 			else if (position.getYShort() < 0) {
-				position.setYShort(GLOBAL.PLAYER_SHORT_MAX);
+				position.setYShort(GLOBAL.PLAYER_U_MAX);
 			}
 		}
 		else {
-			if (position.getXShort() > GLOBAL.PLAYER_SHORT_MAX) {
-				position.setXShort(GLOBAL.PLAYER_SHORT_MAX);
+			if (position.getXShort() > GLOBAL.PLAYER_U_MAX) {
+				position.setXShort(GLOBAL.PLAYER_U_MAX);
 			}
 			else if (position.getXShort() < 0) {
 				position.setX(0);
 			}
-			if (position.getYShort() > GLOBAL.PLAYER_SHORT_MAX) {
-				position.setYShort(GLOBAL.PLAYER_SHORT_MAX);
+			if (position.getYShort() > GLOBAL.PLAYER_U_MAX) {
+				position.setYShort(GLOBAL.PLAYER_U_MAX);
 			}
 			else if (position.getYShort() < 0) {
 				position.setY(0);

@@ -25,27 +25,27 @@ public class Position {
 	}
 
 	public int getX() {
-		return x / GLOBAL.SHORT_MULTIPLIER;
+		return x / GLOBAL.U_MULTIPLIER;
 	}
 	
 	public int getY() {
-		return y / GLOBAL.SHORT_MULTIPLIER;
+		return y / GLOBAL.U_MULTIPLIER;
 	}
 	
 	public double getXDouble() {
-		return (double)x / GLOBAL.SHORT_MULTIPLIER;
+		return (double)x / GLOBAL.U_MULTIPLIER;
 	}
 	
 	public double getYDouble() {
-		return (double)y / GLOBAL.SHORT_MULTIPLIER;
+		return (double)y / GLOBAL.U_MULTIPLIER;
 	}
 
 	public void addX(double d) {
-		x += d * GLOBAL.SHORT_MULTIPLIER;
+		x += d * GLOBAL.U_MULTIPLIER;
 	}
 	
 	public void addY(double d) {
-		y += d * GLOBAL.SHORT_MULTIPLIER;
+		y += d * GLOBAL.U_MULTIPLIER;
 	}
 
 	public void addXShort(short i) {
@@ -91,19 +91,19 @@ public class Position {
 	}
 	
 	public void setX(int i) {
-		x = (short) (i * GLOBAL.SHORT_MULTIPLIER);
+		x = (short) (i * GLOBAL.U_MULTIPLIER);
 	}
 
 	public void setY(int i) {
-		y = (short) (i * GLOBAL.SHORT_MULTIPLIER);
+		y = (short) (i * GLOBAL.U_MULTIPLIER);
 	}
 	
 	public void setX(double d) {
-		x = (short) (d * GLOBAL.SHORT_MULTIPLIER);
+		x = (short) (d * GLOBAL.U_MULTIPLIER);
 	}
 
 	public void setY(double d) {
-		y = (short) (d * GLOBAL.SHORT_MULTIPLIER);
+		y = (short) (d * GLOBAL.U_MULTIPLIER);
 	}
 
 	public void setX(Position position) {
@@ -114,8 +114,8 @@ public class Position {
 		y = position.getYShort();
 	}
 	
-	public void setXShort(short i) {
-		x = i;
+	public void setXShort(int i) {
+		x = (short) i;
 	}
 	
 	public void setYShort(int i) {
@@ -139,31 +139,31 @@ public class Position {
 	}
 	
 	public int getXMax() {
-		return getMax(x, GLOBAL.SHORT_MULTIPLIER);
+		return getMax(x, GLOBAL.U_MULTIPLIER);
 	}
 	
 	public int getYMax() {
-		return getMax(y, GLOBAL.SHORT_MULTIPLIER);
+		return getMax(y, GLOBAL.U_MULTIPLIER);
 	}
 	
 	private int getMax(short i, int j) {
-		return (int) ((i + j) / GLOBAL.SHORT_MULTIPLIER);
+		return (int) ((i + j) / GLOBAL.U_MULTIPLIER);
 	}
 	
 	public int getXMaxShort() {
-		return x + GLOBAL.SHORT_MULTIPLIER;
+		return x + GLOBAL.U_MULTIPLIER;
 	}
 	
 	public int getYMaxShort() {
-		return y + GLOBAL.SHORT_MULTIPLIER;
+		return y + GLOBAL.U_MULTIPLIER;
 	}
 	
 	public int getXMaxM1() {
-		return getMax(x, GLOBAL.SHORT_MULTIPLIER - 1);
+		return getMax(x, GLOBAL.U_MULTIPLIER - 1);
 	}
 	
 	public int getYMaxM1() {
-		return getMax(y, GLOBAL.SHORT_MULTIPLIER - 1);
+		return getMax(y, GLOBAL.U_MULTIPLIER - 1);
 	}
 	
 	public int getXScreen() {

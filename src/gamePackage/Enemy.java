@@ -17,8 +17,8 @@ public class Enemy {
 	private static byte step;
 	
 	public Enemy(int x, int y, int i) {
-		x *= GLOBAL.SHORT_MULTIPLIER;
-		y *= GLOBAL.SHORT_MULTIPLIER;
+		x *= GLOBAL.U_MULTIPLIER;
+		y *= GLOBAL.U_MULTIPLIER;
 		position = new Position(x, y);
 		
 		if (MapSquare.ENEMY_COLOR.getRGB() == i) {
@@ -54,7 +54,7 @@ public class Enemy {
 			newPosition.subtractYShort(GLOBAL.ENEMY_STEP);
 			break;
 		}
-		if (!newPosition.within(GLOBAL.MAP_SHORT_SIZE)) {
+		if (!newPosition.within(GLOBAL.MAP_U_SIZE)) {
 				direction = direction.next();
 		}
 		

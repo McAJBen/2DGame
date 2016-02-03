@@ -16,6 +16,12 @@ public class SettingsHandler {
 	
 	private Setting[] settings = {
 			new Setting("FULLSCREEN", "false", GLOBAL.ValueType.BOOLEAN)
+			/*MAP_SIZE
+			MAP_START
+			MAP_PIXEL_SIZE
+			PLAYER_ORIGINAL_POSITION*/
+			
+			
 	};
 	private boolean hasSettings;
 	
@@ -31,15 +37,13 @@ public class SettingsHandler {
 		String settingsString = null;
 		BufferedReader br = null;
 		try {
-			File settingsFile = new File(
-					System.getProperty("user.dir") + FILE_NAME);
+			File settingsFile = new File(System.getProperty("user.dir") + FILE_NAME);
 			if (settingsFile.exists()) {
 				br = new BufferedReader(new FileReader(settingsFile));
 			}
 			else throw new IOException("Settings File does not exist");
 			
 		} catch (IOException e1) {
-			System.out.println("Default settings have been set");
 			createSettingsFile();
 			return;
 		}
@@ -79,7 +83,7 @@ public class SettingsHandler {
 		for (int i = 0; i < settings.length; i++) {
 			settingsString = settingsString.concat(settings[i].getID() + IDENTIFIER_SYMBOL + settings[i].getValue() + "\n");
 		}
-		/*try {
+		try {
 			File settingsFile = new File(
 					System.getProperty("user.dir") + FILE_NAME);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(settingsFile));
@@ -87,7 +91,7 @@ public class SettingsHandler {
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 	
 	public boolean getSettingBoolean(String id) {
