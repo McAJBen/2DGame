@@ -83,8 +83,7 @@ public class MapSquare {
 		g.setColor(getColor());
 		switch (getType()) {
 		case COIN:
-		case ENEMY:
-			g.drawImage(coin, x, y, width, height, null);
+			paintCoin(g, x, y, width, height);
 			break;
 		case WALL:
 		case ENEMY_WALL:
@@ -96,20 +95,28 @@ public class MapSquare {
 			g.fillRect(x, y, width, height);
 			paintElectricity(g, x, y, width, height);
 		case FLOOR:
+		case ENEMY:
 		}
+	}
+	
+	public static void paintCoin(Graphics g, int x, int y, int width, int height) {
+		g.drawImage(coin, x, y, width, height, null);
 	}
 
 	private void paintElectricity(Graphics g, int x, int y, int width, int height) {
-		g.setColor(ELECTRICITY_COLOR);
-		int lastX = x + (int)(width * rand.nextFloat());
-		int lastY = y + (int)(height * rand.nextFloat());
-		for (int i = 0; i < 2; i++) {
-			int thisX = x + (int)(width * rand.nextFloat());
-			int thisY = y + (int)(height * rand.nextFloat());
-			g.drawLine( lastX, lastY, thisX, thisY);
-			lastX = thisX;
-			lastY = thisY;
+		if (rand.nextBoolean()) {
+			g.setColor(ELECTRICITY_COLOR);
+			int lastX = x + (int)(width * rand.nextFloat());
+			int lastY = y + (int)(height * rand.nextFloat());
+			for (int i = 0; i < 2; i++) {
+				int thisX = x + (int)(width * rand.nextFloat());
+				int thisY = y + (int)(height * rand.nextFloat());
+				g.drawLine( lastX, lastY, thisX, thisY);
+				lastX = thisX;
+				lastY = thisY;
+			}
 		}
+		
 	}
 
 	private Color getColor() {

@@ -178,10 +178,10 @@ public class Player {
 	public void paint(Graphics g) {
 		g.setColor(Color.BLACK);
 		
-		
 		paintPlayer(g, position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 		
-		g.drawString("Coins: " + coins, GLOBAL.screenCoinPosition.x, GLOBAL.screenCoinPosition.y);
+		g.drawString(" : " + coins, GLOBAL.screenCoinPosition.x + (int)GLOBAL.screenPixelWidth, GLOBAL.screenCoinPosition.y);
+		MapSquare.paintCoin(g, GLOBAL.screenCoinPosition.x, GLOBAL.screenCoinPosition.y - (int)GLOBAL.screenPixelHeight, (int)GLOBAL.screenPixelWidth, (int)GLOBAL.screenPixelHeight);
 	}
 	
 	public static void paintPlayer(Graphics g, int x, int y, int width, int height) {

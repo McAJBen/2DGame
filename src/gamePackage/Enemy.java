@@ -109,13 +109,5 @@ public class Enemy {
 				position.getYScreen() + stepY,
 				(int)GLOBAL.screenPixelWidth - stepWidth,
 				(int)GLOBAL.screenPixelHeight - stepHeight);
-		
-		g.drawString((position.getXShort()) + " ", 
-				position.getXScreen(),
-				position.getYScreen() - 10);
-		
-		g.drawString(" " + (position.getYShort()), 
-				position.getXScreen(),
-				position.getYScreen());
 	}
 }
