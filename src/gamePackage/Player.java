@@ -17,6 +17,7 @@ public class Player {
 	private Position lastPosition;
 	private Point mapChangeTo;
 	private int coins;
+	private int deaths;
 	private byte jumpWait;
 	private byte jumpsLeft;
 	private byte mapChangeWait;
@@ -180,7 +181,7 @@ public class Player {
 		
 		paintPlayer(g, position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 		
-		g.drawString(" : " + coins, GLOBAL.screenCoinPosition.x + (int)GLOBAL.screenPixelWidth, GLOBAL.screenCoinPosition.y);
+		g.drawString(" : " + coins + " Deaths : " + deaths, GLOBAL.screenCoinPosition.x + (int)GLOBAL.screenPixelWidth, GLOBAL.screenCoinPosition.y);
 		MapSquare.paintCoin(g, GLOBAL.screenCoinPosition.x, GLOBAL.screenCoinPosition.y - (int)GLOBAL.screenPixelHeight, (int)GLOBAL.screenPixelWidth, (int)GLOBAL.screenPixelHeight);
 	}
 	
@@ -232,6 +233,7 @@ public class Player {
 	}
 
 	public void kill() {
+		deaths++;
 		position.set(lastPosition);
 		velocity = new Position();
 	}
