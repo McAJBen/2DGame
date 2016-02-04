@@ -4,11 +4,14 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import animationPackage.DeathAnimation.Death;
+
 public class MapTile {
 	
 	private MapSquare[][] mapSquares;
 	ArrayList<Enemy> enemys;
 	ArrayList<JumpSquare> jumpSquares;
+	Death deathCause;
 	
 	public MapTile(BufferedImage map) {
 		mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
@@ -48,10 +51,13 @@ public class MapTile {
 			checkDeath(position.getXMaxPlayer(), position.getY()) ||
 			checkDeath(position.getX(), 		 position.getYMaxPlayer()) ||
 			checkDeath(position.getXMaxPlayer(), position.getYMaxPlayer())) {
+				deathCause = Death.ELECTRIC;
 				return true;
+				
 		}
 		for (Enemy e: enemys) {
 			if (e.checkEnemy(position)) {
+				deathCause = Death.ENEMY;
 				return true;
 			}
 		}
@@ -102,5 +108,9 @@ public class MapTile {
 			}
 		}
 		return false;
+	}
+
+	public Death getDeathCause() {
+		return deathCause;
 	}
 }

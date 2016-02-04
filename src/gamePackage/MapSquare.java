@@ -93,7 +93,7 @@ public class MapSquare {
 			break;
 		case ELECTRIC_WALL:
 			g.fillRect(x, y, width, height);
-			paintElectricity(g, x, y, width, height);
+			paintElectricity(g, x, y, width, height, 2);
 		case FLOOR:
 		case ENEMY:
 		}
@@ -103,19 +103,19 @@ public class MapSquare {
 		g.drawImage(coin, x, y, width, height, null);
 	}
 
-	private void paintElectricity(Graphics g, int x, int y, int width, int height) {
-		if (rand.nextBoolean()) {
+	public static void paintElectricity(Graphics g, int x, int y, int width, int height, int times) {
+		//if (rand.nextBoolean()) {
 			g.setColor(ELECTRICITY_COLOR);
 			int lastX = x + (int)(width * rand.nextFloat());
 			int lastY = y + (int)(height * rand.nextFloat());
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < times; i++) {
 				int thisX = x + (int)(width * rand.nextFloat());
 				int thisY = y + (int)(height * rand.nextFloat());
 				g.drawLine( lastX, lastY, thisX, thisY);
 				lastX = thisX;
 				lastY = thisY;
 			}
-		}
+		//}
 		
 	}
 

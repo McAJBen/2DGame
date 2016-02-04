@@ -65,11 +65,16 @@ public class Game {
 			}
 			
 			if (map.checkDeath(player.getPosition())) {
+				
+				deathAnimation = new DeathAnimation(
+						map.getCurrentMapImage(), map.getDeathCause(), player.getPosition());
+				
 				player.kill();
 				keyListener.reset();
 				
-				deathAnimation = new DeathAnimation(
-						map.getCurrentMapImage());
+				
+				
+				
 				state = State.DEATH;
 			}
 			if (player.getCoins() >= GLOBAL.MAX_COINS) {

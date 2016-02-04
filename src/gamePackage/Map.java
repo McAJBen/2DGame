@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import animationPackage.DeathAnimation.Death;
+
 public class Map {
 	
 	private MapTile[][] mapTile = new MapTile[GLOBAL.MAP_SIZE.width][GLOBAL.MAP_SIZE.height];
@@ -83,5 +85,9 @@ public class Map {
 
 	public boolean checkJumpSquare(Position position) {
 		return getCurrentMap().checkJumpSquare(position);
+	}
+
+	public Death getDeathCause() {
+		return getCurrentMap().getDeathCause();
 	}
 }
