@@ -78,7 +78,7 @@ public class Game {
 				state = State.DEATH;
 			}
 			if (player.getCoins() >= GLOBAL.MAX_COINS) {
-				endAnimation = new EndAnimation();
+				endAnimation = new EndAnimation(player.getDeaths());
 				state = State.END;
 				player.completeReset();
 				map.completeReset();

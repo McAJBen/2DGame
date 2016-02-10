@@ -181,8 +181,8 @@ public class Player {
 		
 		paintPlayer(g, position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 		
-		g.drawString(" : " + coins + " Deaths : " + deaths, GLOBAL.screenCoinPosition.x + (int)GLOBAL.screenPixelWidth, GLOBAL.screenCoinPosition.y);
-		MapSquare.paintCoin(g, GLOBAL.screenCoinPosition.x, GLOBAL.screenCoinPosition.y - (int)GLOBAL.screenPixelHeight, (int)GLOBAL.screenPixelWidth, (int)GLOBAL.screenPixelHeight);
+		g.drawString(coins + "           Deaths:" + deaths, (int) (GLOBAL.screenPixelWidth + (int)GLOBAL.screenPixelWidth), (int)GLOBAL.screenPixelHeight);
+		MapSquare.paintCoin(g, (int)GLOBAL.screenPixelWidth, 0, (int)GLOBAL.screenPixelWidth, (int)GLOBAL.screenPixelHeight);
 	}
 	
 	public static void paintPlayer(Graphics g, int x, int y, int width, int height) {
@@ -240,6 +240,10 @@ public class Player {
 
 	public int getCoins() {
 		return coins;
+	}
+	
+	public int getDeaths() {
+		return deaths;
 	}
 
 	public void completeReset() {

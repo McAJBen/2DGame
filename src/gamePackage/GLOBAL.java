@@ -1,7 +1,6 @@
 package gamePackage;
 
 import java.awt.Dimension;
-import java.awt.Point;
 
 public final class GLOBAL {
 	
@@ -58,8 +57,6 @@ public final class GLOBAL {
 	public static float screenUWidth;
 	public static float screenUHeight;
 	
-	public static Point screenCoinPosition;
-	
 	public static void setWindowSize(Dimension screenSize) {
 		GLOBAL.screenSize = screenSize;
 		screenUWidth = (float)screenSize.width / GLOBAL.MAP_U_SIZE;
@@ -69,7 +66,6 @@ public final class GLOBAL {
 				screenSize.height * GLOBAL.PLAYER_SIZE / GLOBAL.MAP_U_SIZE + 1);
 		screenPixelWidth = (float)screenSize.width / GLOBAL.MAP_PIXEL_SIZE;
 		screenPixelHeight = (float)screenSize.height / GLOBAL.MAP_PIXEL_SIZE;
-		screenCoinPosition = new Point(0, screenSize.height);
 	}
 	
 	public static void setSettings() {
