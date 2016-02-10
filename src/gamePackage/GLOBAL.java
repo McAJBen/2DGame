@@ -22,6 +22,7 @@ public final class GLOBAL {
 	
 	public static final short PLAYER_MOVE_SPEED = 2;
 	public static final short PLAYER_GRAV = 1;
+	public static final short PLAYER_FALL = 3;
 	public static final short PLAYER_SIZE = 80;
 	public static int PLAYER_U_MAX;
 	public static final byte PLAYER_JUMP = 4;
@@ -49,6 +50,7 @@ public final class GLOBAL {
 	
 	public static final short MAX_BUBBLE_RADIUS = 20;
 	public static final short MAX_BUBBLE_DIAM = MAX_BUBBLE_RADIUS * 2;
+	public static final short SPEED_LINE_SIZE = 4;
 	
 	public static int MAX_COINS;
 	

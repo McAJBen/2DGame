@@ -31,9 +31,12 @@ public class Player {
 	public boolean move(int dx, boolean jump, MapSquare[][] mapSquares) {
 		
 		if (position.getY() + 1 < GLOBAL.MAP_PIXEL_SIZE) {
-			if (mapSquares[position.getX()][position.getY() + 1].isSpeed()) { // TODO check if off map
+			if (mapSquares[position.getX()][position.getY() + 1].isSpeed()) {
 				dx *= GLOBAL.PLAYER_SPEED_MULTI;
 			}
+		}
+		if (mapSquares[position.getX()][position.getY()].isFall()) {
+			velocity.addYShort(GLOBAL.PLAYER_FALL);
 		}
 		
 		velocity.addXShort(dx * GLOBAL.PLAYER_MOVE_SPEED);
