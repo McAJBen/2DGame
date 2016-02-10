@@ -25,11 +25,13 @@ public class MapSquare {
 				ENEMY_WALL_COLOR = new Color(127, 127, 127),
 				PLAYER_WALL_COLOR = new Color(255, 127, 39),
 				JUMP_SQUARE_COLOR = new Color(255, 174, 201),
-				ELECTRIC_WALL_COLOR = new Color(153, 217, 234),
-				ELECTRICITY_COLOR = new Color(0, 162, 232);
+				ELECTRIC_SQUARE_COLOR = new Color(153, 217, 234),
+				ELECTRICITY_COLOR = new Color(0, 162, 232),
+				SPEED_WALL_COLOR = new Color(34, 177, 76),
+				SPEED_COLOR = new Color(181, 230, 29);
 				
 	private static enum SquareType {
-		FLOOR, WALL, COIN, ENEMY, ENEMY_WALL, PLAYER_WALL, JUMP_SQUARE, ELECTRIC_WALL
+		FLOOR, WALL, COIN, ENEMY, ENEMY_WALL, PLAYER_WALL, JUMP_SQUARE, ELECTRIC_SQUARE, SPEED_WALL
 	}
 	
 	private SquareType squareType;
@@ -58,8 +60,11 @@ public class MapSquare {
 		else if (pixelColor.equals(JUMP_SQUARE_COLOR)) {
 			squareType = SquareType.JUMP_SQUARE;
 		}
-		else if (pixelColor.equals(ELECTRIC_WALL_COLOR)) {
-			squareType = SquareType.ELECTRIC_WALL;
+		else if (pixelColor.equals(ELECTRIC_SQUARE_COLOR)) {
+			squareType = SquareType.ELECTRIC_SQUARE;
+		}
+		else if (pixelColor.equals(SPEED_WALL_COLOR)) {
+			squareType = SquareType.SPEED_WALL;
 		}
 		else {
 			squareType = SquareType.FLOOR;
@@ -92,14 +97,30 @@ public class MapSquare {
 		case JUMP_SQUARE:
 			g.fillRect(x, y, width, height);
 			break;
-		case ELECTRIC_WALL:
+		case ELECTRIC_SQUARE:
 			g.fillRect(x, y, width, height);
 			paintElectricity(g, x, y, width, height, 2);
+		case SPEED_WALL:
+			g.fillRect(x, y, width, height);
+			paintSpeed(g, x, y, width, height, 2);
 		case FLOOR:
 		case ENEMY:
 		}
 	}
 	
+	private void paintSpeed(Graphics g, int x, int y, int width, int height, int times) {
+		g.setColor(SPEED_COLOR); // TODO change to horizontal lines
+		int lastX = x + (int)(width * rand.nextFloat());
+		int lastY = y + (int)(height * rand.nextFloat());
+		for (int i = 0; i < times; i++) {
+			int thisX = x + (int)(width * rand.nextFloat());
+			int thisY = y + (int)(height * rand.nextFloat());
+			g.drawLine( lastX, lastY, thisX, thisY);
+			lastX = thisX;
+			lastY = thisY;
+		}
+	}
+
 	public static void paintCoin(Graphics g, int x, int y, int width, int height) {
 		g.drawImage(coin, x, y, width, height, null);
 	}
@@ -137,8 +158,10 @@ public class MapSquare {
 			return PLAYER_WALL_COLOR;
 		case JUMP_SQUARE:
 			return JUMP_SQUARE_COLOR;
-		case ELECTRIC_WALL:
-			return ELECTRIC_WALL_COLOR;
+		case ELECTRIC_SQUARE:
+			return ELECTRIC_SQUARE_COLOR;
+		case SPEED_WALL:
+			return SPEED_WALL_COLOR;
 		}
 	}
 
@@ -149,9 +172,10 @@ public class MapSquare {
 		case ENEMY:
 		case PLAYER_WALL:
 		case JUMP_SQUARE:
-		case ELECTRIC_WALL:
+		case ELECTRIC_SQUARE:
 			return false;
 			
+		case SPEED_WALL:
 		case ENEMY_WALL:
 		case WALL:
 		default:
@@ -165,9 +189,11 @@ public class MapSquare {
 		case COIN:
 		case ENEMY:	
 		case ENEMY_WALL:
-		case ELECTRIC_WALL:
+		case ELECTRIC_SQUARE:
 			return false;
+		
 		default:
+		case SPEED_WALL:
 		case WALL:
 		case PLAYER_WALL:
 		case JUMP_SQUARE:
@@ -192,7 +218,7 @@ public class MapSquare {
 	}
 	
 	public boolean isElectric() {
-		return squareType == SquareType.ELECTRIC_WALL;
+		return squareType == SquareType.ELECTRIC_SQUARE;
 	}
 	
 	public boolean isJumpSquare() {
@@ -203,5 +229,9 @@ public class MapSquare {
 		try {
 			coin = ImageIO.read(DeathAnimation.class.getResource("/Coin.png"));
 		} catch (IOException e) {}
+	}
+
+	public boolean isSpeed() {
+		return squareType == SquareType.SPEED_WALL;
 	}
 }

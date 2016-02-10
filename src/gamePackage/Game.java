@@ -110,6 +110,7 @@ public class Game {
 		case NORMAL:
 			map.paint(g);
 			player.paint(g);
+			g.drawString(player.getPosition().toString(), 50, 50);
 			//g.drawString(keyListener.toString(), 50, 50);
 			break;
 		case CHANGING_MAP:

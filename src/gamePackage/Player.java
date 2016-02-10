@@ -29,6 +29,13 @@ public class Player {
 	}
 	
 	public boolean move(int dx, boolean jump, MapSquare[][] mapSquares) {
+		
+		if (position.getY() + 1 < GLOBAL.MAP_PIXEL_SIZE) {
+			if (mapSquares[position.getX()][position.getY() + 1].isSpeed()) { // TODO check if off map
+				dx *= GLOBAL.PLAYER_SPEED_MULTI;
+			}
+		}
+		
 		velocity.addXShort(dx * GLOBAL.PLAYER_MOVE_SPEED);
 		velocity.addYShort(GLOBAL.PLAYER_GRAV);
 		
@@ -98,62 +105,64 @@ public class Player {
 	}
 
 	private void movePlayer(Position newPosition, MapSquare[][] mapSquares) {
-		boolean tryAgain = false;
 		
 		if (velocity.getXShort() < 0 || velocity.getYShort() < 0) {
 			if (checkCollide(newPosition.getX(), newPosition.getY(),
 				position.getX(), position.getY(), mapSquares, newPosition)) {
-					tryAgain = true;
 			}
 		}
 		if (velocity.getXShort() < 0 || velocity.getYShort() > 0) {
 			if (checkCollide(newPosition.getX(), newPosition.getYMaxPlayer(),
 				position.getX(), position.getYMaxPlayer(), mapSquares, newPosition)) {
-					tryAgain = true;
 					resetJump();
 			}
 		}
 		if (velocity.getXShort() > 0 || velocity.getYShort() < 0) {
 			if (checkCollide(newPosition.getXMaxPlayer(), newPosition.getY(),
 				position.getXMaxPlayer(), position.getY(), mapSquares, newPosition)) {
-					tryAgain = true;
 			}
 		}
 		if (velocity.getXShort() > 0 || velocity.getYShort() > 0) {
 			if (checkCollide(newPosition.getXMaxPlayer(), newPosition.getYMaxPlayer(),
 				position.getXMaxPlayer(), position.getYMaxPlayer(), mapSquares, newPosition)) {
-					tryAgain = true;
 					resetJump();
 			}
 		}
-		if (tryAgain) {
-			movePlayer(newPosition, mapSquares);
-		}
-		else {
-			position.set(newPosition);
-		}
+		position.set(newPosition);
 	}
 	
 	private boolean canChangeMap() {
 		return mapChangeWait >= GLOBAL.PLAYER_MAP_CHANGE_WAIT;
 	}
 	
-	private boolean checkCollide(int x, int y, int x2, int y2, MapSquare[][] mapSquares, Position newPosition) {
-		boolean tryAgain = false;
-		if (mapSquares[x][y].getWallPlayer()) {
-			if (mapSquares[x2][y].getWallPlayer()) {
+	private boolean checkCollide(int newX, int newY, int currX, int currY, MapSquare[][] mapSquares, Position newPosition) {
+		boolean collides = false;
+		if (mapSquares[newX][newY].getWallPlayer()) {
+			if (mapSquares[currX][newY].getWallPlayer()) {
 				newPosition.setY(position);
 				velocity.setY(0);
-				tryAgain = true;
+				collides = true;
 			}
-			if (mapSquares[x][y2].getWallPlayer()) {
+			if (mapSquares[newX][currY].getWallPlayer()) {
 				newPosition.setX(position);
 				velocity.setX(0);
-				tryAgain = true;
+				collides = true;
+			}
+			if (collides == false) {
+				if (velocity.getXShort() > velocity.getYShort()) {
+					newPosition.setY(position);
+					velocity.setY(0);
+					collides = true;
+				}
+				else {
+					newPosition.setX(position);
+					velocity.setX(0);
+					collides = true;
+				}
 			}
 		}
 		
-		return tryAgain;
+		return collides;
 	}
 
 	private void resetJump() {
