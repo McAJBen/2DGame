@@ -1,4 +1,4 @@
-package gamePackage;
+package MapPackage;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -8,6 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import animationPackage.DeathAnimation.Death;
+import gamePackage.GLOBAL;
+import gamePackage.Position;
 
 public class Map {
 	

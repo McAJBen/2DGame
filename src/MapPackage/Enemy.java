@@ -1,8 +1,10 @@
-package gamePackage;
+package MapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
+import gamePackage.GLOBAL;
+import gamePackage.Position;
 import gamePackage.GLOBAL.Direction;
 
 public class Enemy {

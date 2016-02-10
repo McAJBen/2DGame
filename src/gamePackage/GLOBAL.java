@@ -2,6 +2,8 @@ package gamePackage;
 
 import java.awt.Dimension;
 
+import settingsPackage.SettingsHandler;
+
 public final class GLOBAL {
 	
 	public static final Dimension SCREEN_SIZE = new Dimension(500, 500);

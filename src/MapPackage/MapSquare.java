@@ -1,4 +1,4 @@
-package gamePackage;
+package MapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import animationPackage.DeathAnimation;
+import gamePackage.GLOBAL;
 
 public class MapSquare {
 	

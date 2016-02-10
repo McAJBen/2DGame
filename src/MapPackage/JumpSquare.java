@@ -1,8 +1,11 @@
-package gamePackage;
+package MapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
+
+import gamePackage.GLOBAL;
+import gamePackage.Position;
 
 public class JumpSquare {
 	

@@ -1,4 +1,4 @@
-package gamePackage;
+package settingsPackage;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import gamePackage.GLOBAL;
 
 public class SettingsHandler {
 
@@ -21,7 +23,7 @@ public class SettingsHandler {
 			new Setting("MAP_PIXEL_SIZE", "50", GLOBAL.ValueType.SHORT),
 			new Setting("PLAYER_ORIGINAL_POSITION_X", "13", GLOBAL.ValueType.SHORT),
 			new Setting("PLAYER_ORIGINAL_POSITION_Y", "13", GLOBAL.ValueType.SHORT),
-			new Setting("MAX_COINS", "50", GLOBAL.ValueType.INT)
+			new Setting("MAX_COINS", "200", GLOBAL.ValueType.INT)
 	};
 	private static boolean hasSettings = false;
 	

@@ -1,4 +1,4 @@
-package gamePackage;
+package settingsPackage;
 
 import gamePackage.GLOBAL.ValueType;
 

@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import MapPackage.MapSquare;
+
 public class Player {
 	
 	private static BufferedImage playerImage;

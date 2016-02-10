@@ -4,9 +4,11 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyListener;
 
+import MapPackage.Map;
 import animationPackage.DeathAnimation;
 import animationPackage.EndAnimation;
 import animationPackage.MapChangeAnimation;
+import keyInputPackage.GameKeyboardListener;
 
 public class Game {
 	
@@ -108,6 +110,7 @@ public class Game {
 		case NORMAL:
 			map.paint(g);
 			player.paint(g);
+			//g.drawString(keyListener.toString(), 50, 50);
 			break;
 		case CHANGING_MAP:
 			mapChangeAnimation.paint(g);

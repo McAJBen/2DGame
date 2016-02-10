@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import MapPackage.MapSquare;
 import animationPackage.DeathAnimation;
 
 @SuppressWarnings("serial")

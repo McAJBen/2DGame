@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import MapPackage.MapSquare;
 import gamePackage.GLOBAL;
-import gamePackage.MapSquare;
 import gamePackage.Player;
 import gamePackage.Position;
 

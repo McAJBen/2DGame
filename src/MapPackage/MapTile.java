@@ -1,10 +1,12 @@
-package gamePackage;
+package MapPackage;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import animationPackage.DeathAnimation.Death;
+import gamePackage.GLOBAL;
+import gamePackage.Position;
 
 public class MapTile {
 	
