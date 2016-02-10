@@ -7,9 +7,11 @@ import gamePackage.GLOBAL;
 
 public class EndAnimation {
 	private double stage;
+	private int deaths;
 
-	public EndAnimation() {
+	public EndAnimation(int deaths) {
 		stage = 0;
+		this.deaths = deaths;
 	}
 
 	public boolean move() {
@@ -22,5 +24,6 @@ public class EndAnimation {
 		g.fillRect(0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height);
 		g.setColor(Color.BLACK);
 		g.drawString("Congraturation", GLOBAL.screenSize.width / 2, GLOBAL.screenSize.height / 2);
+		g.drawString(deaths + " Deaths", GLOBAL.screenSize.width / 2, 10 + GLOBAL.screenSize.height / 2);
 	}
 }
