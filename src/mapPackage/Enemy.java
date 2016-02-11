@@ -4,11 +4,23 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-import gamePackage.GLOBAL;
+import settingsPackage.GLOBAL;
 import gamePackage.Position;
-import gamePackage.GLOBAL.Direction;
 
 public class Enemy {
+	
+	public static enum Direction {
+		RIGHT, DOWN, LEFT, 
+		UP {
+			@Override
+			public Direction next() {
+				return Direction.RIGHT;
+			};
+		};
+		public Direction next() {
+			return values()[ordinal() + 1];
+		}
+	}
 	
 	private Position position;
 	private Direction direction;

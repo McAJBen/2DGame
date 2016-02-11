@@ -6,8 +6,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import animationPackage.DeathAnimation.Death;
-import gamePackage.GLOBAL;
 import gamePackage.Position;
+import settingsPackage.GLOBAL;
 
 public class MapTile {
 	

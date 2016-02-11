@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import gamePackage.GLOBAL;
+import settingsPackage.GLOBAL.ValueType;
 
 public class SettingsHandler {
 
@@ -17,13 +17,14 @@ public class SettingsHandler {
 	COMMENT_SYMBOL = "#";
 
 	private static Setting[] settings = {
-			new Setting("FULLSCREEN", "false", GLOBAL.ValueType.BOOLEAN),
-			new Setting("MAP_START_X", "0", GLOBAL.ValueType.SHORT),
-			new Setting("MAP_START_Y", "0", GLOBAL.ValueType.SHORT),
-			new Setting("MAP_PIXEL_SIZE", "50", GLOBAL.ValueType.SHORT),
-			new Setting("PLAYER_ORIGINAL_POSITION_X", "13", GLOBAL.ValueType.SHORT),
-			new Setting("PLAYER_ORIGINAL_POSITION_Y", "13", GLOBAL.ValueType.SHORT),
-			new Setting("MAX_COINS", "200", GLOBAL.ValueType.INT)
+			new Setting("FULLSCREEN", "false", ValueType.BOOLEAN),
+			new Setting("MAP_START_X", "0", ValueType.SHORT),
+			new Setting("MAP_START_Y", "0", ValueType.SHORT),
+			new Setting("MAP_PIXEL_SIZE", "50", ValueType.SHORT),
+			new Setting("PLAYER_ORIGINAL_POSITION_X", "13", ValueType.SHORT),
+			new Setting("PLAYER_ORIGINAL_POSITION_Y", "13", ValueType.SHORT),
+			new Setting("MAX_COINS", "200", ValueType.INT),
+			new Setting("DEBUG_MODE", "false", ValueType.BOOLEAN)
 	};
 	private static boolean hasSettings = false;
 	

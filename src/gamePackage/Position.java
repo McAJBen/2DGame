@@ -1,5 +1,7 @@
 package gamePackage;
 
+import settingsPackage.GLOBAL;
+
 public class Position {
 	
 	

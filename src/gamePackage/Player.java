@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import mapPackage.MapSquare;
+import settingsPackage.GLOBAL;
 
 public class Player {
 	

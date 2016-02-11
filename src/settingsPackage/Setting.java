@@ -1,6 +1,6 @@
 package settingsPackage;
 
-import gamePackage.GLOBAL.ValueType;
+import settingsPackage.GLOBAL.ValueType;
 
 public class Setting {
 	

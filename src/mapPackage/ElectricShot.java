@@ -4,20 +4,20 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import gamePackage.GLOBAL;
 import gamePackage.Position;
+import settingsPackage.GLOBAL;
 
 public class ElectricShot {
 	
 	private static int electricShotStep;
-	private enum Dir {
+	private enum eShotType {
 		HORIZONTAL, VERTICAL, BOTH
 	}
 	
-	private Dir direction;
+	private eShotType direction;
 	private Position position;
 	
-	public ElectricShot(int x, int y, Dir i) {
+	public ElectricShot(int x, int y, eShotType i) {
 		direction = i;
 		position = new Position();
 		position.setX(x);
@@ -116,7 +116,7 @@ public class ElectricShot {
 		for (Point p: electricShotBasePoints) {
 			for (int x = p.x - 1; x >= 0; x--) {
 				if (mapSquares[x][p.y].isFloor()) {
-					electricShots.add(new ElectricShot(x, p.y, Dir.HORIZONTAL));
+					electricShots.add(new ElectricShot(x, p.y, eShotType.HORIZONTAL));
 				}
 				else if (mapSquares[x][p.y].getWallEnemy()) {
 					break;
@@ -124,7 +124,7 @@ public class ElectricShot {
 			}
 			for (int x = p.x + 1; x < GLOBAL.MAP_PIXEL_SIZE; x++) {
 				if (mapSquares[x][p.y].isFloor()) {
-					electricShots.add(new ElectricShot(x, p.y, Dir.HORIZONTAL));
+					electricShots.add(new ElectricShot(x, p.y, eShotType.HORIZONTAL));
 				}
 				else if (mapSquares[x][p.y].getWallEnemy()) {
 					break;
@@ -132,7 +132,7 @@ public class ElectricShot {
 			}
 			for (int y = p.y - 1; y >= 0; y--) {
 				if (mapSquares[p.x][y].isFloor()) {
-					electricShots.add(new ElectricShot(p.x, y, Dir.VERTICAL));
+					electricShots.add(new ElectricShot(p.x, y, eShotType.VERTICAL));
 				}
 				else if (mapSquares[p.x][y].getWallEnemy()) {
 					break;
@@ -140,7 +140,7 @@ public class ElectricShot {
 			}
 			for (int y = p.y + 1; y < GLOBAL.MAP_PIXEL_SIZE; y++) {
 				if (mapSquares[p.x][y].isFloor()) {
-					electricShots.add(new ElectricShot(p.x, y, Dir.VERTICAL));
+					electricShots.add(new ElectricShot(p.x, y, eShotType.VERTICAL));
 				}
 				else if (mapSquares[p.x][y].getWallEnemy()) {
 					break;
@@ -187,7 +187,7 @@ public class ElectricShot {
 	}
 	
 	private void setBoth() {
-		direction = Dir.BOTH;
+		direction = eShotType.BOTH;
 	}
 	
 	

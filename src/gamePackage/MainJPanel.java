@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import animationPackage.DeathAnimation;
 import mapPackage.MapSquare;
+import settingsPackage.GLOBAL;
 
 @SuppressWarnings("serial")
 public class MainJPanel extends JPanel {

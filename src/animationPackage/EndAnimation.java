@@ -3,7 +3,7 @@ package animationPackage;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import gamePackage.GLOBAL;
+import settingsPackage.GLOBAL;
 
 public class EndAnimation {
 	private double stage;

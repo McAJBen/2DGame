@@ -1,10 +1,12 @@
-package gamePackage;
+package settingsPackage;
 
 import java.awt.Dimension;
 
 import settingsPackage.SettingsHandler;
 
 public final class GLOBAL {
+	
+	public static boolean DEBUG_MODE;
 	
 	public static final Dimension SCREEN_SIZE = new Dimension(500, 500);
 	public static final Dimension SCREEN_OFFSET = new Dimension(17, 40);
@@ -79,6 +81,7 @@ public final class GLOBAL {
 	}
 	
 	public static void setSettings() {
+		DEBUG_MODE = SettingsHandler.getSettingBoolean("DEBUG_MODE");
 		FULLSCREEN = SettingsHandler.getSettingBoolean("FULLSCREEN");
 		MAP_START_X = SettingsHandler.getSettingShort("MAP_START_X");
 		MAP_START_Y = SettingsHandler.getSettingShort("MAP_START_Y");
@@ -86,6 +89,7 @@ public final class GLOBAL {
 		PLAYER_ORIGINAL_POSITION_X = SettingsHandler.getSettingShort("PLAYER_ORIGINAL_POSITION_X");
 		PLAYER_ORIGINAL_POSITION_Y = SettingsHandler.getSettingShort("PLAYER_ORIGINAL_POSITION_Y");
 		MAX_COINS = SettingsHandler.getSettingInt("MAX_COINS");
+		
 		
 		MAP_U_SIZE = MAP_PIXEL_SIZE * U_MULTIPLIER;
 		PLAYER_U_MAX = MAP_U_SIZE - PLAYER_SIZE - 1;
@@ -98,17 +102,5 @@ public final class GLOBAL {
 	
 	public static enum ValueType {
 		BOOLEAN, BYTE, SHORT, INT, DOUBLE;
-	}
-	public static enum Direction {
-		RIGHT, DOWN, LEFT, 
-		UP {
-			@Override
-			public Direction next() {
-				return Direction.RIGHT;
-			};
-		};
-		public Direction next() {
-			return values()[ordinal() + 1];
-		}
 	}
 }

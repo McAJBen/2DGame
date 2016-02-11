@@ -9,6 +9,7 @@ import animationPackage.EndAnimation;
 import animationPackage.MapChangeAnimation;
 import keyInputPackage.GameKeyboardListener;
 import mapPackage.Map;
+import settingsPackage.GLOBAL;
 
 public class Game {
 	

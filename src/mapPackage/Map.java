@@ -8,8 +8,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import animationPackage.DeathAnimation.Death;
-import gamePackage.GLOBAL;
 import gamePackage.Position;
+import settingsPackage.GLOBAL;
 
 public class Map {
 	

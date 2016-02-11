@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
-import gamePackage.GLOBAL;
+import settingsPackage.GLOBAL;
 import gamePackage.Position;
 
 public class JumpSquare {

@@ -3,12 +3,15 @@ package animationPackage;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import gamePackage.GLOBAL;
+import settingsPackage.GLOBAL;
 import gamePackage.Position;
-import gamePackage.GLOBAL.Direction;
 import gamePackage.Player;
 
 public class MapChangeAnimation {
+	
+	public static enum Direction {
+		RIGHT, DOWN, LEFT, UP
+	}
 	
 	private BufferedImage oldImg, newImg;
 	private Direction direction;
