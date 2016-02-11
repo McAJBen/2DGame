@@ -57,7 +57,7 @@ public class SettingsHandler {
 			}
 			if (settingsString != null && !settingsString.startsWith(COMMENT_SYMBOL)) {
 				
-				settingsString.replaceAll("\\s", "");
+				settingsString = settingsString.replaceAll("\\s", "");
 				
 				int indexOfIdentifier = settingsString.indexOf(IDENTIFIER_SYMBOL);
 				if (indexOfIdentifier == -1) {

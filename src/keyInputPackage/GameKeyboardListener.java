@@ -37,7 +37,7 @@ public class GameKeyboardListener implements KeyListener {
 	}
 	
 	private boolean getKey(int keyCode) {
-		for (int k: keysDown) {
+		for (int k: keysDown) { // TODO concurrent use modification happens
 			if (k == keyCode) {
 				return true;
 			}

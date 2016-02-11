@@ -30,7 +30,7 @@ public final class GLOBAL {
 	public static final byte PLAYER_JUMP_LIMIT = 3;
 	public static final double PLAYER_FRICTION = 0.90;
 	public static final short PLAYER_MAX_VELOCITY = U_MULTIPLIER;
-	public static final byte PLAYER_SPEED_MULTI = 2;
+	public static final byte PLAYER_SPEED_MULTI = 3;
 	public static final byte PLAYER_MAP_CHANGE_WAIT = 50;
 	
 	public static final short ENEMY_STEP = 10;

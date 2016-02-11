@@ -27,15 +27,14 @@ public class MapSquare {
 				JUMP_SQUARE_COLOR = new Color(255, 174, 201),
 				ELECTRIC_SQUARE_COLOR = new Color(153, 217, 234),
 				ELECTRICITY_COLOR = new Color(0, 162, 232),
-				SPEED_WALL_COLOR = new Color(34, 177, 76),
-				SPEED_COLOR = new Color(181, 230, 29),
+				SPEED_COLOR = new Color(34, 177, 76),
 				FALL_SQUARE_COLOR = new Color(185, 122, 87);
 				
 	private static enum SquareType {
 		FLOOR, WALL, COIN, ENEMY,
 		ENEMY_WALL, PLAYER_WALL, 
 		JUMP_SQUARE, ELECTRIC_SQUARE, 
-		SPEED_WALL, FALL_SQUARE
+		SPEED_SQUARE, FALL_SQUARE
 	}
 	
 	private SquareType squareType;
@@ -67,8 +66,8 @@ public class MapSquare {
 		else if (pixelColor.equals(ELECTRIC_SQUARE_COLOR)) {
 			squareType = SquareType.ELECTRIC_SQUARE;
 		}
-		else if (pixelColor.equals(SPEED_WALL_COLOR)) {
-			squareType = SquareType.SPEED_WALL;
+		else if (pixelColor.equals(SPEED_COLOR)) {
+			squareType = SquareType.SPEED_SQUARE;
 		}
 		else if (pixelColor.equals(FALL_SQUARE_COLOR)) {
 			squareType = SquareType.FALL_SQUARE;
@@ -116,8 +115,7 @@ public class MapSquare {
 			g.fillRect(x, y, width, height);
 			paintElectricity(g, x, y, width, height, 2);
 			break;
-		case SPEED_WALL:
-			g.fillRect(x, y, width, height);
+		case SPEED_SQUARE:
 			paintSpeed(g, x, y, width, height, 2);
 			break;
 		case FALL_SQUARE:
@@ -188,8 +186,8 @@ public class MapSquare {
 			return JUMP_SQUARE_COLOR;
 		case ELECTRIC_SQUARE:
 			return ELECTRIC_SQUARE_COLOR;
-		case SPEED_WALL:
-			return SPEED_WALL_COLOR;
+		case SPEED_SQUARE:
+			return SPEED_COLOR;
 		case FALL_SQUARE:
 			return FALL_SQUARE_COLOR;
 		}
@@ -204,9 +202,10 @@ public class MapSquare {
 		case JUMP_SQUARE:
 		case ELECTRIC_SQUARE:
 		case FALL_SQUARE:
+		case SPEED_SQUARE:
 			return false;
 			
-		case SPEED_WALL:
+		
 		case ENEMY_WALL:
 		case WALL:
 		default:
@@ -225,7 +224,7 @@ public class MapSquare {
 			return false;
 		
 		default:
-		case SPEED_WALL:
+		case SPEED_SQUARE:
 		case WALL:
 		case PLAYER_WALL:
 		case JUMP_SQUARE:
@@ -258,7 +257,7 @@ public class MapSquare {
 	}
 	
 	public boolean isSpeed() {
-		return squareType == SquareType.SPEED_WALL;
+		return squareType == SquareType.SPEED_SQUARE;
 	}
 	
 	public boolean isFall() {

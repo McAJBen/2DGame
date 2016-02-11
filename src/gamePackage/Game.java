@@ -73,10 +73,6 @@ public class Game {
 				
 				player.kill();
 				keyListener.reset();
-				
-				
-				
-				
 				state = State.DEATH;
 			}
 			if (player.getCoins() >= GLOBAL.MAX_COINS) {

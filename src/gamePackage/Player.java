@@ -29,13 +29,11 @@ public class Player {
 	}
 	
 	public boolean move(int dx, boolean jump, MapSquare[][] mapSquares) {
-		
-		if (position.getY() + 1 < GLOBAL.MAP_PIXEL_SIZE) {
-			if (mapSquares[position.getX()][position.getY() + 1].isSpeed()) {
-				dx *= GLOBAL.PLAYER_SPEED_MULTI;
-			}
+		if (checkSpeed(mapSquares)) {
+			dx *= GLOBAL.PLAYER_SPEED_MULTI;
 		}
-		if (mapSquares[position.getX()][position.getY()].isFall()) {
+		
+		if (checkFall(mapSquares)) {
 			velocity.addYShort(GLOBAL.PLAYER_FALL);
 		}
 		
@@ -104,6 +102,26 @@ public class Player {
 		
 		movePlayer(newPosition, mapSquares);
 		
+		return false;
+	}
+	
+	private boolean checkFall(MapSquare[][] mapSquares) {
+		if (position.getY() + 1 < GLOBAL.MAP_PIXEL_SIZE) {
+			return 	mapSquares[position.getX()][position.getY()].isFall() ||
+					mapSquares[position.getX()][position.getYMaxPlayer()].isFall() ||
+					mapSquares[position.getXMaxPlayer()][position.getY()].isFall() ||
+					mapSquares[position.getXMaxPlayer()][position.getYMaxPlayer()].isFall();
+		}
+		return false;
+	}
+
+	private boolean checkSpeed(MapSquare[][] mapSquares) {
+		if (position.getY() + 1 < GLOBAL.MAP_PIXEL_SIZE) {
+			return 	mapSquares[position.getX()][position.getY()].isSpeed() ||
+					mapSquares[position.getX()][position.getYMaxPlayer()].isSpeed() ||
+					mapSquares[position.getXMaxPlayer()][position.getY()].isSpeed() ||
+					mapSquares[position.getXMaxPlayer()][position.getYMaxPlayer()].isSpeed();
+		}
 		return false;
 	}
 

@@ -115,4 +115,16 @@ public class MapTile {
 	public Death getDeathCause() {
 		return deathCause;
 	}
+
+	public int getNumberOfCoins() {
+		int coins = 0;
+		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
+			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
+				if (mapSquares[i][j].isCoin()) {
+					coins++;
+				}
+			}
+		}
+		return coins;
+	}
 }
