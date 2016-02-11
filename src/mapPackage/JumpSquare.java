@@ -1,4 +1,4 @@
-package MapPackage;
+package mapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;

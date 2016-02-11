@@ -6,10 +6,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import MapPackage.MapSquare;
 import gamePackage.GLOBAL;
 import gamePackage.Player;
 import gamePackage.Position;
+import mapPackage.MapSquare;
 
 public class DeathAnimation {
 	

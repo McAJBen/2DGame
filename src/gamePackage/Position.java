@@ -184,4 +184,8 @@ public class Position {
 	public String toString() {
 		return x + ", " + y;
 	}
+	
+	public boolean equals(Position p) {
+		return p.x == x && p.y == y;
+	}
 }

@@ -1,6 +1,7 @@
-package MapPackage;
+package mapPackage;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -13,12 +14,15 @@ public class MapTile {
 	private MapSquare[][] mapSquares;
 	ArrayList<Enemy> enemys;
 	ArrayList<JumpSquare> jumpSquares;
+	ArrayList<ElectricShot> electricShots;
 	Death deathCause;
 	
 	public MapTile(BufferedImage map) {
 		mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
 		enemys = new ArrayList<>();
 		jumpSquares = new ArrayList<>();
+		ArrayList<Point> electricShotBasePoints = new ArrayList<>();
+		
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
 				mapSquares[i][j] = new MapSquare(map.getRGB(i, j));
@@ -30,8 +34,12 @@ public class MapTile {
 					jumpSquares.add(new JumpSquare(i, j));
 					mapSquares[i][j].setFloor();
 				}
+				else if (mapSquares[i][j].isElectricShot()) {
+					electricShotBasePoints.add(new Point(i, j));
+				}
 			}
 		}
+		electricShots = ElectricShot.setup(electricShotBasePoints, mapSquares);
 	}
 	
 	public BufferedImage getImage() {
@@ -44,6 +52,7 @@ public class MapTile {
 		for (JumpSquare js: jumpSquares) {
 			js.paint(imageG);
 		}
+		ElectricShot.paint(imageG, electricShots);
 		imageG.dispose();
 		return image;
 	}
@@ -57,11 +66,13 @@ public class MapTile {
 				return true;
 				
 		}
-		for (Enemy e: enemys) {
-			if (e.checkEnemy(position)) {
-				deathCause = Death.ENEMY;
-				return true;
-			}
+		if (ElectricShot.checkDeath(position, electricShots)) {
+			deathCause = Death.ELECTRIC;
+			return true;
+		}
+		if (Enemy.checkDeath(position, enemys)) {
+			deathCause = Death.ENEMY;
+			return true;
 		}
 		return false;
 	}
@@ -93,8 +104,9 @@ public class MapTile {
 		g.drawImage(getImage(), 0, 0, null);
 	}
 
-	public void move(MapSquare[][] mapSquares) {
+	public void move() {
 		Enemy.move();
+		ElectricShot.move();
 		for (Enemy e: enemys) {
 			e.move(mapSquares);
 		}

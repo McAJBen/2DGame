@@ -1,4 +1,4 @@
-package MapPackage;
+package mapPackage;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -59,7 +59,7 @@ public class Map {
 	}
 
 	public void move() {
-		getCurrentMap().move(getMapSquares());
+		getCurrentMap().move();
 	}
 
 	public void completeReset() {

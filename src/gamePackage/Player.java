@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import MapPackage.MapSquare;
+import mapPackage.MapSquare;
 
 public class Player {
 	

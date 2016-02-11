@@ -1,4 +1,4 @@
-package MapPackage;
+package mapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,6 +16,7 @@ public class MapSquare {
 	private static BufferedImage coin;
 	private static Random rand = new Random();
 	
+	
 	static final Color 
 				FLOOR_COLOR = new Color(195, 195, 195),
 				WALL_COLOR = new Color(239, 228, 176),
@@ -28,13 +29,15 @@ public class MapSquare {
 				ELECTRIC_SQUARE_COLOR = new Color(153, 217, 234),
 				ELECTRICITY_COLOR = new Color(0, 162, 232),
 				SPEED_COLOR = new Color(34, 177, 76),
-				FALL_SQUARE_COLOR = new Color(185, 122, 87);
+				FALL_SQUARE_COLOR = new Color(185, 122, 87),
+				ELECTRIC_SHOT_COLOR = new Color(0, 162, 232);
 				
 	private static enum SquareType {
 		FLOOR, WALL, COIN, ENEMY,
 		ENEMY_WALL, PLAYER_WALL, 
 		JUMP_SQUARE, ELECTRIC_SQUARE, 
-		SPEED_SQUARE, FALL_SQUARE
+		SPEED_SQUARE, FALL_SQUARE, 
+		ELECTRIC_SHOT
 	}
 	
 	private SquareType squareType;
@@ -42,7 +45,10 @@ public class MapSquare {
 	public MapSquare(int rgb) {
 		Color pixelColor = new Color(rgb);
 		
-		if (pixelColor.equals(WALL_COLOR)) {
+		if (pixelColor.equals(FLOOR_COLOR)) {
+			squareType = SquareType.FLOOR;
+		}
+		else if (pixelColor.equals(WALL_COLOR)) {
 			squareType = SquareType.WALL;
 		}
 		else if (pixelColor.equals(COIN_COLOR)) {
@@ -72,8 +78,8 @@ public class MapSquare {
 		else if (pixelColor.equals(FALL_SQUARE_COLOR)) {
 			squareType = SquareType.FALL_SQUARE;
 		}
-		else if (pixelColor.equals(FLOOR_COLOR)) {
-			squareType = SquareType.FLOOR;
+		else if (pixelColor.equals(ELECTRIC_SHOT_COLOR)) {
+			squareType = SquareType.ELECTRIC_SHOT;
 		}
 		else {
 			System.out.println("COLOR ERROR:");
@@ -121,12 +127,15 @@ public class MapSquare {
 		case FALL_SQUARE:
 			paintFall(g, x, y, width, height, 1);
 			break;
+		case ELECTRIC_SHOT:
+			g.fillRect(x, y, width, height);
+			break;
 		case FLOOR:
 		case ENEMY:
 		}
 	}
-	
-	private void paintFall(Graphics g, int x, int y, int width, int height, int times) {
+
+	private static void paintFall(Graphics g, int x, int y, int width, int height, int times) {
 		g.setColor(FALL_SQUARE_COLOR);
 		height -= GLOBAL.SPEED_LINE_SIZE;
 		for (int i = 0; i < times; i++) {
@@ -138,7 +147,7 @@ public class MapSquare {
 		}
 	}
 
-	private void paintSpeed(Graphics g, int x, int y, int width, int height, int times) {
+	private static void paintSpeed(Graphics g, int x, int y, int width, int height, int times) {
 		g.setColor(SPEED_COLOR);
 		width -= GLOBAL.SPEED_LINE_SIZE;
 		for (int i = 0; i < times; i++) {
@@ -190,6 +199,8 @@ public class MapSquare {
 			return SPEED_COLOR;
 		case FALL_SQUARE:
 			return FALL_SQUARE_COLOR;
+		case ELECTRIC_SHOT:
+			return ELECTRIC_SHOT_COLOR;
 		}
 	}
 
@@ -205,12 +216,12 @@ public class MapSquare {
 		case SPEED_SQUARE:
 			return false;
 			
-		
 		case ENEMY_WALL:
 		case WALL:
-		default:
+		case ELECTRIC_SHOT:
 			return true;
 		}
+		return false;
 	}
 	
 	public boolean getWallEnemy() {
@@ -221,15 +232,17 @@ public class MapSquare {
 		case ENEMY_WALL:
 		case ELECTRIC_SQUARE:
 		case FALL_SQUARE:
+		case SPEED_SQUARE:
 			return false;
 		
-		default:
-		case SPEED_SQUARE:
+		
+		case ELECTRIC_SHOT:
 		case WALL:
 		case PLAYER_WALL:
 		case JUMP_SQUARE:
 			return true;
 		}
+		return false;
 	}
 
 	public SquareType getType() {
@@ -238,6 +251,10 @@ public class MapSquare {
 
 	public void setFloor() {
 		squareType = SquareType.FLOOR;
+	}
+	
+	public boolean isFloor() {
+		return squareType == SquareType.FLOOR;
 	}
 
 	public boolean isCoin() {
@@ -263,12 +280,20 @@ public class MapSquare {
 	public boolean isFall() {
 		return squareType == SquareType.FALL_SQUARE;
 	}
+
+	public boolean isElectricShot() {
+		return squareType == SquareType.ELECTRIC_SHOT;
+	}
 	
 	public static void load() {
 		try {
 			coin = ImageIO.read(DeathAnimation.class.getResource("/Coin.png"));
 		} catch (IOException e) {}
 	}
-
 	
+	@Override
+	public String toString() {
+		return squareType.name();
+	}
+
 }

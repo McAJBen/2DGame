@@ -1,7 +1,8 @@
-package MapPackage;
+package mapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import gamePackage.GLOBAL;
 import gamePackage.Position;
@@ -90,14 +91,14 @@ public class Enemy {
 		position.set(newPosition);
 	}
 
-	public boolean checkEnemy(Position checkPosition) {
-		return 	withinEnemy(checkPosition.getXShort(), checkPosition.getYShort()) ||
-				withinEnemy(checkPosition.getXShort() + GLOBAL.PLAYER_SIZE, checkPosition.getYShort()) ||
-				withinEnemy(checkPosition.getXShort(), checkPosition.getYShort() + GLOBAL.PLAYER_SIZE) ||
-				withinEnemy(checkPosition.getXShort() + GLOBAL.PLAYER_SIZE, checkPosition.getYShort() + GLOBAL.PLAYER_SIZE);
+	public boolean checkDeath(Position checkPosition) {
+		return 	within(checkPosition.getXShort(), checkPosition.getYShort()) ||
+				within(checkPosition.getXShort() + GLOBAL.PLAYER_SIZE, checkPosition.getYShort()) ||
+				within(checkPosition.getXShort(), checkPosition.getYShort() + GLOBAL.PLAYER_SIZE) ||
+				within(checkPosition.getXShort() + GLOBAL.PLAYER_SIZE, checkPosition.getYShort() + GLOBAL.PLAYER_SIZE);
 	}
 	
-	private boolean withinEnemy(int px, int py) {
+	private boolean within(int px, int py) {
 		return 	position.getXShort() < px && px < position.getXMaxShort() && 
 				position.getYShort() < py && py < position.getYMaxShort();
 	}
@@ -111,5 +112,14 @@ public class Enemy {
 				position.getYScreen() + stepY,
 				(int)GLOBAL.screenPixelWidth - stepWidth,
 				(int)GLOBAL.screenPixelHeight - stepHeight);
+	}
+
+	public static boolean checkDeath(Position pos, ArrayList<Enemy> enemys) {
+		for (Enemy e: enemys) {
+			if (e.checkDeath(pos)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
