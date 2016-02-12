@@ -53,8 +53,8 @@ public final class GLOBAL {
 	public static final short MAX_BUBBLE_RADIUS = 20;
 	public static final short MAX_BUBBLE_DIAM = MAX_BUBBLE_RADIUS * 2;
 	public static final short SPEED_LINE_SIZE = 4;
-	public static final short ELECTRIC_SHOT_TIME = 300;
-	public static final short ELECTRIC_SHOT_DELAY = 400;
+	public static final short ELECTRIC_SHOT_TIME = 200;
+	public static final short ELECTRIC_SHOT_DELAY = 200;
 	public static final short ELECTRIC_SHOT_TOTAL = ELECTRIC_SHOT_TIME + ELECTRIC_SHOT_DELAY;
 	public static final short ELECTRIC_SHOT_WIDTH = 80;
 	public static final short ELECTRIC_SHOT_OFFSET = (U_MULTIPLIER - ELECTRIC_SHOT_WIDTH) / 2;

@@ -115,15 +115,15 @@ public class Enemy {
 				position.getYShort() < py && py < position.getYMaxShort();
 	}
 
-	public void paint(Graphics g) {
+	private void paint(Graphics g, int width, int height, int w2, int h2) {
 		g.setColor(new Color(136, 0, 21));
-		g.fillOval(position.getXScreen(), position.getYScreen(), (int)GLOBAL.screenPixelWidth, (int)GLOBAL.screenPixelHeight);
+		g.fillOval(position.getXScreen(), position.getYScreen(), width, height);
 		g.setColor(Color.RED);
 		g.fillOval(
 				position.getXScreen() + stepX,
 				position.getYScreen() + stepY,
-				(int)GLOBAL.screenPixelWidth - stepWidth,
-				(int)GLOBAL.screenPixelHeight - stepHeight);
+				w2,
+				h2);
 	}
 
 	public static boolean checkDeath(Position pos, ArrayList<Enemy> enemys) {
@@ -133,5 +133,16 @@ public class Enemy {
 			}
 		}
 		return false;
+	}
+
+	public static void paint(Graphics imageG, ArrayList<Enemy> enemys) {
+		int width = (int)GLOBAL.screenPixelWidth;
+		int height = (int)GLOBAL.screenPixelHeight;
+		int w2 = width - stepWidth;
+		int h2 = height - stepHeight;
+		
+		for (Enemy e: enemys) {
+			e.paint(imageG, width, height, w2, h2);
+		}
 	}
 }

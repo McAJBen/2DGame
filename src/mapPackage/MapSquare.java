@@ -2,18 +2,12 @@ package mapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
-
-import animationPackage.DeathAnimation;
 import settingsPackage.GLOBAL;
 
 public class MapSquare {
 	
-	private static BufferedImage coin;
+	
 	private static Random rand = new Random();
 	
 	
@@ -108,9 +102,6 @@ public class MapSquare {
 	private void paint(Graphics g, int x, int y, int width, int height) {
 		g.setColor(getColor());
 		switch (getType()) {
-		case COIN:
-			paintCoin(g, x, y, width, height);
-			break;
 		case WALL:
 		case ENEMY_WALL:
 		case PLAYER_WALL:
@@ -119,17 +110,18 @@ public class MapSquare {
 			break;
 		case ELECTRIC_SQUARE:
 			g.fillRect(x, y, width, height);
-			paintElectricity(g, x, y, width, height, 2);
+			paintElectricity(g, x, y, width, height, 3);
 			break;
 		case SPEED_SQUARE:
-			paintSpeed(g, x, y, width, height, 2);
+			paintSpeed(g, x, y, width, height, 7);
 			break;
 		case FALL_SQUARE:
-			paintFall(g, x, y, width, height, 1);
+			paintFall(g, x, y, width, height, 7);
 			break;
 		case ELECTRIC_SHOT:
 			g.fillRect(x, y, width, height);
 			break;
+		default:
 		case FLOOR:
 		case ENEMY:
 		}
@@ -157,10 +149,6 @@ public class MapSquare {
 			
 			g.drawLine(thisX, thisY, thisX2, thisY);
 		}
-	}
-
-	public static void paintCoin(Graphics g, int x, int y, int width, int height) {
-		g.drawImage(coin, x, y, width, height, null);
 	}
 
 	public static void paintElectricity(Graphics g, int x, int y, int width, int height, int times) {
@@ -283,12 +271,6 @@ public class MapSquare {
 
 	public boolean isElectricShot() {
 		return squareType == SquareType.ELECTRIC_SHOT;
-	}
-	
-	public static void load() {
-		try {
-			coin = ImageIO.read(DeathAnimation.class.getResource("/Coin.png"));
-		} catch (IOException e) {}
 	}
 	
 	@Override

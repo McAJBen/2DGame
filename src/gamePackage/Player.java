@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import mapPackage.Coin;
 import mapPackage.MapSquare;
 import settingsPackage.GLOBAL;
 
@@ -131,23 +132,31 @@ public class Player {
 		if (velocity.getXShort() < 0 || velocity.getYShort() < 0) {
 			if (checkCollide(newPosition.getX(), newPosition.getY(),
 				position.getX(), position.getY(), mapSquares, newPosition)) {
+				movePlayer(newPosition, mapSquares);
+				return;
 			}
 		}
 		if (velocity.getXShort() < 0 || velocity.getYShort() > 0) {
 			if (checkCollide(newPosition.getX(), newPosition.getYMaxPlayer(),
 				position.getX(), position.getYMaxPlayer(), mapSquares, newPosition)) {
 					resetJump();
+					movePlayer(newPosition, mapSquares);
+					return;
 			}
 		}
 		if (velocity.getXShort() > 0 || velocity.getYShort() < 0) {
 			if (checkCollide(newPosition.getXMaxPlayer(), newPosition.getY(),
 				position.getXMaxPlayer(), position.getY(), mapSquares, newPosition)) {
+				movePlayer(newPosition, mapSquares);
+				return;
 			}
 		}
 		if (velocity.getXShort() > 0 || velocity.getYShort() > 0) {
 			if (checkCollide(newPosition.getXMaxPlayer(), newPosition.getYMaxPlayer(),
 				position.getXMaxPlayer(), position.getYMaxPlayer(), mapSquares, newPosition)) {
 					resetJump();
+					movePlayer(newPosition, mapSquares);
+					return;
 			}
 		}
 		position.set(newPosition);
@@ -215,7 +224,7 @@ public class Player {
 		paintPlayer(g, position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 		
 		g.drawString(coins + "           Deaths:" + deaths, (int) (GLOBAL.screenPixelWidth + (int)GLOBAL.screenPixelWidth), (int)GLOBAL.screenPixelHeight);
-		MapSquare.paintCoin(g, (int)GLOBAL.screenPixelWidth, 0, (int)GLOBAL.screenPixelWidth, (int)GLOBAL.screenPixelHeight);
+		Coin.paintCoin(g, 1, 0);
 	}
 	
 	public static void paintPlayer(Graphics g, int x, int y, int width, int height) {

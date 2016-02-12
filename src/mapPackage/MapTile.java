@@ -15,12 +15,14 @@ public class MapTile {
 	ArrayList<Enemy> enemys;
 	ArrayList<JumpSquare> jumpSquares;
 	ArrayList<ElectricShot> electricShots;
+	ArrayList<Coin> coins;
 	Death deathCause;
 	
 	public MapTile(BufferedImage map) {
 		mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
 		enemys = new ArrayList<>();
 		jumpSquares = new ArrayList<>();
+		coins = new ArrayList<>();
 		ArrayList<Point> electricShotBasePoints = new ArrayList<>();
 		
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
@@ -34,6 +36,10 @@ public class MapTile {
 					jumpSquares.add(new JumpSquare(i, j));
 					mapSquares[i][j].setFloor();
 				}
+				else if (mapSquares[i][j].isCoin()) {
+					coins.add(new Coin(i, j));
+					mapSquares[i][j].setFloor();
+				}
 				else if (mapSquares[i][j].isElectricShot()) {
 					electricShotBasePoints.add(new Point(i, j));
 				}
@@ -45,14 +51,13 @@ public class MapTile {
 	public BufferedImage getImage() {
 		BufferedImage image = new BufferedImage(GLOBAL.screenSize.width, GLOBAL.screenSize.height, BufferedImage.TYPE_INT_ARGB);
 		Graphics imageG = image.getGraphics();
+		
 		MapSquare.paint(mapSquares, imageG);
-		for (Enemy e: enemys) {
-			e.paint(imageG);
-		}
-		for (JumpSquare js: jumpSquares) {
-			js.paint(imageG);
-		}
+		Enemy.paint(imageG, enemys);
+		JumpSquare.paint(imageG, jumpSquares);
+		Coin.paint(imageG, coins);
 		ElectricShot.paint(imageG, electricShots);
+		
 		imageG.dispose();
 		return image;
 	}
@@ -82,18 +87,7 @@ public class MapTile {
 	}
 
 	public int checkCoins(Position position) {
-		return 	checkCoins(position.getX(), 		 position.getY()) +
-				checkCoins(position.getXMaxPlayer(), position.getY()) +
-				checkCoins(position.getX(), 		 position.getYMaxPlayer()) +
-				checkCoins(position.getXMaxPlayer(), position.getYMaxPlayer());
-	}
-	
-	private int checkCoins(int x, int y) {
-		if (mapSquares[x][y].isCoin()) {
-			mapSquares[x][y].setFloor();
-			return 1;
-		}
-		return 0;
+		return Coin.checkCoins(position, coins);
 	}
 
 	public MapSquare[][] getMapSquares() {
@@ -129,14 +123,6 @@ public class MapTile {
 	}
 
 	public int getNumberOfCoins() {
-		int coins = 0;
-		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
-			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
-				if (mapSquares[i][j].isCoin()) {
-					coins++;
-				}
-			}
-		}
-		return coins;
+		return coins.size();
 	}
 }

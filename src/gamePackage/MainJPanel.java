@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import animationPackage.DeathAnimation;
-import mapPackage.MapSquare;
+import mapPackage.Coin;
 import settingsPackage.GLOBAL;
 
 @SuppressWarnings("serial")
@@ -61,7 +61,7 @@ public class MainJPanel extends JPanel {
 		GLOBAL.setSettings();
 		Player.load();
 		DeathAnimation.load();
-		MapSquare.load();
+		Coin.load();
 	}
 
 	private KeyListener getKeyListener() {

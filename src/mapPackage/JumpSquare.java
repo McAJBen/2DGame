@@ -2,6 +2,7 @@ package mapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Random;
 
 import settingsPackage.GLOBAL;
@@ -76,5 +77,11 @@ public class JumpSquare {
 		height = (int)((bubblePosition.getYShort() + bubbleWidth) * GLOBAL.screenUHeight) - py;
 		
 		g.fillOval(px, py, width, height);
+	}
+
+	public static void paint(Graphics imageG, ArrayList<JumpSquare> jumpSquares) {
+		for (JumpSquare js: jumpSquares) {
+			js.paint(imageG);
+		}
 	}
 }

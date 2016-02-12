@@ -61,7 +61,7 @@ public class ElectricShot {
 				position.getXScreen() + (int)(GLOBAL.screenUWidth * GLOBAL.ELECTRIC_SHOT_OFFSET),
 				position.getYScreen(),
 				(int)(GLOBAL.screenUWidth * GLOBAL.ELECTRIC_SHOT_WIDTH),
-				(int)GLOBAL.screenPixelHeight, 3);
+				(int)GLOBAL.screenPixelHeight, 7);
 	}
 
 	private void paintHorizontal(Graphics g) {
@@ -69,7 +69,7 @@ public class ElectricShot {
 				position.getXScreen(),
 				position.getYScreen() + (int)(GLOBAL.screenUHeight * GLOBAL.ELECTRIC_SHOT_OFFSET),
 				(int)GLOBAL.screenPixelWidth,
-				(int)(GLOBAL.screenUHeight * GLOBAL.ELECTRIC_SHOT_WIDTH), 3);
+				(int)(GLOBAL.screenUHeight * GLOBAL.ELECTRIC_SHOT_WIDTH), 7);
 	}
 	
 	public static boolean checkDeath(Position pos, ArrayList<ElectricShot> electricShots) {
@@ -115,35 +115,35 @@ public class ElectricShot {
 		ArrayList<ElectricShot> electricShots = new ArrayList<>();
 		for (Point p: electricShotBasePoints) {
 			for (int x = p.x - 1; x >= 0; x--) {
-				if (mapSquares[x][p.y].isFloor()) {
-					electricShots.add(new ElectricShot(x, p.y, eShotType.HORIZONTAL));
-				}
-				else if (mapSquares[x][p.y].getWallEnemy()) {
+				if (mapSquares[x][p.y].getWallEnemy()) {
 					break;
+				}
+				else {
+					electricShots.add(new ElectricShot(x, p.y, eShotType.HORIZONTAL));
 				}
 			}
 			for (int x = p.x + 1; x < GLOBAL.MAP_PIXEL_SIZE; x++) {
-				if (mapSquares[x][p.y].isFloor()) {
-					electricShots.add(new ElectricShot(x, p.y, eShotType.HORIZONTAL));
-				}
-				else if (mapSquares[x][p.y].getWallEnemy()) {
+				if (mapSquares[x][p.y].getWallEnemy()) {
 					break;
+				}
+				else {
+					electricShots.add(new ElectricShot(x, p.y, eShotType.HORIZONTAL));
 				}
 			}
 			for (int y = p.y - 1; y >= 0; y--) {
-				if (mapSquares[p.x][y].isFloor()) {
-					electricShots.add(new ElectricShot(p.x, y, eShotType.VERTICAL));
-				}
-				else if (mapSquares[p.x][y].getWallEnemy()) {
+				if (mapSquares[p.x][y].getWallEnemy()) {
 					break;
+				}
+				else {
+					electricShots.add(new ElectricShot(p.x, y, eShotType.VERTICAL));
 				}
 			}
 			for (int y = p.y + 1; y < GLOBAL.MAP_PIXEL_SIZE; y++) {
-				if (mapSquares[p.x][y].isFloor()) {
-					electricShots.add(new ElectricShot(p.x, y, eShotType.VERTICAL));
-				}
-				else if (mapSquares[p.x][y].getWallEnemy()) {
+				if (mapSquares[p.x][y].getWallEnemy()) {
 					break;
+				}
+				else {
+					electricShots.add(new ElectricShot(p.x, y, eShotType.VERTICAL));
 				}
 			}
 		}
