@@ -107,9 +107,11 @@ public class Game {
 		case NORMAL:
 			map.paint(g);
 			player.paint(g);
-			g.drawString(player.getPosition().toString(), 50, 50);
-			g.drawString(map.getMapSquares()[player.getPosition().getX()][player.getPosition().getY()].toString(), 50, 70);
-			//g.drawString(keyListener.toString(), 50, 50);
+			if (GLOBAL.DEBUG_MODE) {
+				g.drawString(player.getPosition().toString(), 50, 50);
+				g.drawString(map.getMapSquares()[player.getPosition().getX()][player.getPosition().getY()].toString(), 50, 70);
+				g.drawString(keyListener.toString(), 50, 30);
+			}
 			break;
 		case CHANGING_MAP:
 			mapChangeAnimation.paint(g);

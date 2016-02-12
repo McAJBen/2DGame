@@ -6,37 +6,48 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import settingsPackage.GLOBAL.ValueType;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class SettingsHandler {
 
-	static final String
+	private static final String
 	FILE_NAME = "\\2DGame.settings",
 	IDENTIFIER_SYMBOL = ":",
 	COMMENT_SYMBOL = "#";
-
-	private static Setting[] settings = {
-			new Setting("FULLSCREEN", "false", ValueType.BOOLEAN),
-			new Setting("MAP_START_X", "0", ValueType.SHORT),
-			new Setting("MAP_START_Y", "0", ValueType.SHORT),
-			new Setting("MAP_PIXEL_SIZE", "50", ValueType.SHORT),
-			new Setting("PLAYER_ORIGINAL_POSITION_X", "13", ValueType.SHORT),
-			new Setting("PLAYER_ORIGINAL_POSITION_Y", "13", ValueType.SHORT),
-			new Setting("MAX_COINS", "200", ValueType.INT),
-			new Setting("DEBUG_MODE", "false", ValueType.BOOLEAN)
-	};
-	private static boolean hasSettings = false;
+	
+	private Setting[] settings;
+	private File settingsFile = new File(System.getProperty("user.dir") + FILE_NAME);
+	
+	SettingsHandler() {
+		InputStream in = getClass().getResourceAsStream("/stngNms.txt");
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		ArrayList<Setting> endSettings = new ArrayList<>();
+		
+		String settingsList = null;
+		do {
+			try {
+				settingsList = br.readLine();
+			} catch (IOException e) {break;}
+			if (settingsList != null && !settingsList.startsWith(COMMENT_SYMBOL)) {
+				
+				settingsList = settingsList.replaceAll("\\s", "");
+				endSettings.add(new Setting(settingsList.split(IDENTIFIER_SYMBOL)));
+			}
+		} while (settingsList != null);
+		settings = new Setting[endSettings.size()];
+		endSettings.toArray(settings);
+		getSettings();
+	}
+	
 	
 	@SuppressWarnings("resource")
-	private static void getSettings() {
-		if (hasSettings) {
-			return;
-		}
+	private void getSettings() {
 		String settingsString = null;
 		BufferedReader br = null;
 		try {
-			File settingsFile = new File(System.getProperty("user.dir") + FILE_NAME);
 			if (settingsFile.exists()) {
 				br = new BufferedReader(new FileReader(settingsFile));
 			}
@@ -47,19 +58,13 @@ public class SettingsHandler {
 			return;
 		}
 		
-		while (true) {
+		do {
 			try {
 				settingsString = br.readLine();
-				if (settingsString == null) {
-					throw new IOException("No Line To Read");
-				}
-			} catch (IOException e) {
-				break;
-			}
+			} catch (IOException e) {}
 			if (settingsString != null && !settingsString.startsWith(COMMENT_SYMBOL)) {
 				
 				settingsString = settingsString.replaceAll("\\s", "");
-				
 				int indexOfIdentifier = settingsString.indexOf(IDENTIFIER_SYMBOL);
 				if (indexOfIdentifier == -1) {
 					continue;
@@ -73,19 +78,15 @@ public class SettingsHandler {
 					}
 				}
 			}
-		}
-		hasSettings = true;
+		} while (settingsString != null);
 	}
 
-	private static void createSettingsFile() {
+	private void createSettingsFile() {
 		String settingsString = "";
 		for (int i = 0; i < settings.length; i++) {
 			settingsString = settingsString.concat(settings[i].getID() + IDENTIFIER_SYMBOL + settings[i].getValue() + "\n");
 		}
 		try {
-			
-			File settingsFile = new File(
-					System.getProperty("user.dir") + FILE_NAME);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(settingsFile));
 			writer.write(settingsString);
 			writer.close();
@@ -94,36 +95,48 @@ public class SettingsHandler {
 		}
 	}
 	
-	public static boolean getSettingBoolean(String id) {
-		getSettings();
+	public double getDouble(String id) {
+		for (int i = 0; i < settings.length; i++) {
+			if (settings[i].check(id)) {
+				return (double) settings[i].getValue();
+			}
+		}
+		return 0;
+	}
+	
+	public byte getByte(String id) {
+		for (int i = 0; i < settings.length; i++) {
+			if (settings[i].check(id)) {
+				return (byte) settings[i].getValue();
+			}
+		}
+		return 0;
+	}
+	
+	public boolean getBoolean(String id) {
 		for (int i = 0; i < settings.length; i++) {
 			if (settings[i].check(id)) {
 				return (boolean) settings[i].getValue();
 			}
 		}
-		System.out.println("no such setting" + id);
 		return false;
 	}
 
-	public static Integer getSettingInt(String id) {
-		getSettings();
+	public int getInt(String id) {
 		for (int i = 0; i < settings.length; i++) {
 			if (settings[i].check(id)) {
 				return (int) settings[i].getValue();
 			}
 		}
-		System.out.println("no such setting" + id);
 		return 0;
 	}
 
-	public static short getSettingShort(String id) {
-		getSettings();
+	public short getShort(String id) {
 		for (int i = 0; i < settings.length; i++) {
 			if (settings[i].check(id)) {
 				return (short) settings[i].getValue();
 			}
 		}
-		System.out.println("no such setting" + id);
 		return 0;
 	}
 }

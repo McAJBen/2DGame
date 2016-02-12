@@ -1,9 +1,11 @@
 package settingsPackage;
 
-import settingsPackage.GLOBAL.ValueType;
 
 public class Setting {
 	
+	public static enum ValueType {
+		BOOLEAN, BYTE, SHORT, INT, DOUBLE;
+	}
 	
 	private String defaultVal;
 	private String settingID;
@@ -18,6 +20,11 @@ public class Setting {
 		this.value = defaultVal;
 	}
 	
+	//SETTINGSID:DEFAULTVAL:VALUETYPE
+	public Setting(String[] s) {
+		this(s[0], s[1], ValueType.valueOf(s[2]));
+	}
+
 	public boolean check(String stringBeforeIDSymbol) {
 		return stringBeforeIDSymbol.equalsIgnoreCase(settingID);
 	}
@@ -44,6 +51,11 @@ public class Setting {
 			return Short.parseShort(value);
 		}
 		return null;
+	}
+	
+	@Override
+	public String toString() {
+		return settingID + ":" + value + ":" + valueType;
 	}
 
 	public String getID() {

@@ -81,26 +81,22 @@ public final class GLOBAL {
 	}
 	
 	public static void setSettings() {
-		DEBUG_MODE = SettingsHandler.getSettingBoolean("DEBUG_MODE");
-		FULLSCREEN = SettingsHandler.getSettingBoolean("FULLSCREEN");
-		MAP_START_X = SettingsHandler.getSettingShort("MAP_START_X");
-		MAP_START_Y = SettingsHandler.getSettingShort("MAP_START_Y");
-		MAP_PIXEL_SIZE = SettingsHandler.getSettingShort("MAP_PIXEL_SIZE");
-		PLAYER_ORIGINAL_POSITION_X = SettingsHandler.getSettingShort("PLAYER_ORIGINAL_POSITION_X");
-		PLAYER_ORIGINAL_POSITION_Y = SettingsHandler.getSettingShort("PLAYER_ORIGINAL_POSITION_Y");
-		MAX_COINS = SettingsHandler.getSettingInt("MAX_COINS");
 		
+		SettingsHandler sh = new SettingsHandler();
+		
+		DEBUG_MODE = sh.getBoolean("DEBUG_MODE");
+		FULLSCREEN = sh.getBoolean("FULLSCREEN");
+		MAP_START_X = sh.getShort("MAP_START_X");
+		MAP_START_Y = sh.getShort("MAP_START_Y");
+		MAP_PIXEL_SIZE = sh.getShort("MAP_PIXEL_SIZE");
+		PLAYER_ORIGINAL_POSITION_X = sh.getShort("PLAYER_ORIGINAL_POSITION_X");
+		PLAYER_ORIGINAL_POSITION_Y = sh.getShort("PLAYER_ORIGINAL_POSITION_Y");
+		MAX_COINS = sh.getInt("MAX_COINS");
 		
 		MAP_U_SIZE = MAP_PIXEL_SIZE * U_MULTIPLIER;
 		PLAYER_U_MAX = MAP_U_SIZE - PLAYER_SIZE - 1;
 		MAP_CHANGE_ANIMATION_STEP = (short) (MAP_U_SIZE / MAP_CHANGE_ANIMATION_LENGTH);
 		DEATH_ANIMATION_LENGTH = (short) (MAP_U_SIZE * 2);
 		DEATH_ANIMATION_STEP = (short) (DEATH_ANIMATION_LENGTH / 50);
-		
-		
-	}
-	
-	public static enum ValueType {
-		BOOLEAN, BYTE, SHORT, INT, DOUBLE;
 	}
 }
