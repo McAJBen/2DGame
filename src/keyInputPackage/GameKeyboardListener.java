@@ -84,4 +84,8 @@ public class GameKeyboardListener implements KeyListener {
 		}
 		return s;
 	}
+
+	public boolean getEscape() {
+		return getKey(KeyEvent.VK_ESCAPE);
+	}
 }

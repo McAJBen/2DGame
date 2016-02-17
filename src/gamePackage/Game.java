@@ -10,17 +10,22 @@ import animationPackage.MapChangeAnimation;
 import keyInputPackage.GameKeyboardListener;
 import mapPackage.Map;
 import settingsPackage.GLOBAL;
+import settingsPackage.OptionsMenu;
 
 public class Game {
 	
 	private GameKeyboardListener keyListener = new GameKeyboardListener();
 	
+	private Thread gameThread;
 	private MapChangeAnimation mapChangeAnimation;
 	private DeathAnimation deathAnimation;
 	private EndAnimation endAnimation;
 	private Player player;
 	private Map map;
 	private State state;
+	private OptionsMenu optionsMenu;
+	private boolean paused;
+	private boolean showingOptions;
 	
 	private static enum State {
 		NORMAL, CHANGING_MAP, DEATH, END
@@ -30,9 +35,36 @@ public class Game {
 		player = new Player();
 		map = new Map();
 		state = State.NORMAL;
+		paused = false;
+		showingOptions = false;
+		optionsMenu = new OptionsMenu();
 	}
 	
 	private void move() {
+		if (keyListener.getEscape()) {
+			System.exit(0);
+		}
+		if (paused) {
+			if (showingOptions) {
+				if (optionsMenu.wasClosed()) {
+					showingOptions = false;
+					paused = false;
+				}
+			}
+			else if (keyListener.getP()) {
+				paused = false;
+			}
+			return;
+		}
+		if (keyListener.getP()) {
+			paused = true;
+		}
+		if (keyListener.getO()) {
+			paused = true;
+			showingOptions = true;
+			optionsMenu.openOptionsMenu();
+		}
+		
 		switch (state) {
 		case NORMAL:
 			map.move();
@@ -112,6 +144,7 @@ public class Game {
 				g.drawString(map.getMapSquares()[player.getPosition().getX()][player.getPosition().getY()].toString(), 50, 70);
 				g.drawString(keyListener.toString(), 50, 30);
 			}
+			g.drawString("O for options: P for Pause", GLOBAL.screenOptionsWidth, 10);
 			break;
 		case CHANGING_MAP:
 			mapChangeAnimation.paint(g);
@@ -123,10 +156,20 @@ public class Game {
 			endAnimation.paint(g);
 			break;
 		}
+		if (paused) {
+			if (showingOptions) {
+				optionsMenu.paintOptions(g);
+			}
+			else {
+				optionsMenu.paintPause(g);
+			}
+		}
+		
+		
 	}
 	
 	public void start() {
-		Thread gameThread = new Thread("moveThread") {
+		gameThread = new Thread("moveThread") {
 		 	@Override
 			public void run() {
 	 			long startTime = System.currentTimeMillis() + GLOBAL.MOVE_WAIT_MS;
@@ -135,7 +178,9 @@ public class Game {
 	 				while (System.currentTimeMillis() < startTime) {
 	 					try {
 	 						sleep(1);
-	 					} catch (InterruptedException e) {}
+	 					} catch (InterruptedException e) {
+	 						return;
+	 					}
 	 				}
 	 				startTime += GLOBAL.MOVE_WAIT_MS;
 				}
@@ -146,5 +191,9 @@ public class Game {
 	
 	public KeyListener getKeyListener() {
 		return keyListener;
+	}
+
+	public void stop() {
+		gameThread.interrupt();
 	}
 }
