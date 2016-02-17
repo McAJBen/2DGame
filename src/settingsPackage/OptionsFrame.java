@@ -25,6 +25,7 @@ public class OptionsFrame extends JFrame {
 	JTextField mapY;
 	JTextField playerX;
 	JTextField playerY;
+	JTextField maxCoins;
 	
 	public OptionsFrame() {
         super();
@@ -67,6 +68,11 @@ public class OptionsFrame extends JFrame {
 		playerY.addFocusListener(new playerYListener());
 		panel.add(new JLabel("Player start Y"));
 		panel.add(playerY);
+		
+		maxCoins = new JTextField(GLOBAL.MAX_COINS + "", 1);
+		maxCoins.addFocusListener(new maxCoinsListener());
+		panel.add(new JLabel("Max coins"));
+		panel.add(maxCoins);
 		
 		fullscreen = new JCheckBox("Fullscreen", GLOBAL.FULLSCREEN);
 		fullscreen.addActionListener(new fullscreenListener());
@@ -123,12 +129,17 @@ public class OptionsFrame extends JFrame {
 		}
     }
 	
+	private class maxCoinsListener implements FocusListener {
+		public void focusGained(FocusEvent arg0) {}
+		public void focusLost(FocusEvent e) {
+			GLOBAL.setMaxCoins(Integer.parseInt(maxCoins.getText()));
+		}
+    }
+	
 	private class restartListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			MainJPanel.setRestart();
 		}
 	}
-	
-	
 }
 
