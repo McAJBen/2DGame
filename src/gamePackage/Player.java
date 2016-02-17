@@ -293,6 +293,7 @@ public class Player {
 		jumpsLeft = 0;
 		jumpWait = 0;
 		coins = 0;
+		deaths = 0;
 		position = new Position();
 		velocity = new Position();
 		
