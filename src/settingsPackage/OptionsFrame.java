@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -47,22 +49,22 @@ public class OptionsFrame extends JFrame {
 		panel.setLayout(new GridLayout(0, 2));
 		
 		mapX = new JTextField(GLOBAL.MAP_START_X + "", 1);
-		mapX.addActionListener(new mapXListener());
+		mapX.addFocusListener(new mapXListener());
 		panel.add(new JLabel("Map start X"));
 		panel.add(mapX);
 		
 		mapY = new JTextField(GLOBAL.MAP_START_Y + "", 1);
-		mapY.addActionListener(new mapYListener());
+		mapY.addFocusListener(new mapYListener());
 		panel.add(new JLabel("Map start Y"));
 		panel.add(mapY);
 		
 		playerX = new JTextField(GLOBAL.PLAYER_ORIGINAL_POSITION_X + "", 1);
-		playerX.addActionListener(new playerXListener());
+		playerX.addFocusListener(new playerXListener());
 		panel.add(new JLabel("Player start X"));
 		panel.add(playerX);
 		
 		playerY = new JTextField(GLOBAL.PLAYER_ORIGINAL_POSITION_Y + "", 1);
-		playerY.addActionListener(new playerYListener());
+		playerY.addFocusListener(new playerYListener());
 		panel.add(new JLabel("Player start Y"));
 		panel.add(playerY);
 		
@@ -94,28 +96,31 @@ public class OptionsFrame extends JFrame {
     	}
     }
 	
-	private class mapXListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class mapXListener implements FocusListener {
+		public void focusGained(FocusEvent arg0) {}
+		public void focusLost(FocusEvent e) {
 			GLOBAL.setMapStartX(Integer.parseInt(mapX.getText()));
-    	}
+		}
     }
-	
-	private class mapYListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class mapYListener implements FocusListener {
+		public void focusGained(FocusEvent arg0) {}
+		public void focusLost(FocusEvent e) {
 			GLOBAL.setMapStartY(Integer.parseInt(mapY.getText()));
-    	}
+		}
     }
 	
-	private class playerXListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class playerXListener implements FocusListener {
+		public void focusGained(FocusEvent arg0) {}
+		public void focusLost(FocusEvent e) {
 			GLOBAL.setPlayerOriginalPositionX(Integer.parseInt(playerX.getText()));
-    	}
+		}
     }
 	
-	private class playerYListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class playerYListener implements FocusListener {
+		public void focusGained(FocusEvent arg0) {}
+		public void focusLost(FocusEvent e) {
 			GLOBAL.setPlayerOriginalPositionY(Integer.parseInt(playerY.getText()));
-    	}
+		}
     }
 	
 	private class restartListener implements ActionListener {
