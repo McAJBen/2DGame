@@ -7,29 +7,35 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-
 import animationPackage.DeathAnimation;
 import gamePackage.Position;
 import settingsPackage.GLOBAL;
+
 public class Coin {
 	
 	private static BufferedImage coin;
 	private Point point;
+	private boolean enabled;
 	
 	public Coin(int x, int y) {
+		enabled = true;
 		point = new Point(x, y);
 	}
 	
-	public static int checkCoins(Position pos, ArrayList<Coin> coins) {
+	public static int checkCoins(Position pos, Coin[] coins) {
 		int coinCounter = 0;
-		for (int i = 0; i < coins.size(); i++) {
-			if (coins.get(i).checkCoin(pos)) {
+		for (int i = 0; i < coins.length; i++) {
+			if (coins[i].checkCoin(pos)) {
 				coinCounter++;
-				coins.remove(i);
-				i--;
+				coins[i].disable();
 			}
 		}
 		return coinCounter;
+	}
+
+	private void disable() {
+		enabled = false;
+		
 	}
 
 	public boolean checkCoin(Position pos) {
@@ -40,16 +46,24 @@ public class Coin {
 	}
 	
 	private boolean within(int px, int py) {
-		return 	point.x == px && point.y == py;
+		if (enabled) {
+			return 	point.x == px && point.y == py;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public void paint(Graphics g) {
-		g.drawImage(coin,
+		if (enabled) {
+			g.drawImage(coin,
 				(int)(point.x * GLOBAL.screenPixelWidth),
 				(int)(point.y * GLOBAL.screenPixelHeight),
 				(int)GLOBAL.screenPixelWidth,
 				(int)GLOBAL.screenPixelHeight,
 				null);
+		}
+		
 	}
 	
 	public static void load() {
@@ -68,9 +82,17 @@ public class Coin {
 		
 	}
 
-	public static void paint(Graphics imageG, ArrayList<Coin> coins) {
+	public static void paint(Graphics imageG, Coin[] coins) {
 		for (Coin c: coins) {
 			c.paint(imageG);
 		}
+	}
+
+	public static Coin[] setup(ArrayList<Coin> coins) {
+		Coin[] c = new Coin[coins.size()];
+		for (int i = 0; i < c.length; i++) {
+			c[i] = coins.get(i);
+		}
+		return c;
 	}
 }

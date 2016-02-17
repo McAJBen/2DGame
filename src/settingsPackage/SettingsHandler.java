@@ -1,10 +1,6 @@
 package settingsPackage;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,15 +9,15 @@ import java.util.ArrayList;
 public class SettingsHandler {
 
 	private static final String
-	FILE_NAME = "\\2DGame.settings",
+	STRING_NAMES = "/names.j",
+	SETTINGS_NAME = "/settings.j",
 	IDENTIFIER_SYMBOL = ":",
 	COMMENT_SYMBOL = "#";
 	
 	private Setting[] settings;
-	private File settingsFile = new File(System.getProperty("user.dir") + FILE_NAME);
 	
 	SettingsHandler() {
-		InputStream in = getClass().getResourceAsStream("/stngNms.txt");
+		InputStream in = getClass().getResourceAsStream(STRING_NAMES);
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		ArrayList<Setting> endSettings = new ArrayList<>();
@@ -42,21 +38,9 @@ public class SettingsHandler {
 		getSettings();
 	}
 	
-	
-	@SuppressWarnings("resource")
 	private void getSettings() {
 		String settingsString = null;
-		BufferedReader br = null;
-		try {
-			if (settingsFile.exists()) {
-				br = new BufferedReader(new FileReader(settingsFile));
-			}
-			else throw new IOException("Settings File does not exist");
-			
-		} catch (IOException e1) {
-			createSettingsFile();
-			return;
-		}
+		BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(SETTINGS_NAME)));
 		
 		do {
 			try {
@@ -79,20 +63,6 @@ public class SettingsHandler {
 				}
 			}
 		} while (settingsString != null);
-	}
-
-	private void createSettingsFile() {
-		String settingsString = "";
-		for (int i = 0; i < settings.length; i++) {
-			settingsString = settingsString.concat(settings[i].getID() + IDENTIFIER_SYMBOL + settings[i].getValue() + "\n");
-		}
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(settingsFile));
-			writer.write(settingsString);
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public double getDouble(String id) {

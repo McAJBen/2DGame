@@ -15,14 +15,14 @@ public class MapTile {
 	ArrayList<Enemy> enemys;
 	ArrayList<JumpSquare> jumpSquares;
 	ArrayList<ElectricShot> electricShots;
-	ArrayList<Coin> coins;
+	Coin[] coins;
 	Death deathCause;
 	
 	public MapTile(BufferedImage map) {
 		mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
 		enemys = new ArrayList<>();
 		jumpSquares = new ArrayList<>();
-		coins = new ArrayList<>();
+		ArrayList<Coin> coins = new ArrayList<>();
 		ArrayList<Point> electricShotBasePoints = new ArrayList<>();
 		
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
@@ -46,6 +46,7 @@ public class MapTile {
 			}
 		}
 		electricShots = ElectricShot.setup(electricShotBasePoints, mapSquares);
+		this.coins = Coin.setup(coins);
 	}
 	
 	public BufferedImage getImage() {
@@ -53,9 +54,9 @@ public class MapTile {
 		Graphics imageG = image.getGraphics();
 		
 		MapSquare.paint(mapSquares, imageG);
-		Enemy.paint(imageG, enemys);
 		JumpSquare.paint(imageG, jumpSquares);
 		Coin.paint(imageG, coins);
+		Enemy.paint(imageG, enemys);
 		ElectricShot.paint(imageG, electricShots);
 		
 		imageG.dispose();
@@ -123,6 +124,6 @@ public class MapTile {
 	}
 
 	public int getNumberOfCoins() {
-		return coins.size();
+		return coins.length;
 	}
 }
