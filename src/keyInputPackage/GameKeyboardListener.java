@@ -2,11 +2,10 @@ package keyInputPackage;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 public class GameKeyboardListener implements KeyListener {
 	
-	private ArrayList<Integer> keysDown = new ArrayList<>();
+	private boolean[] keysDown = new boolean[KeyEvent.KEY_LAST];
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -22,36 +21,19 @@ public class GameKeyboardListener implements KeyListener {
 	public void keyTyped(KeyEvent arg0) {}
 
 	private void addKey(int keyCode) {
-		if (!getKey(keyCode)) {
-			keysDown.add(keyCode);
-		}
+		keysDown[keyCode] = true;
 	}
 	
 	private void removeKey(int keyCode) {
-		for (int i = 0; i < keysDown.size(); i++) {
-			if (keyCode == keysDown.get(i)) {
-				keysDown.remove(i);
-				i--;
-			}
-		}		
+		keysDown[keyCode] = false;
 	}
 	
 	private boolean getKey(int keyCode) {
-		for (int k: keysDown) { // TODO concurrent use modification happens
-			if (k == keyCode) {
-				return true;
-			}
-		}
-		return false;
+		return keysDown[keyCode];
 	}
 
 	private boolean getKey(int keyCode1, int keyCode2) {
-		for (int k: keysDown) {
-			if (k == keyCode1 || k == keyCode2) {
-				return true;
-			}
-		}
-		return false;
+		return keysDown[keyCode1] || keysDown[keyCode2];
 	}
 	
 	public byte getX() {
@@ -66,18 +48,39 @@ public class GameKeyboardListener implements KeyListener {
 	}
 
 	public void reset() {
-		keysDown.clear();
+		for (int i = 0; i < keysDown.length; i++) {
+			keysDown[i] = false;
+		}
 	}
 
 	public boolean getJump() {
 		return getKey(KeyEvent.VK_SPACE);
 	}
 	
+	public boolean getO() {
+		if (getKey(KeyEvent.VK_O)) {
+			removeKey(KeyEvent.VK_O);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean getP() {
+		if (getKey(KeyEvent.VK_P)) {
+			removeKey(KeyEvent.VK_P);
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		String s = "";
-		for (int k: keysDown) {
-			s = s.concat(KeyEvent.getKeyText(k));
+		for (int i = 0; i < keysDown.length; i++) {
+			if (keysDown[i]) {
+				s = s.concat(KeyEvent.getKeyText(i));
+			}
+			
 		}
 		return s;
 	}
