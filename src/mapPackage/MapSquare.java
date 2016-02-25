@@ -1,7 +1,7 @@
 package mapPackage;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Random;
 import settingsPackage.GLOBAL;
 
@@ -85,41 +85,41 @@ public class MapSquare {
 		}
 	}
 
-	public static void paint(MapSquare[][] mapSquares, Graphics g) {
-		g.setColor(FLOOR_COLOR);
-		g.fillRect(0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height);
+	public static void paint(MapSquare[][] mapSquares, Graphics2D g2d) {
+		g2d.setColor(FLOOR_COLOR);
+		g2d.fillRect(0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height);
 		for (int i = 0; i < GLOBAL.MAP_PIXEL_SIZE; i++) {
 			int px = (int)(GLOBAL.screenPixelWidth * i);
 			int width = (int)(GLOBAL.screenPixelWidth * (i + 1) - px);
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
 				int py = (int)(GLOBAL.screenPixelHeight * j);
 				int height = (int)(GLOBAL.screenPixelHeight * (j + 1) - py);
-				mapSquares[i][j].paint(g, px, py, width, height);
+				mapSquares[i][j].paint(g2d, px, py, width, height);
 			}
 		}
 	}
 
-	private void paint(Graphics g, int x, int y, int width, int height) {
-		g.setColor(getColor());
+	private void paint(Graphics2D g2d, int x, int y, int width, int height) {
+		g2d.setColor(getColor());
 		switch (getType()) {
 		case WALL:
 		case ENEMY_WALL:
 		case PLAYER_WALL:
 		case JUMP_SQUARE:
-			g.fillRect(x, y, width, height);
+			g2d.fillRect(x, y, width, height);
 			break;
 		case ELECTRIC_SQUARE:
-			g.fillRect(x, y, width, height);
-			paintElectricity(g, x, y, width, height, 3);
+			g2d.fillRect(x, y, width, height);
+			paintElectricity(g2d, x, y, width, height, 3);
 			break;
 		case SPEED_SQUARE:
-			paintSpeed(g, x, y, width, height, 7);
+			paintSpeed(g2d, x, y, width, height, 7);
 			break;
 		case FALL_SQUARE:
-			paintFall(g, x, y, width, height, 7);
+			paintFall(g2d, x, y, width, height, 7);
 			break;
 		case ELECTRIC_SHOT:
-			g.fillRect(x, y, width, height);
+			g2d.fillRect(x, y, width, height);
 			break;
 		default:
 		case FLOOR:
@@ -127,38 +127,38 @@ public class MapSquare {
 		}
 	}
 
-	private static void paintFall(Graphics g, int x, int y, int width, int height, int times) {
-		g.setColor(FALL_SQUARE_COLOR);
+	private static void paintFall(Graphics2D g2d, int x, int y, int width, int height, int times) {
+		g2d.setColor(FALL_SQUARE_COLOR);
 		height -= GLOBAL.SPEED_LINE_SIZE;
 		for (int i = 0; i < times; i++) {
 			int thisX = x + (int)(width * rand.nextFloat());
 			int thisY = y + (int)(height * rand.nextFloat());
 			int thisY2 = thisY + GLOBAL.SPEED_LINE_SIZE;
 			
-			g.drawLine(thisX, thisY, thisX, thisY2);
+			g2d.drawLine(thisX, thisY, thisX, thisY2);
 		}
 	}
 
-	private static void paintSpeed(Graphics g, int x, int y, int width, int height, int times) {
-		g.setColor(SPEED_COLOR);
+	private static void paintSpeed(Graphics2D g2d, int x, int y, int width, int height, int times) {
+		g2d.setColor(SPEED_COLOR);
 		width -= GLOBAL.SPEED_LINE_SIZE;
 		for (int i = 0; i < times; i++) {
 			int thisX = x + (int)(width * rand.nextFloat());
 			int thisY = y + (int)(height * rand.nextFloat());
 			int thisX2 = thisX + GLOBAL.SPEED_LINE_SIZE;
 			
-			g.drawLine(thisX, thisY, thisX2, thisY);
+			g2d.drawLine(thisX, thisY, thisX2, thisY);
 		}
 	}
 
-	public static void paintElectricity(Graphics g, int x, int y, int width, int height, int times) {
-		g.setColor(ELECTRICITY_COLOR);
+	public static void paintElectricity(Graphics2D g2d, int x, int y, int width, int height, int times) {
+		g2d.setColor(ELECTRICITY_COLOR);
 		int lastX = x + (int)(width * rand.nextFloat());
 		int lastY = y + (int)(height * rand.nextFloat());
 		for (int i = 0; i < times; i++) {
 			int thisX = x + (int)(width * rand.nextFloat());
 			int thisY = y + (int)(height * rand.nextFloat());
-			g.drawLine( lastX, lastY, thisX, thisY);
+			g2d.drawLine( lastX, lastY, thisX, thisY);
 			lastX = thisX;
 			lastY = thisY;
 		}

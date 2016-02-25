@@ -1,6 +1,6 @@
 package gamePackage;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyListener;
 
@@ -134,34 +134,34 @@ public class Game {
 		}
 	}
 	
-	public void paint(Graphics g) {
+	public void paint(Graphics2D g2d) {
 		switch (state) {
 		case NORMAL:
-			map.paint(g);
-			player.paint(g);
+			map.paint(g2d);
+			player.paint(g2d);
 			if (GLOBAL.DEBUG_MODE) {
-				g.drawString(player.getPosition().toString(), 50, 50);
-				g.drawString(map.getMapSquares()[player.getPosition().getX()][player.getPosition().getY()].toString(), 50, 70);
-				g.drawString(keyListener.toString(), 50, 30);
+				g2d.drawString(player.getPosition().toString(), 50, 50);
+				g2d.drawString(map.getMapSquares()[player.getPosition().getX()][player.getPosition().getY()].toString(), 50, 70);
+				g2d.drawString(keyListener.toString(), 50, 30);
 			}
-			g.drawString("O for options: P for Pause", GLOBAL.screenOptionsWidth, 10);
+			g2d.drawString("O for options: P for Pause", GLOBAL.screenOptionsWidth, 10);
 			break;
 		case CHANGING_MAP:
-			mapChangeAnimation.paint(g);
+			mapChangeAnimation.paint(g2d);
 			break;
 		case DEATH:
-			deathAnimation.paint(g);
+			deathAnimation.paint(g2d);
 			break;
 		case END:
-			endAnimation.paint(g);
+			endAnimation.paint(g2d);
 			break;
 		}
 		if (paused) {
 			if (showingOptions) {
-				optionsMenu.paintOptions(g);
+				optionsMenu.paintOptions(g2d);
 			}
 			else {
-				optionsMenu.paintPause(g);
+				optionsMenu.paintPause(g2d);
 			}
 		}
 		

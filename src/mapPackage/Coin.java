@@ -1,6 +1,6 @@
 package mapPackage;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -54,9 +54,9 @@ public class Coin {
 		}
 	}
 	
-	public void paint(Graphics g) {
+	public void paint(Graphics2D g2d) {
 		if (enabled) {
-			g.drawImage(coin,
+			g2d.drawImage(coin,
 				(int)(point.x * GLOBAL.screenPixelWidth),
 				(int)(point.y * GLOBAL.screenPixelHeight),
 				(int)GLOBAL.screenPixelWidth,
@@ -72,8 +72,8 @@ public class Coin {
 		} catch (IOException e) {}
 	}
 
-	public static void paintCoin(Graphics g, int x, int y) {
-		g.drawImage(coin,
+	public static void paintCoin(Graphics2D g2d, int x, int y) {
+		g2d.drawImage(coin,
 				(int)(x * GLOBAL.screenPixelWidth),
 				(int)(y * GLOBAL.screenPixelHeight),
 				(int)GLOBAL.screenPixelWidth,
@@ -82,9 +82,9 @@ public class Coin {
 		
 	}
 
-	public static void paint(Graphics imageG, Coin[] coins) {
+	public static void paint(Graphics2D g2d, Coin[] coins) {
 		for (Coin c: coins) {
-			c.paint(imageG);
+			c.paint(g2d);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package mapPackage;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -31,41 +31,41 @@ public class ElectricShot {
 		}
 	}
 	
-	public static void paint(Graphics g, ArrayList<ElectricShot> esList) {
+	public static void paint(Graphics2D g2d, ArrayList<ElectricShot> esList) {
 		if (electricityOn()) {
 			for (ElectricShot es: esList) {
-				es.paintElectricityShot(g);
+				es.paintElectricityShot(g2d);
 			}
 		}
 	}
 	
-	private void paintElectricityShot(Graphics g) {
-		g.setColor(MapSquare.ELECTRICITY_COLOR);
+	private void paintElectricityShot(Graphics2D g2d) {
+		g2d.setColor(MapSquare.ELECTRICITY_COLOR);
 		
 		switch (direction) {
 		case BOTH:
-			paintHorizontal(g);
-			paintVertical(g);
+			paintHorizontal(g2d);
+			paintVertical(g2d);
 			break;
 		case HORIZONTAL:
-			paintHorizontal(g);
+			paintHorizontal(g2d);
 			break;
 		case VERTICAL:
-			paintVertical(g);
+			paintVertical(g2d);
 			break;		
 		}
 	}
 	
-	private void paintVertical(Graphics g) {
-		MapSquare.paintElectricity(g, 
+	private void paintVertical(Graphics2D g2d) {
+		MapSquare.paintElectricity(g2d, 
 				position.getXScreen() + (int)(GLOBAL.screenUWidth * GLOBAL.ELECTRIC_SHOT_OFFSET),
 				position.getYScreen(),
 				(int)(GLOBAL.screenUWidth * GLOBAL.ELECTRIC_SHOT_WIDTH),
 				(int)GLOBAL.screenPixelHeight, 7);
 	}
 
-	private void paintHorizontal(Graphics g) {
-		MapSquare.paintElectricity(g, 
+	private void paintHorizontal(Graphics2D g2d) {
+		MapSquare.paintElectricity(g2d, 
 				position.getXScreen(),
 				position.getYScreen() + (int)(GLOBAL.screenUHeight * GLOBAL.ELECTRIC_SHOT_OFFSET),
 				(int)GLOBAL.screenPixelWidth,

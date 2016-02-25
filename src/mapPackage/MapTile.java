@@ -1,6 +1,6 @@
 package mapPackage;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class MapTile {
 	
 	public BufferedImage getImage() {
 		BufferedImage image = new BufferedImage(GLOBAL.screenSize.width, GLOBAL.screenSize.height, BufferedImage.TYPE_INT_ARGB);
-		Graphics imageG = image.getGraphics();
+		Graphics2D imageG = image.createGraphics(); // TODO change to g2d
 		
 		MapSquare.paint(mapSquares, imageG);
 		JumpSquare.paint(imageG, jumpSquares);
@@ -95,8 +95,8 @@ public class MapTile {
 		return mapSquares;
 	}
 
-	public void paint(Graphics g) {
-		g.drawImage(getImage(), 0, 0, null);
+	public void paint(Graphics2D g2d) {
+		g2d.drawImage(getImage(), 0, 0, null);
 	}
 
 	public void move() {

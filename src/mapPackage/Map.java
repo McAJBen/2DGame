@@ -1,6 +1,6 @@
 package mapPackage;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -20,8 +20,8 @@ public class Map {
 		completeReset();
 	}
 
-	public void paint(Graphics g) {
-		getCurrentMap().paint(g);
+	public void paint(Graphics2D g2d) {
+		getCurrentMap().paint(g2d);
 	}
 
 	public Point getCurrentMapPoint() {

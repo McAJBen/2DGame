@@ -1,7 +1,7 @@
 package animationPackage;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import settingsPackage.GLOBAL;
 
@@ -19,11 +19,11 @@ public class EndAnimation {
 		return stage >= GLOBAL.END_ANIMATION_LENGTH;
 	}
 
-	public void paint(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height);
-		g.setColor(Color.BLACK);
-		g.drawString("Congraturation", GLOBAL.screenSize.width / 2, GLOBAL.screenSize.height / 2);
-		g.drawString(deaths + " Deaths", GLOBAL.screenSize.width / 2, 10 + GLOBAL.screenSize.height / 2);
+	public void paint(Graphics2D g2d) {
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height);
+		g2d.setColor(Color.BLACK);
+		g2d.drawString("Congraturation", GLOBAL.screenSize.width / 2, GLOBAL.screenSize.height / 2);
+		g2d.drawString(deaths + " Deaths", GLOBAL.screenSize.width / 2, 10 + GLOBAL.screenSize.height / 2);
 	}
 }

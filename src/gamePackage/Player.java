@@ -1,7 +1,7 @@
 package gamePackage;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -218,17 +218,17 @@ public class Player {
 		return mct;
 	}
 
-	public void paint(Graphics g) {
-		g.setColor(Color.BLACK);
+	public void paint(Graphics2D g2d) {
+		g2d.setColor(Color.BLACK);
 		
-		paintPlayer(g, position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
+		paintPlayer(g2d, position.getXScreen(), position.getYScreen(), GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 		
-		g.drawString(coins + "           Deaths:" + deaths, (int) (GLOBAL.screenPixelWidth + (int)GLOBAL.screenPixelWidth), (int)GLOBAL.screenPixelHeight);
-		Coin.paintCoin(g, 1, 0);
+		g2d.drawString(coins + "           Deaths:" + deaths, (int) (GLOBAL.screenPixelWidth + (int)GLOBAL.screenPixelWidth), (int)GLOBAL.screenPixelHeight);
+		Coin.paintCoin(g2d, 1, 0);
 	}
 	
-	public static void paintPlayer(Graphics g, int x, int y, int width, int height) {
-		g.drawImage(playerImage, x, y, width, height, null);
+	public static void paintPlayer(Graphics2D g2d, int x, int y, int width, int height) {
+		g2d.drawImage(playerImage, x, y, width, height, null);
 	}
 
 	public static void load() {

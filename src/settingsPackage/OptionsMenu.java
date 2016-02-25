@@ -2,7 +2,7 @@ package settingsPackage;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class OptionsMenu {
 	
@@ -20,18 +20,18 @@ public class OptionsMenu {
 		wasClosed = false;
 	}
 	
-	public void paintPause(Graphics g) {
+	public void paintPause(Graphics2D g2d) {
 		move();
 		
-		g.setColor(backgroundColor);
-		g.fillRect(0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height);
-		g.setColor(new Color(step, step, step));
-		g.setFont(font);
-		g.drawString("PAUSED", GLOBAL.optionsTextPosition.width, GLOBAL.optionsTextPosition.height);
+		g2d.setColor(backgroundColor);
+		g2d.fillRect(0, 0, GLOBAL.screenSize.width, GLOBAL.screenSize.height);
+		g2d.setColor(new Color(step, step, step));
+		g2d.setFont(font);
+		g2d.drawString("PAUSED", GLOBAL.optionsTextPosition.width, GLOBAL.optionsTextPosition.height);
 	}
 	
-	public void paintOptions(Graphics g) {
-		paintPause(g);
+	public void paintOptions(Graphics2D g2d) {
+		paintPause(g2d);
 		// TODO change to options paused
 	}
 	

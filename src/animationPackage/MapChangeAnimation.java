@@ -1,6 +1,6 @@
 package animationPackage;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import settingsPackage.GLOBAL;
@@ -63,33 +63,33 @@ public class MapChangeAnimation {
 		return step * GLOBAL.PLAYER_U_MAX / GLOBAL.MAP_CHANGE_ANIMATION_LENGTH;
 	}
 
-	public void paint(Graphics g) {
+	public void paint(Graphics2D g2d) {
 		
 		switch (direction) {
 		case RIGHT:
-			paintImages(g, -imagePosition, 0, GLOBAL.MAP_U_SIZE - imagePosition, 0);
+			paintImages(g2d, -imagePosition, 0, GLOBAL.MAP_U_SIZE - imagePosition, 0);
 			break;
 		case LEFT:
-			paintImages(g, imagePosition, 0, imagePosition - GLOBAL.MAP_U_SIZE, 0);
+			paintImages(g2d, imagePosition, 0, imagePosition - GLOBAL.MAP_U_SIZE, 0);
 			break;
 		case DOWN:
-			paintImages(g, 0, -imagePosition, 0, GLOBAL.MAP_U_SIZE - imagePosition);
+			paintImages(g2d, 0, -imagePosition, 0, GLOBAL.MAP_U_SIZE - imagePosition);
 			break;
 		case UP:
-			paintImages(g, 0, imagePosition, 0, imagePosition - GLOBAL.MAP_U_SIZE);
+			paintImages(g2d, 0, imagePosition, 0, imagePosition - GLOBAL.MAP_U_SIZE);
 			break;
 		}
 	}
 	
-	private void paintImages(Graphics g, int ox, int oy, int nx, int ny) {
-		paintMap(g, oldImg, ox, oy);
-		paintMap(g, newImg, nx, ny);
-		Player.paintPlayer(g, playerPosition.getXScreen(), playerPosition.getYScreen(),
+	private void paintImages(Graphics2D g2d, int ox, int oy, int nx, int ny) {
+		paintMap(g2d, oldImg, ox, oy);
+		paintMap(g2d, newImg, nx, ny);
+		Player.paintPlayer(g2d, playerPosition.getXScreen(), playerPosition.getYScreen(),
 				GLOBAL.playerScreenSize.width, GLOBAL.playerScreenSize.height);
 	}
 	
-	private void paintMap(Graphics g, BufferedImage img, int x, int y) {
-		g.drawImage(img,
+	private void paintMap(Graphics2D g2d, BufferedImage img, int x, int y) {
+		g2d.drawImage(img,
 			(int)(x * GLOBAL.screenUWidth),
 			(int)(y * GLOBAL.screenUHeight),
 			GLOBAL.screenSize.width, GLOBAL.screenSize.height, null);

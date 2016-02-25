@@ -2,6 +2,7 @@ package gamePackage;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -95,7 +96,8 @@ public class MainJPanel extends JPanel {
 	
 	public void paint(Graphics g) {
         super.paint(g);
-        game.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+        game.paint(g2d);
     }
 	
 	public static void setRestart() {
