@@ -94,14 +94,14 @@ public final class GLOBAL {
 		
 		SettingsHandler sh = new SettingsHandler();
 		
-		FULLSCREEN = sh.getBoolean("FULLSCREEN");
-		MAP_START_X = sh.getShort("MAP_START_X");
-		MAP_START_Y = sh.getShort("MAP_START_Y");
-		MAP_PIXEL_SIZE = sh.getShort("MAP_PIXEL_SIZE");
-		PLAYER_ORIGINAL_POSITION_X = sh.getShort("PLAYER_ORIGINAL_POSITION_X");
-		PLAYER_ORIGINAL_POSITION_Y = sh.getShort("PLAYER_ORIGINAL_POSITION_Y");
-		MAX_COINS = sh.getInt("MAX_COINS");
-		DEBUG_MODE = sh.getBoolean("DEBUG_MODE");
+		FULLSCREEN = sh.getBoolean(SettingName.FULLSCREEN);
+		MAP_START_X = sh.getShort(SettingName.MAP_START_X);
+		MAP_START_Y = sh.getShort(SettingName.MAP_START_Y);
+		MAP_PIXEL_SIZE = sh.getShort(SettingName.MAP_PIXEL_SIZE);
+		PLAYER_ORIGINAL_POSITION_X = sh.getShort(SettingName.PLAYER_ORIGINAL_POSITION_X);
+		PLAYER_ORIGINAL_POSITION_Y = sh.getShort(SettingName.PLAYER_ORIGINAL_POSITION_Y);
+		MAX_COINS = sh.getInt(SettingName.MAX_COINS);
+		DEBUG_MODE = sh.getBoolean(SettingName.DEBUG_MODE);
 		
 		MAP_U_SIZE = MAP_PIXEL_SIZE * U_MULTIPLIER;
 		PLAYER_U_MAX = MAP_U_SIZE - PLAYER_SIZE - 1;
@@ -109,39 +109,53 @@ public final class GLOBAL {
 		DEATH_ANIMATION_LENGTH = (short) (MAP_U_SIZE * 2);
 		DEATH_ANIMATION_STEP = (short) (DEATH_ANIMATION_LENGTH / 50);
 	}
-	
-	public static void setFullscreen(boolean selected) {
-		SettingsHandler.addUserSetting("FULLSCREEN", selected + "");
-		FULLSCREEN = selected;
+
+	public static void addSetting(SettingName name, boolean selected) {
+		SettingsHandler.addUserSetting(name.name(), selected + "");
+		switch (name) {
+		case DEBUG_MODE:
+			DEBUG_MODE = selected;
+			break;
+		case FULLSCREEN:
+			FULLSCREEN = selected;
+			break;
+		default:
+			break;
+		}
 	}
-	
-	public static void setDebugMode(boolean selected) {
-		SettingsHandler.addUserSetting("DEBUG_MODE", selected + "");
-		DEBUG_MODE = selected;
+
+	public static void addSetting(SettingName name, short selected) {
+		SettingsHandler.addUserSetting(name.name(), selected + "");
+		switch (name) {
+		case MAP_PIXEL_SIZE:
+			MAP_PIXEL_SIZE = selected;
+			break;
+		case MAP_START_X:
+			MAP_START_X = selected;
+			break;
+		case MAP_START_Y:
+			MAP_START_Y = selected;
+			break;
+		case PLAYER_ORIGINAL_POSITION_X:
+			PLAYER_ORIGINAL_POSITION_X = selected;
+			break;
+		case PLAYER_ORIGINAL_POSITION_Y:
+			PLAYER_ORIGINAL_POSITION_Y = selected;
+			break;
+		default:
+			break;
+		}
 	}
-	
-	public static void setMapStartX(int value) {
-		SettingsHandler.addUserSetting("MAP_START_X", value + "");
-		MAP_START_X = (short) value;
-	}
-	
-	public static void setMapStartY(int value) {
-		SettingsHandler.addUserSetting("MAP_START_Y", value + "");
-		MAP_START_Y = (short) value;
-	}
-	
-	public static void setPlayerOriginalPositionX(int value) {
-		SettingsHandler.addUserSetting("PLAYER_ORIGINAL_POSITION_X", value + "");
-		PLAYER_ORIGINAL_POSITION_X = (short) value;
-	}
-	
-	public static void setPlayerOriginalPositionY(int value) {
-		SettingsHandler.addUserSetting("PLAYER_ORIGINAL_POSITION_Y", value + "");
-		PLAYER_ORIGINAL_POSITION_Y = (short) value;
-	}
-	
-	public static void setMaxCoins(int value) {
-		SettingsHandler.addUserSetting("MAX_COINS", value + "");
-		MAX_COINS = (short) value;
+
+	public static void addSetting(SettingName name, int selected) {
+		SettingsHandler.addUserSetting(name.name(), selected + "");
+		switch (name) {
+		case MAX_COINS:
+			MAX_COINS = selected;
+			break;
+		default:
+			break;
+		}
+		
 	}
 }

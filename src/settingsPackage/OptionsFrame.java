@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -50,37 +49,37 @@ public class OptionsFrame extends JFrame {
 		panel.setLayout(new GridLayout(0, 2));
 		
 		mapX = new JTextField(GLOBAL.MAP_START_X + "", 1);
-		mapX.addFocusListener(new mapXListener());
+		mapX.addFocusListener(new shortListener(SettingName.MAP_START_X));
 		panel.add(new JLabel("Map start X"));
 		panel.add(mapX);
 		
 		mapY = new JTextField(GLOBAL.MAP_START_Y + "", 1);
-		mapY.addFocusListener(new mapYListener());
+		mapY.addFocusListener(new shortListener(SettingName.MAP_START_Y));
 		panel.add(new JLabel("Map start Y"));
 		panel.add(mapY);
 		
 		playerX = new JTextField(GLOBAL.PLAYER_ORIGINAL_POSITION_X + "", 1);
-		playerX.addFocusListener(new playerXListener());
+		playerX.addFocusListener(new shortListener(SettingName.PLAYER_ORIGINAL_POSITION_X));
 		panel.add(new JLabel("Player start X"));
 		panel.add(playerX);
 		
 		playerY = new JTextField(GLOBAL.PLAYER_ORIGINAL_POSITION_Y + "", 1);
-		playerY.addFocusListener(new playerYListener());
+		playerY.addFocusListener(new shortListener(SettingName.PLAYER_ORIGINAL_POSITION_Y));
 		panel.add(new JLabel("Player start Y"));
 		panel.add(playerY);
 		
 		maxCoins = new JTextField(GLOBAL.MAX_COINS + "", 1);
-		maxCoins.addFocusListener(new maxCoinsListener());
+		maxCoins.addFocusListener(new intListener(SettingName.MAX_COINS));
 		panel.add(new JLabel("Max coins"));
 		panel.add(maxCoins);
 		
 		fullscreen = new JCheckBox("Fullscreen", GLOBAL.FULLSCREEN);
-		fullscreen.addActionListener(new fullscreenListener());
+		fullscreen.addActionListener(new booleanListener(SettingName.FULLSCREEN));
 		panel.add(fullscreen);
     	panel.add(new JLabel());
     	
     	debugMode = new JCheckBox("Debug Mode", GLOBAL.DEBUG_MODE);
-    	debugMode.addActionListener(new debugModeListener());
+    	debugMode.addActionListener(new booleanListener(SettingName.DEBUG_MODE));
 		panel.add(debugMode);
 		
 		JButton restartButton = new JButton("Restart");
@@ -90,49 +89,35 @@ public class OptionsFrame extends JFrame {
 		return panel;
 	}
 	
-	private class fullscreenListener implements ActionListener {
+	private class booleanListener implements ActionListener {
+		SettingName name;
+		public booleanListener(SettingName name) {
+			this.name = name;
+		}
 		public void actionPerformed(ActionEvent e) {
-			GLOBAL.setFullscreen(fullscreen.isSelected());
+			GLOBAL.addSetting(name, ((JCheckBox) e.getSource()).isSelected());
     	}
     }
 	
-	private class debugModeListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			GLOBAL.setDebugMode(debugMode.isSelected());
-    	}
-    }
-	
-	private class mapXListener implements FocusListener {
-		public void focusGained(FocusEvent arg0) {}
-		public void focusLost(FocusEvent e) {
-			GLOBAL.setMapStartX(Integer.parseInt(mapX.getText()));
+	private class shortListener implements FocusListener {
+		SettingName name;
+		public shortListener(SettingName name) {
+			this.name = name;
 		}
-    }
-	private class mapYListener implements FocusListener {
 		public void focusGained(FocusEvent arg0) {}
 		public void focusLost(FocusEvent e) {
-			GLOBAL.setMapStartY(Integer.parseInt(mapY.getText()));
+			GLOBAL.addSetting(name, Short.parseShort(((JTextField) e.getSource()).getText()));
 		}
     }
 	
-	private class playerXListener implements FocusListener {
-		public void focusGained(FocusEvent arg0) {}
-		public void focusLost(FocusEvent e) {
-			GLOBAL.setPlayerOriginalPositionX(Integer.parseInt(playerX.getText()));
+	private class intListener implements FocusListener {
+		SettingName name;
+		public intListener(SettingName name) {
+			this.name = name;
 		}
-    }
-	
-	private class playerYListener implements FocusListener {
 		public void focusGained(FocusEvent arg0) {}
 		public void focusLost(FocusEvent e) {
-			GLOBAL.setPlayerOriginalPositionY(Integer.parseInt(playerY.getText()));
-		}
-    }
-	
-	private class maxCoinsListener implements FocusListener {
-		public void focusGained(FocusEvent arg0) {}
-		public void focusLost(FocusEvent e) {
-			GLOBAL.setMaxCoins(Integer.parseInt(maxCoins.getText()));
+			GLOBAL.addSetting(name, Integer.parseInt(((JTextField) e.getSource()).getText()));
 		}
     }
 	

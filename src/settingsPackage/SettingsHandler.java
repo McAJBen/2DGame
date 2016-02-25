@@ -1,13 +1,11 @@
 package settingsPackage;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -15,38 +13,24 @@ import java.util.ArrayList;
 public class SettingsHandler {
 
 	private static final String
-	STRING_NAMES = "/names.j",
-	SETTINGS_NAME = "/settings.j",
-	IDENTIFIER_SYMBOL = ":",
-	COMMENT_SYMBOL = "#";
+		SETTINGS_NAME = "/settings",
+		IDENTIFIER_SYMBOL = ":",
+		COMMENT_SYMBOL = "#";
 	
-	private Setting[] settings;
+	private static Setting[] settings;
 	
 	SettingsHandler() {
-		InputStream in = getClass().getResourceAsStream(STRING_NAMES);
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		ArrayList<Setting> endSettings = new ArrayList<>();
-		
-		String settingsList = null;
-		do {
-			try {
-				settingsList = br.readLine();
-			} catch (IOException e) {break;}
-			if (settingsList != null && !settingsList.startsWith(COMMENT_SYMBOL)) {
-				
-				settingsList = settingsList.replaceAll("\\s", "");
-				endSettings.add(new Setting(settingsList.split(IDENTIFIER_SYMBOL)));
-			}
-		} while (settingsList != null);
-		settings = new Setting[endSettings.size()];
-		endSettings.toArray(settings);
+		settings = new Setting[SettingName.values().length];
+		for (int i = 0; i < settings.length; i++) {
+			settings[i] = new Setting(SettingName.vt[i]);
+		}
 		getSettings();
 	}
 	
 	private void getSettings() {
 		String settingsString = null;
-		BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(SETTINGS_NAME)));
+		BufferedReader br = new BufferedReader(
+				new InputStreamReader(getClass().getResourceAsStream(SETTINGS_NAME)));
 		
 		do {
 			try {
@@ -61,18 +45,13 @@ public class SettingsHandler {
 				}
 				String stringAfterIDSymbol = settingsString.substring(indexOfIdentifier + 1);
 				String stringBeforeIDSymbol = settingsString.substring(0, indexOfIdentifier);
-				for (int i = 0; i < settings.length; i++) {
-					if (settings[i].check(stringBeforeIDSymbol)) {
-						settings[i].setVal(stringAfterIDSymbol);
-						break;
-					}
-				}
+				settings[SettingName.valueOf(stringBeforeIDSymbol).ordinal()].setVal(stringAfterIDSymbol);
 			}
 		} while (settingsString != null);
 		
 		// reads from file next to .jar
 		try {
-			File f = new File(System.getProperty("user.dir") + "/settings.j");
+			File f = new File(System.getProperty("user.dir") + SETTINGS_NAME);
 			if (!f.exists()) {
 				return;
 			}
@@ -94,77 +73,38 @@ public class SettingsHandler {
 				}
 				String stringAfterIDSymbol = settingsString.substring(indexOfIdentifier + 1);
 				String stringBeforeIDSymbol = settingsString.substring(0, indexOfIdentifier);
-				for (int i = 0; i < settings.length; i++) {
-					if (settings[i].check(stringBeforeIDSymbol)) {
-						settings[i].setVal(stringAfterIDSymbol);
-						break;
-					}
-				}
+				settings[SettingName.valueOf(stringBeforeIDSymbol).ordinal()].setVal(stringAfterIDSymbol);
 			}
 		} while (settingsString != null);
 	}
 	
-	public double getDouble(String id) {
-		for (int i = 0; i < settings.length; i++) {
-			if (settings[i].check(id)) {
-				return (double) settings[i].getValue();
-			}
-		}
-		return 0;
+	public double getDouble(SettingName sn) {
+		return (double) settings[sn.ordinal()].getValue();
 	}
 	
-	public byte getByte(String id) {
-		for (int i = 0; i < settings.length; i++) {
-			if (settings[i].check(id)) {
-				return (byte) settings[i].getValue();
-			}
-		}
-		return 0;
+	public byte getByte(SettingName sn) {
+		return (byte) settings[sn.ordinal()].getValue();
 	}
 	
-	public boolean getBoolean(String id) {
-		for (int i = 0; i < settings.length; i++) {
-			if (settings[i].check(id)) {
-				return (boolean) settings[i].getValue();
-			}
-		}
-		return false;
+	public boolean getBoolean(SettingName sn) {
+		return (boolean) settings[sn.ordinal()].getValue();
 	}
 
-	public int getInt(String id) {
-		for (int i = 0; i < settings.length; i++) {
-			if (settings[i].check(id)) {
-				return (int) settings[i].getValue();
-			}
-		}
-		return 0;
+	public int getInt(SettingName sn) {
+		return (int) settings[sn.ordinal()].getValue();
 	}
 
-	public short getShort(String id) {
-		for (int i = 0; i < settings.length; i++) {
-			if (settings[i].check(id)) {
-				return (short) settings[i].getValue();
-			}
-		}
-		return 0;
+	public short getShort(SettingName sn) {
+		return (short) settings[sn.ordinal()].getValue();
 	}
 
 	public static void addUserSetting(String string, String value) {
 		
-		File f = new File(System.getProperty("user.dir") + "/settings.j");
-		if (f.exists()) {
-			removeLines(f, string, string + IDENTIFIER_SYMBOL + value);
-		}
-		else {
-			try {
-				BufferedWriter writer = new BufferedWriter(new PrintWriter(new FileWriter(f)));
-				writer.write(string + IDENTIFIER_SYMBOL + value);
-				writer.close();
-			} catch (IOException e) {
-	
-			}
-		}
+		File f = new File(System.getProperty("user.dir") + SETTINGS_NAME);
+		removeLines(f, string, value);
 	}
+	
+	// TODO split this method into remove and add
 
 	private static void removeLines(File f, String string, String value) {
 		
@@ -203,14 +143,10 @@ public class SettingsHandler {
 			for (String s: lines) {
 				writer.println(s);
 			}
-			writer.println(value);
+			writer.println(string + IDENTIFIER_SYMBOL + value);
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 	}
 }
