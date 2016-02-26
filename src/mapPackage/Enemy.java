@@ -1,7 +1,7 @@
 package mapPackage;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import settingsPackage.GLOBAL;
 import gamePackage.Position;
@@ -114,11 +114,11 @@ public class Enemy {
 				position.getYShort() < py && py < position.getYMaxShort();
 	}
 
-	private void paint(Graphics g, int width, int height, int w2, int h2) {
-		g.setColor(new Color(136, 0, 21));
-		g.fillOval(position.getXScreen(), position.getYScreen(), width, height);
-		g.setColor(Color.RED);
-		g.fillOval(
+	private void paint(Graphics2D g2d, int width, int height, int w2, int h2) {
+		g2d.setColor(new Color(136, 0, 21));
+		g2d.fillOval(position.getXScreen(), position.getYScreen(), width, height);
+		g2d.setColor(Color.RED);
+		g2d.fillOval(
 				position.getXScreen() + stepX,
 				position.getYScreen() + stepY,
 				w2,
@@ -134,7 +134,7 @@ public class Enemy {
 		return false;
 	}
 
-	public static void paint(Graphics imageG, Enemy[] enemies) {
+	public static void paint(Graphics2D imageG, Enemy[] enemies) {
 		int width = (int)GLOBAL.screenPixelWidth;
 		int height = (int)GLOBAL.screenPixelHeight;
 		int w2 = width - stepWidth;
