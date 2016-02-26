@@ -13,7 +13,7 @@ public class MapTile {
 	
 	private MapSquare[][] mapSquares;
 	ArrayList<Enemy> enemys;
-	ArrayList<JumpSquare> jumpSquares;
+	JumpSquare[] jumpSquares;
 	ArrayList<ElectricShot> electricShots;
 	Coin[] coins;
 	Death deathCause;
@@ -21,7 +21,7 @@ public class MapTile {
 	public MapTile(BufferedImage map) {
 		mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
 		enemys = new ArrayList<>();
-		jumpSquares = new ArrayList<>();
+		ArrayList<Point> jumpSquarePoints = new ArrayList<>();
 		ArrayList<Coin> coins = new ArrayList<>();
 		ArrayList<Point> electricShotBasePoints = new ArrayList<>();
 		
@@ -33,7 +33,7 @@ public class MapTile {
 					mapSquares[i][j].setFloor();
 				}
 				else if (mapSquares[i][j].isJumpSquare()) {
-					jumpSquares.add(new JumpSquare(i, j));
+					jumpSquarePoints.add(new Point(i, j));
 					mapSquares[i][j].setFloor();
 				}
 				else if (mapSquares[i][j].isCoin()) {
@@ -45,21 +45,25 @@ public class MapTile {
 				}
 			}
 		}
+		jumpSquares = new JumpSquare[jumpSquarePoints.size()];
+		for (int i = 0; i < jumpSquares.length; i++) {
+			jumpSquares[i] = new JumpSquare(jumpSquarePoints.get(i));
+		}
 		electricShots = ElectricShot.setup(electricShotBasePoints, mapSquares);
 		this.coins = Coin.setup(coins);
 	}
 	
 	public BufferedImage getImage() {
 		BufferedImage image = new BufferedImage(GLOBAL.screenSize.width, GLOBAL.screenSize.height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D imageG = image.createGraphics(); // TODO change to g2d
+		Graphics2D ig2d = image.createGraphics();
 		
-		MapSquare.paint(mapSquares, imageG);
-		JumpSquare.paint(imageG, jumpSquares);
-		Coin.paint(imageG, coins);
-		Enemy.paint(imageG, enemys);
-		ElectricShot.paint(imageG, electricShots);
+		MapSquare.paint(mapSquares, ig2d);
+		JumpSquare.paint(ig2d, jumpSquares);
+		Coin.paint(ig2d, coins);
+		Enemy.paint(ig2d, enemys);
+		ElectricShot.paint(ig2d, electricShots);
 		
-		imageG.dispose();
+		ig2d.dispose();
 		return image;
 	}
 	

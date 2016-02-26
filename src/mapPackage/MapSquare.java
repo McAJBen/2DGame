@@ -105,8 +105,10 @@ public class MapSquare {
 		case WALL:
 		case ENEMY_WALL:
 		case PLAYER_WALL:
-		case JUMP_SQUARE:
 			g2d.fillRect(x, y, width, height);
+			//g2d.setColor(Color.BLACK);
+			//g2d.drawLine(x, y, x + width, y + height);
+			//g2d.drawLine(x, y + height, x + width, y);
 			break;
 		case ELECTRIC_SQUARE:
 			g2d.fillRect(x, y, width, height);
@@ -124,6 +126,7 @@ public class MapSquare {
 		default:
 		case FLOOR:
 		case ENEMY:
+		case JUMP_SQUARE:
 		}
 	}
 

@@ -2,7 +2,7 @@ package mapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.awt.Point;
 import java.util.Random;
 
 import settingsPackage.GLOBAL;
@@ -26,6 +26,10 @@ public class JumpSquare {
 		bubblePosition = new Position();
 		bubbleWidth = GLOBAL.MAX_BUBBLE_DIAM;
 		move();
+	}
+
+	public JumpSquare(Point point) {
+		this(point.x, point.y);
 	}
 
 	public void move() {
@@ -79,7 +83,7 @@ public class JumpSquare {
 		g.fillOval(px, py, width, height);
 	}
 
-	public static void paint(Graphics imageG, ArrayList<JumpSquare> jumpSquares) {
+	public static void paint(Graphics imageG, JumpSquare[] jumpSquares) {
 		for (JumpSquare js: jumpSquares) {
 			js.paint(imageG);
 		}
