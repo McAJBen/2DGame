@@ -2,7 +2,6 @@ package mapPackage;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 
 import settingsPackage.GLOBAL;
 import gamePackage.Position;
@@ -126,8 +125,8 @@ public class Enemy {
 				h2);
 	}
 
-	public static boolean checkDeath(Position pos, Enemy[] enemys) {
-		for (Enemy e: enemys) {
+	public static boolean checkDeath(Position pos, Enemy[] enemies) {
+		for (Enemy e: enemies) {
 			if (e.checkDeath(pos)) {
 				return true;
 			}
@@ -135,13 +134,13 @@ public class Enemy {
 		return false;
 	}
 
-	public static void paint(Graphics imageG, Enemy[] enemys) {
+	public static void paint(Graphics imageG, Enemy[] enemies) {
 		int width = (int)GLOBAL.screenPixelWidth;
 		int height = (int)GLOBAL.screenPixelHeight;
 		int w2 = width - stepWidth;
 		int h2 = height - stepHeight;
 		
-		for (Enemy e: enemys) {
+		for (Enemy e: enemies) {
 			e.paint(imageG, width, height, w2, h2);
 		}
 	}

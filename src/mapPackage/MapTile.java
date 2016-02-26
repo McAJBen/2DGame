@@ -12,7 +12,7 @@ import settingsPackage.GLOBAL;
 public class MapTile {
 	
 	private MapSquare[][] mapSquares;
-	Enemy[] enemys;
+	Enemy[] enemies;
 	JumpSquare[] jumpSquares;
 	ElectricShot[] electricShots;
 	Coin[] coins;
@@ -45,9 +45,9 @@ public class MapTile {
 				}
 			}
 		}
-		enemys = new Enemy[enemyPoints.size()];
-		for (int i = 0; i < enemys.length; i++) {
-			enemys[i] = enemyPoints.get(i);
+		enemies = new Enemy[enemyPoints.size()];
+		for (int i = 0; i < enemies.length; i++) {
+			enemies[i] = enemyPoints.get(i);
 			
 		}
 		jumpSquares = new JumpSquare[jumpSquarePoints.size()];
@@ -65,7 +65,7 @@ public class MapTile {
 		MapSquare.paint(mapSquares, ig2d);
 		JumpSquare.paint(ig2d, jumpSquares);
 		Coin.paint(ig2d, coins);
-		Enemy.paint(ig2d, enemys);
+		Enemy.paint(ig2d, enemies);
 		ElectricShot.paint(ig2d, electricShots);
 		
 		ig2d.dispose();
@@ -85,7 +85,7 @@ public class MapTile {
 			deathCause = Death.ELECTRIC;
 			return true;
 		}
-		if (Enemy.checkDeath(position, enemys)) {
+		if (Enemy.checkDeath(position, enemies)) {
 			deathCause = Death.ENEMY;
 			return true;
 		}
@@ -111,7 +111,7 @@ public class MapTile {
 	public void move() {
 		Enemy.move();
 		ElectricShot.move();
-		for (Enemy e: enemys) {
+		for (Enemy e: enemies) {
 			e.move(mapSquares);
 		}
 		for (JumpSquare js: jumpSquares) {
