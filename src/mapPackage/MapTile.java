@@ -12,15 +12,15 @@ import settingsPackage.GLOBAL;
 public class MapTile {
 	
 	private MapSquare[][] mapSquares;
-	ArrayList<Enemy> enemys;
+	Enemy[] enemys;
 	JumpSquare[] jumpSquares;
-	ArrayList<ElectricShot> electricShots;
+	ElectricShot[] electricShots;
 	Coin[] coins;
 	Death deathCause;
 	
 	public MapTile(BufferedImage map) {
 		mapSquares = new MapSquare[GLOBAL.MAP_PIXEL_SIZE][GLOBAL.MAP_PIXEL_SIZE];
-		enemys = new ArrayList<>();
+		ArrayList<Enemy> enemyPoints = new ArrayList<>();
 		ArrayList<Point> jumpSquarePoints = new ArrayList<>();
 		ArrayList<Coin> coins = new ArrayList<>();
 		ArrayList<Point> electricShotBasePoints = new ArrayList<>();
@@ -29,7 +29,7 @@ public class MapTile {
 			for (int j = 0; j < GLOBAL.MAP_PIXEL_SIZE; j++) {
 				mapSquares[i][j] = new MapSquare(map.getRGB(i, j));
 				if (mapSquares[i][j].isEnemy()) {
-					enemys.add(new Enemy(i, j, map.getRGB(i, j)));
+					enemyPoints.add(new Enemy(i, j, map.getRGB(i, j)));
 					mapSquares[i][j].setFloor();
 				}
 				else if (mapSquares[i][j].isJumpSquare()) {
@@ -44,6 +44,11 @@ public class MapTile {
 					electricShotBasePoints.add(new Point(i, j));
 				}
 			}
+		}
+		enemys = new Enemy[enemyPoints.size()];
+		for (int i = 0; i < enemys.length; i++) {
+			enemys[i] = enemyPoints.get(i);
+			
 		}
 		jumpSquares = new JumpSquare[jumpSquarePoints.size()];
 		for (int i = 0; i < jumpSquares.length; i++) {

@@ -31,9 +31,9 @@ public class ElectricShot {
 		}
 	}
 	
-	public static void paint(Graphics2D g2d, ArrayList<ElectricShot> esList) {
+	public static void paint(Graphics2D g2d, ElectricShot[] electricShots) {
 		if (electricityOn()) {
-			for (ElectricShot es: esList) {
+			for (ElectricShot es: electricShots) {
 				es.paintElectricityShot(g2d);
 			}
 		}
@@ -72,7 +72,7 @@ public class ElectricShot {
 				(int)(GLOBAL.screenUHeight * GLOBAL.ELECTRIC_SHOT_WIDTH), 7);
 	}
 	
-	public static boolean checkDeath(Position pos, ArrayList<ElectricShot> electricShots) {
+	public static boolean checkDeath(Position pos, ElectricShot[] electricShots) {
 		if (electricityOn()) {
 			for (ElectricShot es: electricShots) {
 				if(	es.within(pos.getXShort(), pos.getYShort()) ||
@@ -111,7 +111,7 @@ public class ElectricShot {
 		return electricShotStep < GLOBAL.ELECTRIC_SHOT_TIME;
 	}
 
-	public static ArrayList<ElectricShot> setup(ArrayList<Point> electricShotBasePoints, MapSquare[][] mapSquares) {
+	public static ElectricShot[] setup(ArrayList<Point> electricShotBasePoints, MapSquare[][] mapSquares) {
 		ArrayList<ElectricShot> electricShots = new ArrayList<>();
 		for (Point p: electricShotBasePoints) {
 			for (int x = p.x - 1; x >= 0; x--) {
@@ -149,7 +149,11 @@ public class ElectricShot {
 		}
 		compare(electricShots);
 		join(electricShots);
-		return electricShots;
+		ElectricShot[] esArray = new ElectricShot[electricShots.size()];
+		for (int i = 0; i < esArray.length; i++) {
+			esArray[i] = electricShots.get(i);
+		}
+		return esArray;
 	}
 
 	private static void compare(ArrayList<ElectricShot> electricShots) {

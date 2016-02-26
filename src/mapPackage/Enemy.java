@@ -126,7 +126,7 @@ public class Enemy {
 				h2);
 	}
 
-	public static boolean checkDeath(Position pos, ArrayList<Enemy> enemys) {
+	public static boolean checkDeath(Position pos, Enemy[] enemys) {
 		for (Enemy e: enemys) {
 			if (e.checkDeath(pos)) {
 				return true;
@@ -135,7 +135,7 @@ public class Enemy {
 		return false;
 	}
 
-	public static void paint(Graphics imageG, ArrayList<Enemy> enemys) {
+	public static void paint(Graphics imageG, Enemy[] enemys) {
 		int width = (int)GLOBAL.screenPixelWidth;
 		int height = (int)GLOBAL.screenPixelHeight;
 		int w2 = width - stepWidth;
